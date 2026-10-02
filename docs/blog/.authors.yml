@@ -1,0 +1,8 @@
+authors:
+  0x3xp10i73r:
+    name: 0x3xp10i73r
+    description: >
+      Offensive security engineer. I keep notes on the techniques I use during
+      authorised engagements, and on the parts I got wrong the first time.
+    # Path is relative to the docs directory; the theme resolves it per page.
+    avatar: assets/images/avatar.svg

@@ -1,0 +1,51 @@
+{#-
+  Theme override: adds a cover image at the top of a page, the way a GitBook
+  page has a cover above its title.
+
+  By default the cover follows the page's top-level section:
+
+    docs/recon/...            -> assets/images/cover-network.jpg
+    docs/active-directory/... -> assets/images/cover-identity.jpg
+
+  A page can override it, or turn it off, in its front matter:
+
+    cover: assets/images/cover-ink.jpg
+    cover: false
+-#}
+{% extends "base.html" %}
+
+{% block content %}
+  {% set covers = {
+    "": "assets/images/cover-home.jpg",
+    "about": "assets/images/cover-ink.jpg",
+    "tags": "assets/images/cover-ink.jpg",
+    "recon": "assets/images/cover-network.jpg",
+    "web-bugbounty": "assets/images/cover-network.jpg",
+    "active-directory": "assets/images/cover-identity.jpg",
+    "red-team": "assets/images/cover-identity.jpg",
+    "privesc": "assets/images/cover-identity.jpg",
+    "android": "assets/images/cover-android.jpg",
+    "cloud-mobile": "assets/images/cover-cloud.jpg",
+    "checklists-arsenal": "assets/images/cover-cloud.jpg"
+  } %}
+
+  {% set url = page.url or "" %}
+  {% set section = "" if url in ("", ".", "./") else url.split("/")[0] %}
+  {% set meta_cover = page.meta.cover if page.meta and page.meta.cover is defined else none %}
+
+  {% if meta_cover is sameas false %}
+    {% set cover = none %}
+  {% elif meta_cover %}
+    {% set cover = meta_cover %}
+  {% else %}
+    {% set cover = covers.get(section) %}
+  {% endif %}
+
+  {% if cover %}
+    <figure class="page-cover">
+      <img src="{{ cover | url }}" alt="" loading="eager">
+    </figure>
+  {% endif %}
+
+  {{ super() }}
+{% endblock %}

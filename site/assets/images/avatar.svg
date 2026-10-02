@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="0x3xp10i73r">
+  <circle cx="48" cy="48" r="46" fill="#000000"/>
+  <circle cx="48" cy="48" r="44.5" fill="none" stroke="#bd93f9" stroke-width="3"/>
+  <text x="48" y="48" text-anchor="middle" dominant-baseline="central"
+        font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+        font-size="36" font-weight="600" fill="#ff79c6">0x</text>
+</svg>

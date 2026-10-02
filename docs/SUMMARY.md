@@ -1,0 +1,58 @@
+# Summary
+
+- [Home](index.md)
+- Recon
+    - Passive discovery
+        - [Subdomains and virtual hosts](recon/subdomain-enumeration.md)
+        - [OSINT and dorking](recon/osint-dorking.md)
+    - Active enumeration
+        - [Ports and services](recon/port-service-enumeration.md)
+        - [Web recon and fuzzing](recon/web-recon-fuzzing.md)
+- Web and Bug Bounty
+    - Identity and access
+        - [Authentication and account takeover](web-bugbounty/auth-ato-oauth-jwt.md)
+        - [Access control, IDOR and race conditions](web-bugbounty/access-control-idor-race.md)
+    - Input handling
+        - [Injections](web-bugbounty/injection-attacks.md)
+        - [XSS, DOM and CSP](web-bugbounty/xss-csp-client-side.md)
+    - Protocol and API
+        - [SSRF, CORS, CSRF and smuggling](web-bugbounty/ssrf-cors-csrf-smuggling.md)
+        - [APIs, GraphQL and file uploads](web-bugbounty/api-graphql-modern-web.md)
+- Active Directory
+    - Enumeration
+        - [Enumeration and BloodHound](active-directory/ad-enumeration-bloodhound.md)
+    - Credential attacks
+        - [Kerberos and credentials](active-directory/kerberos-credential-attacks.md)
+        - [ADCS and ACL abuse](active-directory/adcs-delegation-acl.md)
+    - Post-exploitation
+        - [Lateral movement and pivoting](active-directory/lateral-movement-pivoting.md)
+        - [Domain dominance and persistence](active-directory/domain-dominance-persistence.md)
+- Red Team
+    - [Initial access and payloads](red-team/initial-access-phishing.md)
+    - [C2 infrastructure and OPSEC](red-team/c2-infrastructure-opsec.md)
+    - [EDR and AMSI evasion](red-team/edr-amsi-evasion.md)
+- Privilege Escalation
+    - [Linux](privesc/linux-privesc.md)
+    - [Windows](privesc/windows-privesc.md)
+- Android
+    - [Setup and ADB](android/setup-adb.md)
+    - [Intercepting traffic](android/proxy-certificates.md)
+    - [Static analysis](android/static-analysis.md)
+    - [Dynamic analysis](android/dynamic-analysis.md)
+    - [Testing checklist](android/checklist.md)
+    - [Frida](android/frida.md)
+    - [Glossary](android/glossary.md)
+    - [Tools and references](android/tools.md)
+    - [iOS and cross-platform](android/ios-cross-platform.md)
+- Cloud
+    - [AWS, Azure and GCP](cloud-mobile/aws-azure-gcp.md)
+- Checklists
+    - Working checklists
+        - [Web and bug bounty checklist](checklists-arsenal/web-bugbounty-checklist.md)
+        - [Internal and AD checklist](checklists-arsenal/internal-ad-checklist.md)
+    - Tooling and reference
+        - [Burp Suite and tooling](checklists-arsenal/burp-extensions-arsenal.md)
+        - [Reference index](checklists-arsenal/security-reference-index.md)
+- [Blog](blog/index.md)
+- [Tags](tags.md)
+- [About](about.md)
