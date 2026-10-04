@@ -2812,9 +2812,9 @@
 <hr />
 <h2 id="2-technique-1-fresh-ntdll-from-disk-and-why-its-not-enough">2. Technique 1: Fresh <code>ntdll</code> from Disk (and Why It's Not Enough)<a class="headerlink" href="#2-technique-1-fresh-ntdll-from-disk-and-why-its-not-enough" title="Permanent link">&para;</a></h2>
 <div class="language-c highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// 1. Read a clean copy of ntdll.dll from disk</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">HANDLE</span><span class="w"> </span><span class="n">hFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateFileW</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;C:</span><span class="se">\\</span><span class="s">Windows</span><span class="se">\\</span><span class="s">System32</span><span class="se">\\</span><span class="s">ntdll.dll&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">GENERIC_READ</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">HANDLE</span><span class="w"> </span><span class="n">hFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateFileW</span><span class="p">(</span><span class="sa">L</span><span class="s">"C:</span><span class="se">\\</span><span class="s">Windows</span><span class="se">\\</span><span class="s">System32</span><span class="se">\\</span><span class="s">ntdll.dll"</span><span class="p">,</span><span class="w"> </span><span class="n">GENERIC_READ</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">// 2. Map it (section) or just read the .text section</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">// 3. Overwrite your process&#39;s in-memory ntdll .text with the clean bytes</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">// 3. Overwrite your process's in-memory ntdll .text with the clean bytes</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1">// (VirtualProtect RWX -&gt; memcpy -&gt; restore RP)</span>
 </span></code></pre></div>
 <p><strong>Pros:</strong> Removes existing inline hooks.
@@ -2823,7 +2823,7 @@
 - Overwriting <code>.text</code> of a loaded module changes its hash — a <strong>Module Tampering</strong> detection (<code>NtProtectVirtualMemory</code> on an image region is a classic ETW-sourced alert).
 - EDRs re-hook on <code>NtProtectVirtualMemory</code>/image load events.</p>
 <p><strong>Better:</strong> map a clean <code>ntdll</code> from the <code>\KnownDlls\ntdll.dll</code> <strong>section object</strong> — no disk read, no file-on-disk dependency:</p>
-<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// NtOpenSection(L&quot;\\KnownDlls\\ntdll.dll&quot;) -&gt; NtMapViewOfSection -&gt; copy .text</span>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// NtOpenSection(L"\\KnownDlls\\ntdll.dll") -&gt; NtMapViewOfSection -&gt; copy .text</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">// This gives you both: (a) a clean copy for SSN resolution, and (b) a legitimately</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">// backed image you can jump into for indirect syscalls.</span>
 </span></code></pre></div>
@@ -2832,9 +2832,9 @@
 <p>Halo's Gate (and its successors <strong>Tartarus Gate</strong> and <strong>FreshyCalls</strong>) solves a key problem: <em>if the target stub is hooked, how do I find its SSN?</em> The answer: <strong>scan neighboring syscalls.</strong></p>
 <p>The syscall table in <code>ntdll</code> is a <strong>contiguous, ordered array</strong>. <code>NtAllocateVirtualMemory</code> is SSN 0x18, <code>NtProtectVirtualMemory</code> is 0x50, and so on — in ascending order. If a stub's first bytes are <code>E9</code> (a jmp, i.e. hooked), you look at the next export down/up, compute its SSN, and offset.</p>
 <div class="language-c highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cm">/*</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cm">   Simplified algorithm (full implementations: Halo&#39;s Gate, Tartarus Gate, FreshyCalls)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cm">   Simplified algorithm (full implementations: Halo's Gate, Tartarus Gate, FreshyCalls)</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cm">   1. Parse ntdll&#39;s export directory -&gt; get the address of every Zw*/</span><span class="n">Nt</span><span class="o">*</span><span class="w"> </span><span class="n">function</span><span class="p">.</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cm">   1. Parse ntdll's export directory -&gt; get the address of every Zw*/</span><span class="n">Nt</span><span class="o">*</span><span class="w"> </span><span class="n">function</span><span class="p">.</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">   </span><span class="mf">2.</span><span class="w"> </span><span class="n">Sort</span><span class="w"> </span><span class="n">them</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="p">(</span><span class="n">the</span><span class="w"> </span><span class="n">syscall</span><span class="w"> </span><span class="n">table</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="n">matches</span><span class="w"> </span><span class="n">ascending</span><span class="w"> </span><span class="n">SSNs</span><span class="p">).</span>
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">   </span><span class="mf">3.</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">function</span><span class="p">,</span><span class="w"> </span><span class="n">check</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">stub</span><span class="w"> </span><span class="n">bytes</span><span class="o">:</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="o">-</span><span class="w"> </span><span class="n">clean</span><span class="w"> </span><span class="n">stub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">4</span><span class="n">C</span><span class="w"> </span><span class="mi">8</span><span class="n">B</span><span class="w"> </span><span class="n">D1</span><span class="w"> </span><span class="n">B8</span><span class="w"> </span><span class="o">&lt;</span><span class="n">SSN</span><span class="w"> </span><span class="n">u32</span><span class="o">&gt;</span>
@@ -2886,13 +2886,13 @@
 </span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nl">NtAllocateVirtualMemoryIndirect:</span>
 </span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nf">mov</span><span class="w"> </span><span class="no">r10</span><span class="p">,</span><span class="w"> </span><span class="no">rcx</span>
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nf">mov</span><span class="w"> </span><span class="no">eax</span><span class="p">,</span><span class="w"> </span><span class="mi">0x18</span><span class="w"> </span><span class="c1">; resolved SSN (from a clean ntdll)</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nf">jmp</span><span class="w"> </span><span class="p">[</span><span class="no">g_SyscallAddr</span><span class="p">]</span><span class="w"> </span><span class="c1">; &lt;-- jump INTO ntdll&#39;s syscall instruction</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nf">jmp</span><span class="w"> </span><span class="p">[</span><span class="no">g_SyscallAddr</span><span class="p">]</span><span class="w"> </span><span class="c1">; &lt;-- jump INTO ntdll's syscall instruction</span>
 </span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="nf">ret</span>
 </span></code></pre></div>
 <div class="language-c highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Runtime setup: locate the gadget in the (clean) ntdll</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">// Find the `syscall` instruction (0F 05) at the end of a known-unhooked stub, e.g.</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">// NtOpenKey or NtQuerySystemInformation, then store it:</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">g_SyscallAddr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_syscall_gadget</span><span class="p">(</span><span class="n">clean_ntdll_base</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;NtOpenKey&quot;</span><span class="p">);</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">g_SyscallAddr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_syscall_gadget</span><span class="p">(</span><span class="n">clean_ntdll_base</span><span class="p">,</span><span class="w"> </span><span class="s">"NtOpenKey"</span><span class="p">);</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">// Then every operation uses the indirect stubs:</span>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">PVOID</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"> </span><span class="n">SIZE_T</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x1000</span><span class="p">;</span>
@@ -2907,20 +2907,20 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>1. Return-address spoofing (classic):
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>   - Before calling, push a chain of fake return addresses onto the stack that
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>     land inside legitimate modules (e.g. kernel32!BaseThreadInitThunk,
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>     ntdll!RtlUserThreadStart) so the stack walk terminates &quot;normally&quot;.
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>     ntdll!RtlUserThreadStart) so the stack walk terminates "normally".
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>   - Implementation: a small assembly trampoline that swaps the stack pointer to
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>     a prepared stack, calls the target, then restores.
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
 </span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>2. Synthetic stack frames (advanced):
 </span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>   - Build a fake stack where every frame corresponds to plausible function
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>     calls (with matching return addresses + a legit &quot;shadow stack&quot; if CET is on).
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>     calls (with matching return addresses + a legit "shadow stack" if CET is on).
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>   - Frameworks: SilentMoonwalk, Vulcan, CallStackSpoofer, AceLdr (use in lab only).
 </span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
 </span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>3. Hardware breakpoint + VEH:
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>   - Instead of patching code, set DR0 to the target and handle the exception;
 </span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>     no byte changes =&gt; no CRC/module-tamper detection. Combine with indirect syscalls.
 </span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>4. &quot;Sleep&quot; stack masking:
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>4. "Sleep" stack masking:
 </span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>   - During beacon sleep, the stack/threads should look like a normal sleeping
 </span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>     process (e.g. WaitForSingleObjectEx -&gt; NtWaitForSingleObject) rather than
 </span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>     sitting inside your loader. Tools: Ekko/Foliage/Cronos sleep-mask chains.
@@ -2935,7 +2935,7 @@
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│ 2. RUNTIME RESOLUTION (no imports where possible) │
 </span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│ - Resolve LoadLibrary/GetProcAddress by PEB walk + export parsing │
 </span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>│ - Map clean ntdll from \KnownDlls\ntdll.dll │
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>│ - Resolve SSNs (Halo&#39;s Gate / fresh table) + find syscall gadget │
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>│ - Resolve SSNs (Halo's Gate / fresh table) + find syscall gadget │
 </span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>├──────────────────────────────────────────────────────────────────────┤
 </span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>│ 3. EXECUTION │
 </span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>│ - Indirect syscall stubs for ALL NT calls │
@@ -3014,7 +3014,7 @@
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>2022: module tamper detection -&gt; defeated by KnownDlls mapping + hardware breakpoints
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>2024: kernel telemetry (ETW-TI) -&gt; pushes detection to the syscall layer itself
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>2026: CET/shadow stacks + AI-based behavioral analytics
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>      -&gt; the defender&#39;s leverage increasingly comes from BEHAVIOR, not bytes.
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>      -&gt; the defender's leverage increasingly comes from BEHAVIOR, not bytes.
 </span></code></pre></div>
 <blockquote>
 <p><strong>Evasion buys time. Tradecraft protects you.</strong> Even a perfect loader fails if your operator runs <code>net group "Domain Admins" /domain</code> in a directory where that command is a rare-event alert. Evasion is one input; behavioral discipline is the other half.</p>
@@ -3139,7 +3139,7 @@
     
     
     
-    <a href="mailto:contact@example.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
+    <a href="mailto:meghantashi.h4cks@gmail.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
     </a>
   

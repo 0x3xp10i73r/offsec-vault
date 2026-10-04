@@ -2,266 +2,266 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/about/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/tags/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/active-directory/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/active-directory/ad-enumeration-bloodhound/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/active-directory/adcs-delegation-acl/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/active-directory/domain-dominance-persistence/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/active-directory/kerberos-credential-attacks/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/active-directory/lateral-movement-pivoting/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/checklist/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/dynamic-analysis/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/frida/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/glossary/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/ios-cross-platform/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/proxy-certificates/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/setup-adb/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/static-analysis/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/android/tools/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/2026/01/22/how-this-site-is-built/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/2026/03/10/htb-shadowcroft-insane-active-directory--full-walkthrough--bloodhound-graph-analysis/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/2026/05/19/bypassing-modern-userland-edr-hooks-with-indirect-syscalls--halos-gate/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/2026/07/04/oauth-20-dirty-dancing--state-fixation-5-high-payout-account-takeover-patterns/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/2026/08/15/active-directory-certificate-services-adcs-esc1--esc8-the-complete-operator-field-guide/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/2026/09/28/chaining-blind-ssrf-to-aws-imdsv2-token-exfiltration--eks-cluster-takeover/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/checklists-arsenal/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/checklists-arsenal/burp-extensions-arsenal/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/checklists-arsenal/internal-ad-checklist/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/checklists-arsenal/security-reference-index/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/checklists-arsenal/web-bugbounty-checklist/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/cloud-mobile/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/cloud-mobile/aws-azure-gcp/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/privesc/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/privesc/linux-privesc/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/privesc/windows-privesc/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/recon/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/recon/osint-dorking/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/recon/port-service-enumeration/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/recon/subdomain-enumeration/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/recon/web-recon-fuzzing/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/red-team/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/red-team/c2-infrastructure-opsec/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/red-team/edr-amsi-evasion/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/red-team/initial-access-phishing/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/web-bugbounty/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/web-bugbounty/access-control-idor-race/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/web-bugbounty/api-graphql-modern-web/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/web-bugbounty/auth-ato-oauth-jwt/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/web-bugbounty/injection-attacks/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/web-bugbounty/ssrf-cors-csrf-smuggling/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/web-bugbounty/xss-csp-client-side/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/archive/2026/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/vulnerability-research/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/cloud-security/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/bug-bounty/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/red-team/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/active-directory/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/tradecraft/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/web-security/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/malware-development/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/evasion/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/writeups/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/ctf/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/meta/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/notes/blog/category/tooling/</loc>
-         <lastmod>2026-10-02</lastmod>
+         <lastmod>2026-10-04</lastmod>
     </url>
 </urlset>

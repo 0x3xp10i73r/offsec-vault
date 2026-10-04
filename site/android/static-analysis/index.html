@@ -3038,8 +3038,8 @@
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># -R walks the tree, -n shows line numbers, -w matches whole words.</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Start with the words that pay: password, secret, key, token, api</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>grep<span class="w"> </span>-Rnw<span class="w"> </span><span class="s1">&#39;./myapp&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;password&#39;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>grep<span class="w"> </span>-Rnw<span class="w"> </span><span class="s1">&#39;./myapp&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;api_key&#39;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>grep<span class="w"> </span>-Rnw<span class="w"> </span><span class="s1">'./myapp'</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">'password'</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>grep<span class="w"> </span>-Rnw<span class="w"> </span><span class="s1">'./myapp'</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">'api_key'</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Smali is where the code actually went. List the classes first, then read</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># the ones that look interesting (auth, network, config, crypto)</span>
@@ -3062,10 +3062,10 @@
 </ol>
 <p>If the key and the IV are both in the APK, the encryption is decoration: you can reproduce the decryption offline.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Find the crypto calls in the decompiled code</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>grep<span class="w"> </span>-Rnw<span class="w"> </span>.<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;AES&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;DES&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;SecretKeySpec&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;IvParameterSpec&#39;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>grep<span class="w"> </span>-Rnw<span class="w"> </span>.<span class="w"> </span>-e<span class="w"> </span><span class="s1">'AES'</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">'DES'</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">'SecretKeySpec'</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">'IvParameterSpec'</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Look for the constants themselves</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>grep<span class="w"> </span>-Rni<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;key&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;iv&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;seed&#39;</span><span class="w"> </span>./myapp/res/values/strings.xml
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>grep<span class="w"> </span>-Rni<span class="w"> </span>-e<span class="w"> </span><span class="s1">'key'</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">'iv'</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">'seed'</span><span class="w"> </span>./myapp/res/values/strings.xml
 </span></code></pre></div>
 <h3 id="worked-example-an-encrypted-chat-app">Worked example: an encrypted chat app<a class="headerlink" href="#worked-example-an-encrypted-chat-app" title="Permanent link">&para;</a></h3>
 <p>This one comes from a lab target (<code>com.hackthebox.chatapp</code>). It is a useful template because the whole chain — install, list data, pull the database, read it, then find the key in the APK — is the same on a real engagement.</p>
@@ -3073,15 +3073,15 @@
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>adb<span class="w"> </span>install<span class="w"> </span>&lt;package_name&gt;
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>adb<span class="w"> </span>shell
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Become root so the app&#39;s private data directory is readable.</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Without root, /data/data/&lt;package&gt; is owned by the app&#39;s UID and closed</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Become root so the app's private data directory is readable.</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Without root, /data/data/&lt;package&gt; is owned by the app's UID and closed</span>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>su
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Confirm the package is installed and get its exact name</span>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>whyred:/<span class="w"> </span><span class="c1"># pm list packages | grep chatapp</span>
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># package:com.hackthebox.chatapp</span>
 </span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># List the app&#39;s data directory. This is the layout every Android app has:</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># List the app's data directory. This is the layout every Android app has:</span>
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1">#   cache/       temporary files the app can recreate</span>
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1">#   code_cache/  compiled code caches</span>
 </span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1">#   databases/   SQLite databases</span>
@@ -3101,7 +3101,7 @@
 </span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="c1"># Open the database with the on-device sqlite3 client</span>
 </span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>whyred:/data/data/com.hackthebox.chatapp/databases<span class="w"> </span><span class="c1"># sqlite3 messages.db</span>
 </span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>SQLite<span class="w"> </span>version<span class="w"> </span><span class="m">3</span>.28.0<span class="w"> </span><span class="m">2021</span>-07-13<span class="w"> </span><span class="m">15</span>:30:48
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>Enter<span class="w"> </span><span class="s2">&quot;.help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>usage<span class="w"> </span>hints.
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>Enter<span class="w"> </span><span class="s2">".help"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>usage<span class="w"> </span>hints.
 </span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>
 </span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="c1"># List the tables</span>
 </span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>sqlite&gt;<span class="w"> </span>.tables
@@ -3116,11 +3116,11 @@
 </span></code></pre></div>
 <p>The messages look encrypted — base64, and the <code>=</code> padding suggests a block cipher. Now look for the key in the decompiled APK:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Search the resources for anything named like an IV or a key</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cat<span class="w"> </span>./chatapp/res/values/strings.xml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;init&quot;</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># &lt;string name=&quot;initialization_vector&quot;&gt;4fR7!jW3@1nV6#yZ&lt;/string&gt;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cat<span class="w"> </span>./chatapp/res/values/strings.xml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"init"</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># &lt;string name="initialization_vector"&gt;4fR7!jW3@1nV6#yZ&lt;/string&gt;</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>cat<span class="w"> </span>./chatapp/res/values/strings.xml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;key&quot;</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># &lt;string name=&quot;secret_key&quot;&gt;9xG5#vQ2@LmP8!zB&lt;/string&gt;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>cat<span class="w"> </span>./chatapp/res/values/strings.xml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"key"</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># &lt;string name="secret_key"&gt;9xG5#vQ2@LmP8!zB&lt;/string&gt;</span>
 </span></code></pre></div>
 <p>Both the key and the IV are in the APK as plain strings, all 16 bytes of each. The database is therefore decryptable offline by anyone with a copy of the app, and the "encrypted" messages table offers no protection at all. In the lab the decryption yields the flag:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>HTB{Pr1v3t_3ncrypt3d_M3ss4g3!}
@@ -3170,7 +3170,7 @@
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>apktool<span class="w"> </span>d<span class="w"> </span>hermes.apk
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nb">cd</span><span class="w"> </span>hermes/assets/
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Check what it actually is — &quot;Hermes JavaScript bytecode&quot; confirms it</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Check what it actually is — "Hermes JavaScript bytecode" confirms it</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>file<span class="w"> </span>index.android.bundle
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
 </span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Install the decompiler, then turn the bytecode back into JavaScript</span>
@@ -3231,26 +3231,26 @@
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>unzip<span class="w"> </span>myapp.apk
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># strings prints printable runs from the .so, then grep keeps the long ones.</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># The {60,} length filter is a rough &quot;this looks like a key or a token&quot;</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># The {60,} length filter is a rough "this looks like a key or a token"</span>
 </span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># heuristic — API keys, JWTs and base64 blobs are long and have no spaces</span>
 </span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>strings<span class="w"> </span>lib/x86_64/libmyapp.so<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;[a-zA-Z0-9_-]{60,}&quot;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"[a-zA-Z0-9_-]{60,}"</span>
 </span></code></pre></div>
 <p>Native libraries are also where certificate pinning is implemented when it is done properly. <code>ghidra</code> or <code>radare2</code> for the disassembly; <code>strings</code> first, because it is free.</p>
 <h2 id="6-exported-preferenceactivities">6. Exported PreferenceActivities<a class="headerlink" href="#6-exported-preferenceactivities" title="Permanent link">&para;</a></h2>
 <p>A <code>PreferenceActivity</code> renders a settings screen straight from XML. If it is exported, another app on the device can open the app's settings UI — which sometimes includes flows that change the server URL, disable TLS verification, or export data.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a># Look at AndroidManifest.xml for any activity that:
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>#   - has android:exported=&quot;true&quot;
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>#   - has android:exported="true"
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>#   - extends PreferenceActivity, or points at a res/xml/*.xml preference file
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>#   - has no android:permission guarding it
 </span></code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># The decoded manifest prints both attributes together, which is the fastest</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># way to triage what is reachable from outside the app</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;exported&quot;</span><span class="w"> </span>myapp/AndroidManifest.xml
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"exported"</span><span class="w"> </span>myapp/AndroidManifest.xml
 </span></code></pre></div>
 <h2 id="7-backup-enabled">7. Backup enabled<a class="headerlink" href="#7-backup-enabled" title="Permanent link">&para;</a></h2>
 <p>With <code>android:allowBackup="true"</code>, the platform lets <code>adb backup</code> copy the app's private data — no root, no debug build, no prompt beyond a confirmation on screen.</p>
-<div class="language-xml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">&lt;application</span><span class="w"> </span><span class="na">allowBackup=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="err">...</span><span class="nt">&gt;</span>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">&lt;application</span><span class="w"> </span><span class="na">allowBackup=</span><span class="s">"true"</span><span class="w"> </span><span class="err">...</span><span class="nt">&gt;</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="cm">&lt;!-- Should be false for anything holding tokens or personal data --&gt;</span>
 </span></code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Take the backup of the vulnerable app</span>
@@ -3263,13 +3263,13 @@
 </span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Unpack it</span>
 </span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>tar<span class="w"> </span>-xvf<span class="w"> </span>backup.tar
 </span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># The app&#39;s private data is now on the host, including preferences and databases:</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># The app's private data is now on the host, including preferences and databases:</span>
 </span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1"># apps/com.example.app/shared_prefs/userdata.xml</span>
 </span></code></pre></div>
 <h2 id="8-debuggable-app">8. Debuggable app<a class="headerlink" href="#8-debuggable-app" title="Permanent link">&para;</a></h2>
 <p><code>android:debuggable="true"</code> on a release build means a debugger can attach to the running process. In practice that gives you memory inspection, breakpoints over JDWP, and a trivial path around client-side checks.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a># In the manifest:
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>#   &lt;application android:debuggable=&quot;true&quot; ...&gt;
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>#   &lt;application android:debuggable="true" ...&gt;
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>#
 </span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a># With that set, you can:
 </span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>#   - attach with jdb / Android Studio and inspect memory
@@ -3304,10 +3304,10 @@
 </table>
 <p>Read them as an attack surface, not a checklist: an app that requests <code>READ_SMS</code> and <code>RECEIVE_SMS</code> alongside <code>INTERNET</code> is a candidate for message exfiltration, and a custom permission with <code>protectionLevel="normal"</code> that guards an exported component is effectively no protection at all.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># See which permissions an installed package actually holds</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>dumpsys<span class="w"> </span>package<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="s2">&quot;requested permissions&quot;</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>dumpsys<span class="w"> </span>package<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="s2">"requested permissions"</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># And which of those are granted</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>adb<span class="w"> </span>shell<span class="w"> </span>dumpsys<span class="w"> </span>package<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="s2">&quot;install permissions&quot;</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>adb<span class="w"> </span>shell<span class="w"> </span>dumpsys<span class="w"> </span>package<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="s2">"install permissions"</span>
 </span></code></pre></div>
 <h2 id="10-firebase-misconfiguration">10. Firebase misconfiguration<a class="headerlink" href="#10-firebase-misconfiguration" title="Permanent link">&para;</a></h2>
 <p>Many apps use Firebase as the whole backend. If the database rules are open — which they often are on staging or older projects — anyone with the project ID can read or write everything.</p>
@@ -3316,7 +3316,7 @@
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>python2<span class="w"> </span>FireBaseScanner.py<span class="w"> </span>-p<span class="w"> </span>/path/apk
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1"># Manual: the database URL is a string in the resources or the code</span>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>grep<span class="w"> </span>-R<span class="w"> </span><span class="s2">&quot;firebaseio&quot;</span><span class="w"> </span>.
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>grep<span class="w"> </span>-R<span class="w"> </span><span class="s2">"firebaseio"</span><span class="w"> </span>.
 </span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
 </span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1"># Then test the endpoint. If it returns JSON without auth, the rules are open:</span>
 </span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="c1">#   https://appname.firebaseio.com/.json</span>
@@ -3338,10 +3338,10 @@
 </ul>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># -R recursive, -i case-insensitive. Run these against the decoded APK</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># directory, not the original zip</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>grep<span class="w"> </span>-Ri<span class="w"> </span><span class="s2">&quot;password&quot;</span><span class="w"> </span>.
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>grep<span class="w"> </span>-Ri<span class="w"> </span><span class="s2">&quot;apikey&quot;</span><span class="w"> </span>.
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>grep<span class="w"> </span>-Ri<span class="w"> </span><span class="s2">&quot;token&quot;</span><span class="w"> </span>.
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>grep<span class="w"> </span>-Ri<span class="w"> </span><span class="s2">&quot;secret&quot;</span><span class="w"> </span>.
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>grep<span class="w"> </span>-Ri<span class="w"> </span><span class="s2">"password"</span><span class="w"> </span>.
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>grep<span class="w"> </span>-Ri<span class="w"> </span><span class="s2">"apikey"</span><span class="w"> </span>.
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>grep<span class="w"> </span>-Ri<span class="w"> </span><span class="s2">"token"</span><span class="w"> </span>.
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>grep<span class="w"> </span>-Ri<span class="w"> </span><span class="s2">"secret"</span><span class="w"> </span>.
 </span></code></pre></div>
 <p>Those four greps are the starting set. Once you know the app, add its own vocabulary: the internal service names, the SDK names it uses, and any prefix the developers favour for config (<code>prefs_</code>, <code>cfg_</code>, <code>debug_</code>).</p>
 
@@ -3459,7 +3459,7 @@
     
     
     
-    <a href="mailto:contact@example.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
+    <a href="mailto:meghantashi.h4cks@gmail.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
     </a>
   

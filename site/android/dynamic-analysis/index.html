@@ -2849,8 +2849,8 @@
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>sqlite3<span class="w"> </span>name.db
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># List the tables, then read the interesting ones. The query below asks</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># SQLite&#39;s own schema table what objects of type &quot;table&quot; exist</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>SELECT<span class="w"> </span>name<span class="w"> </span>FROM<span class="w"> </span>sqlite_master<span class="w"> </span>WHERE<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="p">;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># SQLite's own schema table what objects of type "table" exist</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>SELECT<span class="w"> </span>name<span class="w"> </span>FROM<span class="w"> </span>sqlite_master<span class="w"> </span>WHERE<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s1">'table'</span><span class="p">;</span>
 </span></code></pre></div>
 <p>What makes this a finding: anything in those tables that should have been encrypted or not stored at all — tokens, session cookies, message bodies, location history, personal data. A plaintext copy on a rooted device is not a finding on its own; a plaintext copy on a device where the app also claims to encrypt data is.</p>
 <h2 id="2-sharedpreferences-in-plaintext">2. SharedPreferences in plaintext<a class="headerlink" href="#2-sharedpreferences-in-plaintext" title="Permanent link">&para;</a></h2>
@@ -2863,13 +2863,13 @@
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>cat<span class="w"> </span>./shared_prefs/*.xml
 </span></code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Flutter apps keep everything in one file, and it is worth checking directly</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># because the app&#39;s own crypto is often just left off</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>adb<span class="w"> </span>shell<span class="w"> </span><span class="s2">&quot;su -c &#39;cat /data/data/com.rozana.customer/shared_prefs/FlutterSharedPreferences.xml&#39;&quot;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># because the app's own crypto is often just left off</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>adb<span class="w"> </span>shell<span class="w"> </span><span class="s2">"su -c 'cat /data/data/com.rozana.customer/shared_prefs/FlutterSharedPreferences.xml'"</span>
 </span></code></pre></div>
 <h2 id="3-temporary-files">3. Temporary files<a class="headerlink" href="#3-temporary-files" title="Permanent link">&para;</a></h2>
 <p>Temp files are where half-finished sensitive data ends up: a token written before a redirect, an export written before it is encrypted, a debug dump nobody deleted.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># List the preferences and cache directories, looking for anything with a</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># &quot;tmp&quot; or &quot;cache&quot; name that contains readable content</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># "tmp" or "cache" name that contains readable content</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>adb<span class="w"> </span>shell<span class="w"> </span>/data/data/&lt;package&gt;/shared_prefs/
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>adb<span class="w"> </span>shell<span class="w"> </span>ls<span class="w"> </span>-R<span class="w"> </span>/data/data/&lt;package&gt;/cache/
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
@@ -2885,7 +2885,7 @@
 <h2 id="5-root-detection">5. Root detection<a class="headerlink" href="#5-root-detection" title="Permanent link">&para;</a></h2>
 <p>Apps check for root to protect data or to enforce a policy. Knowing which check is in use tells you which bypass to use.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Build tags. On Windows PowerShell, Select-String; on Linux or macOS, grep</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>getprop<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;tags&quot;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>getprop<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"tags"</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">#   test-keys     custom or modified firmware — what a rooted/test ROM usually shows</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">#   release-keys  official stock ROM</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">#   dev-keys      development build or emulator</span>
@@ -2913,14 +2913,14 @@
 </span></code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Native libraries often hold the detection strings, since they are harder</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># to read than Java. -i makes the grep case-insensitive</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>strings<span class="w"> </span><span class="s2">&quot;lib/arm64-v8a/libURLConst.so&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">&quot;goldfish|generic|sdk|genymotion|memu|bluestacks|nox&quot;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>strings<span class="w"> </span><span class="s2">"lib/arm64-v8a/libURLConst.so"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"goldfish|generic|sdk|genymotion|memu|bluestacks|nox"</span>
 </span></code></pre></div>
 <p>Bypassing these usually means hooking one method and returning <code>false</code> — the pattern is on the <a href="../frida/">Frida</a> page.</p>
 <h2 id="7-certificate-pinning">7. Certificate pinning<a class="headerlink" href="#7-certificate-pinning" title="Permanent link">&para;</a></h2>
 <p>Pinning is the app refusing to trust any CA except the one it expects. The app compares the server's certificate, or its public key, against a value baked into the app or fetched at build time. If the values do not match, the connection is rejected before any HTTP happens.</p>
 <p>This is why a perfectly installed Burp CA still produces no traffic: browsers use the system trust store, apps with pinning do not.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a># Where pinning lives in a decompiled app:
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>#   CertificatePinner           OkHttp&#39;s built-in pin check
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>#   CertificatePinner           OkHttp's built-in pin check
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>#   TrustManager / X509TrustManager   custom trust logic
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>#   HostnameVerifier            hostname checks done by hand
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>#   SSLSocketFactory            low-level TLS setup
@@ -2931,7 +2931,7 @@
 </span></code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># What a pinning failure looks like in the logs. These three strings are the</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># ones to search for when traffic stops</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>adb<span class="w"> </span>logcat<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">&quot;Trust anchor for certification path not found|SSLPeerUnverifiedException|Certificate pinning failure&quot;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>adb<span class="w"> </span>logcat<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"Trust anchor for certification path not found|SSLPeerUnverifiedException|Certificate pinning failure"</span>
 </span></code></pre></div>
 <p>Eight ways to get around it — iptables redirection, patching the hardcoded hash, editing the manifest, reFlutter for Flutter apps, swapping the pinned certificate, Objection, Frida scripts, and smali patching — are on the <a href="../checklist/#1-ssl-pinning-bypass">testing checklist</a>.</p>
 <h2 id="what-to-do-with-what-you-find">What to do with what you find<a class="headerlink" href="#what-to-do-with-what-you-find" title="Permanent link">&para;</a></h2>
@@ -3052,7 +3052,7 @@
     
     
     
-    <a href="mailto:contact@example.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
+    <a href="mailto:meghantashi.h4cks@gmail.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
     </a>
   

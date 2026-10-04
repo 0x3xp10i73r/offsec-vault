@@ -2822,8 +2822,8 @@
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Push and start frida-server</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>adb<span class="w"> </span>push<span class="w"> </span>frida-server<span class="w"> </span>/data/local/tmp
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>adb<span class="w"> </span>shell<span class="w"> </span><span class="s2">&quot;chmod 755 /data/local/tmp/frida-server&quot;</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>adb<span class="w"> </span>shell<span class="w"> </span><span class="s2">&quot;/data/local/tmp/frida-server &amp;&quot;</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>adb<span class="w"> </span>shell<span class="w"> </span><span class="s2">"chmod 755 /data/local/tmp/frida-server"</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>adb<span class="w"> </span>shell<span class="w"> </span><span class="s2">"/data/local/tmp/frida-server &amp;"</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Rebuild an APK after patching.</span>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># -r skips resource decoding when you only changed smali</span>
@@ -2836,19 +2836,19 @@
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="c1"># Objection: search process memory for a string. Useful when a secret is</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="c1"># decrypted at runtime and never written to disk</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>memory<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;FLAG{&quot;</span><span class="w"> </span>--string
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>memory<span class="w"> </span>search<span class="w"> </span><span class="s2">"FLAG{"</span><span class="w"> </span>--string
 </span></code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Greps that pay, in rough order of usefulness</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Firebase endpoints anywhere in the decoded app</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>grep<span class="w"> </span>-R<span class="w"> </span><span class="s2">&quot;firebaseio&quot;</span><span class="w"> </span>.
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>grep<span class="w"> </span>-R<span class="w"> </span><span class="s2">"firebaseio"</span><span class="w"> </span>.
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Root and detection strings in the decoded tree, case-insensitive,</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># with line numbers</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>grep<span class="w"> </span>-Rni<span class="w"> </span><span class="s2">&quot;root&quot;</span><span class="w"> </span>app_decoded/
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>grep<span class="w"> </span>-Rni<span class="w"> </span><span class="s2">"root"</span><span class="w"> </span>app_decoded/
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Detection logic in a specific smali file</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;xbin\|root\|su\|detect&quot;</span><span class="w"> </span>app/smali/Consts.smali
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"xbin\|root\|su\|detect"</span><span class="w"> </span>app/smali/Consts.smali
 </span></code></pre></div>
 <h2 id="apk-signing-quick-reference">APK signing quick reference<a class="headerlink" href="#apk-signing-quick-reference" title="Permanent link">&para;</a></h2>
 <p>Every modified APK follows the same three steps. Full detail is on the <a href="../checklist/#method-8-reverse-engineering-the-smali">testing checklist</a>.</p>
@@ -2983,7 +2983,7 @@
     
     
     
-    <a href="mailto:contact@example.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
+    <a href="mailto:meghantashi.h4cks@gmail.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
     </a>
   

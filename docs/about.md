@@ -19,7 +19,7 @@ A few things about the content:
 
 - GitHub: [0x3xp10i73r](https://github.com/0x3xp10i73r)
 - X: [@0x3xp10i73r](https://x.com/0x3xp10i73r)
-- Email: contact@example.com
+- Email: meghantashi.h4cks@gmail.com
 
 Corrections, disagreements and additions are all welcome. If you are sending a fix, a link to the documentation or the commit that changed the behaviour is worth more than a description.
 

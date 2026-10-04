@@ -2734,10 +2734,10 @@
 <h2 id="1-high-signal-google-dorks-sitedomain">1. High-Signal Google Dorks (<code>site:&lt;DOMAIN&gt;</code>)<a class="headerlink" href="#1-high-signal-google-dorks-sitedomain" title="Permanent link">&para;</a></h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># Exposed configuration, environment, backup &amp; log files
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>site:&lt;DOMAIN&gt; ext:env OR ext:ini OR ext:conf OR ext:cnf OR ext:sql OR ext:bak OR ext:log
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>site:&lt;DOMAIN&gt; inurl:&quot;.env&quot; OR inurl:&quot;wp-config.php&quot; OR inurl:&quot;config.json&quot;
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>site:&lt;DOMAIN&gt; inurl:".env" OR inurl:"wp-config.php" OR inurl:"config.json"
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a># Directory listing &amp; exposed backups
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>site:&lt;DOMAIN&gt; intitle:&quot;index of&quot; &quot;parent directory&quot;
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>site:&lt;DOMAIN&gt; intitle:&quot;index of&quot; (&quot;.git&quot; OR &quot;.svn&quot; OR &quot;backup&quot; OR &quot;admin&quot; OR &quot;uploads&quot;)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>site:&lt;DOMAIN&gt; intitle:"index of" "parent directory"
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>site:&lt;DOMAIN&gt; intitle:"index of" (".git" OR ".svn" OR "backup" OR "admin" OR "uploads")
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a># Exposed API Docs, Swagger, GraphQL &amp; Spring Boot Actuators
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>site:&lt;DOMAIN&gt; inurl:swagger OR inurl:api-docs OR inurl:openapi.json
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>site:&lt;DOMAIN&gt; inurl:/graphql OR inurl:/graphiql OR inurl:/playground
@@ -2746,21 +2746,21 @@
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>site:&lt;DOMAIN&gt; inurl:redirect= OR inurl:url= OR inurl:next= OR inurl:returnTo= OR inurl:dest=
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>site:&lt;DOMAIN&gt; inurl:file= OR inurl:path= OR inurl:template= OR inurl:include= OR inurl:doc=
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a># Cloud Storage &amp; Third-Party Leaks for Target Organization
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>site:s3.amazonaws.com &quot;&lt;DOMAIN&gt;&quot;
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>site:blob.core.windows.net &quot;&lt;DOMAIN&gt;&quot;
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>site:googleapis.com &quot;&lt;DOMAIN&gt;&quot;
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>site:trello.com OR site:notion.site OR site:postman.com &quot;&lt;DOMAIN&gt;&quot;
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>site:s3.amazonaws.com "&lt;DOMAIN&gt;"
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>site:blob.core.windows.net "&lt;DOMAIN&gt;"
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>site:googleapis.com "&lt;DOMAIN&gt;"
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>site:trello.com OR site:notion.site OR site:postman.com "&lt;DOMAIN&gt;"
 </span></code></pre></div>
 <hr />
 <h2 id="2-github-dorking-for-leaked-secrets-internal-code">2. GitHub Dorking for Leaked Secrets &amp; Internal Code<a class="headerlink" href="#2-github-dorking-for-leaked-secrets-internal-code" title="Permanent link">&para;</a></h2>
 <p>Search both the organization's official GitHub repos (<code>org:target</code>) and personal employee repos mentioning <code>"&lt;DOMAIN&gt;"</code>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>&quot;&lt;DOMAIN&gt;&quot; (password OR passwd OR pwd OR secret OR token OR apikey OR api_key)
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>&quot;&lt;DOMAIN&gt;&quot; filename:.env OR filename:.npmrc OR filename:.dockercfg OR filename:id_rsa
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>&quot;&lt;DOMAIN&gt;&quot; &quot;BEGIN RSA PRIVATE KEY&quot; OR &quot;BEGIN OPENSSH PRIVATE KEY&quot;
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>&quot;&lt;DOMAIN&gt;&quot; &quot;AKIA&quot; OR &quot;aws_access_key_id&quot; OR &quot;aws_secret_access_key&quot;
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>&quot;&lt;DOMAIN&gt;&quot; &quot;jdbc:mysql://&quot; OR &quot;mongodb+srv://&quot; OR &quot;postgres://&quot; OR &quot;redis://&quot;
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>&quot;&lt;DOMAIN&gt;&quot; &quot;xoxb-&quot; OR &quot;xoxp-&quot; OR &quot;hooks.slack.com&quot;
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>&quot;&lt;DOMAIN&gt;&quot; &quot;Authorization: Bearer&quot; OR &quot;eyJhbGciOi&quot;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>"&lt;DOMAIN&gt;" (password OR passwd OR pwd OR secret OR token OR apikey OR api_key)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>"&lt;DOMAIN&gt;" filename:.env OR filename:.npmrc OR filename:.dockercfg OR filename:id_rsa
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>"&lt;DOMAIN&gt;" "BEGIN RSA PRIVATE KEY" OR "BEGIN OPENSSH PRIVATE KEY"
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>"&lt;DOMAIN&gt;" "AKIA" OR "aws_access_key_id" OR "aws_secret_access_key"
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>"&lt;DOMAIN&gt;" "jdbc:mysql://" OR "mongodb+srv://" OR "postgres://" OR "redis://"
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>"&lt;DOMAIN&gt;" "xoxb-" OR "xoxp-" OR "hooks.slack.com"
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>"&lt;DOMAIN&gt;" "Authorization: Bearer" OR "eyJhbGciOi"
 </span></code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Automated Git repository secret scanning with TruffleHog &amp; Gitleaks</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>trufflehog<span class="w"> </span>github<span class="w"> </span>--org<span class="o">=</span>&lt;DOMAIN&gt;<span class="w"> </span>--only-verified
@@ -2773,20 +2773,20 @@
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Find servers presenting SSL certificates for &lt;DOMAIN&gt;
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ssl.cert.subject.cn:&quot;&lt;DOMAIN&gt;&quot;
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>ssl:&quot;&lt;DOMAIN&gt;&quot; 200
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ssl.cert.subject.cn:"&lt;DOMAIN&gt;"
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>ssl:"&lt;DOMAIN&gt;" 200
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a># Match exact HTTP Title or Favicon Hash
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>http.title:&quot;Target Portal Login&quot;
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>http.title:"Target Portal Login"
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>http.favicon.hash:116323821
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a># Exposed Jenkins, Grafana, Kibana, Spring Boot, or Docker APIs inside target org
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>org:&quot;Target Organization&quot; product:&quot;Jenkins&quot;
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>org:&quot;Target Organization&quot; http.title:&quot;Grafana&quot;
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>org:&quot;Target Organization&quot; port:2375,2376,6443,9200,27017
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>org:"Target Organization" product:"Jenkins"
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>org:"Target Organization" http.title:"Grafana"
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>org:"Target Organization" port:2375,2376,6443,9200,27017
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>services.tls.certificates.leaf_data.names: &quot;&lt;DOMAIN&gt;&quot;
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>services.http.response.html_title: &quot;&lt;DOMAIN&gt;&quot; and not autonomous_system.name: &quot;CLOUDFLARE*&quot;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>services.tls.certificates.leaf_data.names: "&lt;DOMAIN&gt;"
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>services.http.response.html_title: "&lt;DOMAIN&gt;" and not autonomous_system.name: "CLOUDFLARE*"
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -2794,8 +2794,8 @@
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># SecurityTrails, ViewDNS.info, DNSRepo, CrimeFlare</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># 2. Check SPF TXT records for netblocks (ip4:...) owned by the target</span>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>dig<span class="w"> </span>+short<span class="w"> </span>TXT<span class="w"> </span>&lt;DOMAIN&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>spf
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># 3. Trigger &quot;Forgot Password&quot; or registration email to your inbox</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># and inspect the raw &quot;Received: from&quot; headers for the backend server IP!</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># 3. Trigger "Forgot Password" or registration email to your inbox</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># and inspect the raw "Received: from" headers for the backend server IP!</span>
 </span></code></pre></div>
 </div>
 </div>
@@ -2915,7 +2915,7 @@
     
     
     
-    <a href="mailto:contact@example.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
+    <a href="mailto:meghantashi.h4cks@gmail.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
     </a>
   

