@@ -1,9 +1,9 @@
 site_name: "0x3xp10i73r"
 site_description: "Personal offensive security notes, cheatsheets, checklists and writeups — web application testing, Active Directory, red team operations and cloud."
 site_author: "0x3xp10i73r"
-site_url: "https://0x3xp10i73r.github.io/notes/"
-repo_name: "0x3xp10i73r/notes"
-repo_url: "https://github.com/0x3xp10i73r/notes"
+site_url: "https://0x3xp10i73r.github.io/offsec-vault/"
+repo_name: "0x3xp10i73r/offsec-vault"
+repo_url: "https://github.com/0x3xp10i73r/offsec-vault"
 edit_uri: "edit/main/docs/"
 copyright: "&copy; 2026 0x3xp10i73r &middot; Notes for authorized testing and educational use only."
 
