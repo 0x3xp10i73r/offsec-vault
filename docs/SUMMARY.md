@@ -1,7 +1,6 @@
 # Summary
 
 - [Home](index.md)
-- [How to use this vault](field-guide.md)
 - Recon
     - Passive discovery
         - [Subdomains and virtual hosts](recon/subdomain-enumeration.md)

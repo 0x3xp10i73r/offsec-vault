@@ -6,7 +6,6 @@ Built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https
 
 Sections:
 
-- [How to use this vault](docs/field-guide.md) — plain-language workflow, evidence and code-block conventions
 - Recon
 - Web and Bug Bounty
 - Active Directory
@@ -34,7 +33,7 @@ Sections:
 | `tools.md` | Tool table, helper commands, references |
 | `ios-cross-platform.md` | iOS, Flutter, React Native and Cordova |
 
-Code blocks follow the same convention as the rest of the vault: executable input is separated from sample output, related commands are grouped by phase, non-obvious flags and cleanup steps are commented, and the prose explains how to interpret the result. The [field guide](docs/field-guide.md#how-to-read-a-command-block) is the checklist for adding or correcting a block.
+Code blocks follow a consistent convention across the vault: executable input is separated from sample output, related commands are grouped by phase, non-obvious flags and cleanup steps are commented, and the prose explains how to interpret the result.
 
 ## Page design
 

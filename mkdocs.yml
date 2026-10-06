@@ -122,7 +122,6 @@ extra:
 
 nav:
   - Home: index.md
-  - How to use this vault: field-guide.md
   - Recon:
       - recon/index.md
       - Passive discovery:

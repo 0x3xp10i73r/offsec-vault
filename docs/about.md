@@ -27,7 +27,7 @@ Corrections, disagreements and additions are all welcome. If you are sending a f
 
 Plain Markdown in a Git repository, built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme, deployed to GitHub Pages by a GitHub Actions workflow on every push to `main`. The small amount of custom CSS and JavaScript that powers the command variable box and the checklists is in `docs/assets/`, and everything is deliberately dependency-light so the site still builds in a few years.
 
-A `.gitbook.yaml` and a `SUMMARY.md` are included as well, so the same source can be imported into GitBook if you prefer that reading experience. The [field guide](field-guide.md) documents the reader-first workflow and the conventions used to keep command blocks understandable. MkDocs remains the canonical version.
+A `.gitbook.yaml` and a `SUMMARY.md` are included as well, so the same source can be imported into GitBook if you prefer that reading experience. MkDocs remains the canonical version.
 
 If you want to run it locally or use it as a starting point for your own notes:
 

@@ -47,5 +47,3 @@ A checklist is a coverage control, not a substitute for judgment. It prevents th
 ## How to use a checkbox
 
 Before checking an item complete four small notes: **scope**, **identity**, **result**, and **evidence reference**. If an item is not applicable, mark it as `N/A` in the engagement record instead of silently leaving it unchecked. If a test is blocked by a control, record the block: prevention and detection are results.
-
-The [field guide](../field-guide.md) explains the code-block conventions, evidence standard, safety gates and report template used throughout the vault.
