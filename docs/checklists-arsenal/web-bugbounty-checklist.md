@@ -10,6 +10,9 @@ tags:
 
 # Web & Bug Bounty Pentesting Checklist
 
+!!! note "What this page is doing"
+    Check an item only after recording the identity, target, test, result and evidence reference. The checklist organizes coverage; the deep-dive pages explain how to reason about a result and when to stop.
+
 !!! tip "How to Use"
     Tick items as you go — progress is saved in your browser. Use `/` to search for a specific technique, and pair this checklist with the deep-dive playbooks in the **Web & Bug Bounty** section.
 

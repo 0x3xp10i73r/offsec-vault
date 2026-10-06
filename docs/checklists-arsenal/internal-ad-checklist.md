@@ -10,6 +10,9 @@ tags:
 
 # Internal Network & Active Directory Checklist
 
+!!! note "What this page is doing"
+    Move from network position to identity graph to one validated path. Read policy before spraying or coercing, keep every directory change reversible, and record blocked actions as control evidence.
+
 !!! tip "Keep a Parallel Detection Log"
     For purple-team engagements, log next to each item: `timestamp | ATT&CK ID | host | expected telemetry | detected?`. That single log is worth more than the screenshot dump.
 

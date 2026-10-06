@@ -10,6 +10,9 @@ tags:
 
 # Frida
 
+!!! note "What this page is doing"
+    Frida is an observation and instrumentation tool. A hook can show where a check happens or help validate a lab hypothesis, but the report still needs the app behavior, affected control, reproducible evidence and a server-side impact story where applicable.
+
 Frida injects JavaScript into a running app and lets you replace Java and native methods while it runs. On Android that is how most client-side checks get bypassed: root detection, emulator detection, certificate pinning, biometric prompts, and any "is this value correct" comparison the app makes locally.
 
 Two parts: `frida-server` running on the device, and the client (Python or the `frida` CLI) on your machine.

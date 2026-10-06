@@ -11,6 +11,9 @@ tags:
 
 # iOS and cross-platform apps
 
+!!! note "What this page is doing"
+    Mobile frameworks move security decisions into different runtimes. Identify the platform and framework first, follow the data and trust boundary, and keep patched binaries, certificates and device changes inside the lab evidence set.
+
 ---
 
 ## 1. Lab Setup

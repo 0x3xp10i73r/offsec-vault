@@ -11,6 +11,9 @@ tags:
 
 # C2 Infrastructure & Operational OPSEC
 
+!!! note "What this page is doing"
+    Infrastructure is part of the detection test. Segment operator identity, delivery and command channels; log every change; use short-lived assets; and make sure the client receives indicators and a deconfliction path before the exercise starts.
+
 ---
 
 ## 1. Infrastructure Layout (Segmented Design)

@@ -1,21 +1,21 @@
 ---
 title: "Blog"
-description: "Longer writeups: vulnerability research, engagement notes and lab walkthroughs."
+description: "Longer writeups that explain the reasoning, evidence, failures and lessons behind a technique or engagement."
 ---
 
 ![Abstract dark ink texture](../assets/images/cover-ink.jpg){ .page-cover-img }
 
 # Blog
 
-Pages in the notes sections are references — short, dense, meant to be searched rather than read. This is where the longer writing goes: how a specific vulnerability actually worked, what an attack chain looked like end to end, and what I got wrong along the way.
+The notes are compact references: they help answer “what should I check next?” The blog slows down for the questions a command list cannot answer: **why this path worked, which assumption failed, what evidence made the finding credible, and how a defender could detect or fix it.**
 
 Posts fall into four rough categories:
 
-- **Vulnerability research** — root-cause analysis of bugs I found and reported, including what the fix should be.
-- **Bug bounty** — patterns that paid, with the reasoning behind the testing approach.
-- **Red team** — infrastructure, tradecraft and the parts of an engagement that do not fit in a cheatsheet.
-- **Walkthroughs** — HTB, VulnHub and cloud lab machines, written as methodology rather than a command log.
+- **Vulnerability research** — root cause, preconditions, reproducibility and remediation.
+- **Bug bounty** — the hypothesis, the testing loop, the report and the impact boundary.
+- **Red team** — planning, infrastructure, telemetry, deconfliction and lessons learned.
+- **Walkthroughs** — labs and machines written as methodology rather than a pasteable command log.
 
-Everything is also available as a feed if you would rather read it in a reader: `/feed_rss_created.xml`, or `/feed_rss_updated.xml` for revision tracking.
+Each post should identify the authorization context, separate observations from conclusions, minimize sensitive data, and close with cleanup or defensive lessons. A walkthrough is useful when it teaches the decision that led to the next step, not when it hides that decision behind a long terminal transcript.
 
-Newest posts are listed below. Use search, the tag index or the archive if you are looking for something specific.
+Everything is also available as a feed: `/feed_rss_created.xml` for reading order, or `/feed_rss_updated.xml` for revision tracking. Use search, tags or the archive when you want to follow one technique across several sections.

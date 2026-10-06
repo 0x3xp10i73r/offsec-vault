@@ -170,7 +170,7 @@ The covers are 1584x396 JPEGs — LinkedIn profile header proportions, which is 
 
 The nav is three levels deep in places, which is where a sidebar earns its keep. Section names are small uppercase group labels, the middle level holds collapsible sub-groups, and the pages inside a sub-group sit behind a hairline so the nesting is visible without a colour change:
 
-```
+```text
 RECON
   Passive discovery
     Subdomains and virtual hosts
@@ -232,8 +232,10 @@ About forty lines of JavaScript fixes that: it enables the checkboxes, stores th
 If you are copying this for your own site, the one thing to watch out for is `navigation.instant`, Material's client-side navigation. Your script only runs once on the first page load, so anything you do on page render has to be registered on the `document$` observable rather than `DOMContentLoaded`:
 
 ```javascript
+// Material's instant navigation emits document$ for every page transition.
+// Fall back to DOMContentLoaded when the theme's observable is unavailable.
 if (typeof document$ !== "undefined") {
-  document$.subscribe(init);   // runs on every page, including instant navigation
+  document$.subscribe(init);
 } else {
   document.addEventListener("DOMContentLoaded", init);
 }
@@ -320,10 +322,14 @@ jobs:
 Locally it is three commands, and `mkdocs build` is what I actually rely on, because it fails loudly on broken internal links:
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+# Create and activate an isolated documentation environment.
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-mkdocs serve                    # live reload while writing
-mkdocs build                    # catch broken links before pushing
+
+# Serve while writing, then run a clean build before publishing.
+mkdocs serve -a 0.0.0.0:8000
+mkdocs build
 ```
 
 Pinning versions in `requirements.txt` is not optional. A theme release that changes plugin behaviour will otherwise break the build on a Monday morning when you are trying to publish a writeup.
@@ -342,10 +348,15 @@ Pinning versions in `requirements.txt` is not optional. A theme release that cha
 The configuration is meant to be reused. If you want your own version, the short version is:
 
 ```bash
+# Clone the notes and enter the repository.
 git clone https://github.com/0x3xp10i73r/notes.git
 cd notes
+
+# Install dependencies inside an isolated environment before serving.
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-mkdocs serve
+mkdocs serve -a 0.0.0.0:8000
 ```
 
 Then change `site_name`, `site_url` and `repo_url` in `mkdocs.yml`, replace the images in `docs/assets/images/`, and edit `DEFAULT_VARS` in `extra.js` to your usual lab values. The written content is mine; the structure and config you are welcome to take.

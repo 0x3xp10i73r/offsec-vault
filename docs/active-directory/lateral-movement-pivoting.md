@@ -11,6 +11,9 @@ tags:
 
 # Lateral Movement & Network Pivoting
 
+!!! note "What this page is doing"
+    Lateral movement demonstrates a controlled hop, not unlimited access. Choose the least noisy approved transport, document source identity and destination, tunnel only the required route, and remove routes, agents and sessions at the end.
+
 ---
 
 ## 1. Pass-the-Hash / Pass-the-Key / Pass-the-Ticket

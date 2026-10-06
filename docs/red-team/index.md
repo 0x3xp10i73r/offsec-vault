@@ -1,6 +1,6 @@
 ---
 title: "Red Team"
-description: "Adversary simulation tradecraft: initial access, payload development, C2 infrastructure, evasion, and operational OPSEC"
+description: "Adversary simulation methodology: objectives, rules of engagement, infrastructure, initial access, telemetry, cleanup and reporting."
 tags:
   - Red Team
   - Adversary Simulation
@@ -11,46 +11,62 @@ tags:
 
 # Red team operations
 
+A red team engagement is a controlled experiment in **prevention, detection and response**. The question is not simply “can an operator obtain a privileged session?” It is “can the team reach the agreed objective, what did the defenders see, how quickly did they respond, and what should change?”
 
----
+!!! danger "ROE before tradecraft"
+    Phishing, payload delivery, credential testing, evasion, persistence, lateral movement and simulated exfiltration require written scope. Record the abort condition for every high-risk activity. Never reuse infrastructure, credentials or payloads between clients.
 
-## Where This Section Fits
-
-Unlike a pentest, a **red team engagement** measures detection and response. Success is not "did I get Domain Admin" — it is *"did the blue team see me, and how long did it take them?"*
+## The red team loop
 
 ```mermaid
 flowchart LR
-    A[Target Intel<br/>OSINT & Planning] --> B[Infrastructure<br/>Domains, Redirectors, C2]
-    B --> C[Initial Access<br/>Phishing, Exploit, Physical]
-    C --> D[Evasion<br/>AV/EDR, AMSI, Syscalls]
-    D --> E[Host & AD Recon<br/>Situational Awareness]
-    E --> F[Objective<br/>Crown Jewels / Domain Admin]
-    F --> G[Cleanup & Reporting<br/>Dwell Time Metrics]
+    A[Objective and ROE] --> B[Threat model and plan]
+    B --> C[Instrumented infrastructure]
+    C --> D[Controlled access attempt]
+    D --> E[Observe prevention and detection]
+    E --> F[Objective evidence]
+    F --> G[Cleanup and deconfliction]
+    G --> H[Purple-team improvements]
 ```
 
----
+| Phase | What we are doing in words | Deliverable |
+| :--- | :--- | :--- |
+| **Scope** | Define the business objective, allowed identities, assets, time window, prohibited actions and emergency contact. | Signed ROE and deconfliction plan |
+| **Plan** | Choose a threat emulation and map each planned action to a detection opportunity. | ATT&CK-mapped test plan |
+| **Prepare** | Separate operator, research and C2 identities; create short-lived infrastructure; test the kill switch. | Infrastructure diagram, IOC register, rollback plan |
+| **Access** | Use the least risky approved access path and stop if the objective is already proven. | Initial-access timeline and evidence |
+| **Operate** | Move only as far as the objective requires; measure control coverage rather than collecting everything. | Action log, telemetry observations, objective proof |
+| **Close** | Remove access and notify the client of anything that cannot be safely removed during the window. | Cleanup confirmation and residual-risk list |
+| **Learn** | Turn each action into a defensive improvement and retest after the fix. | Detection gap and purple-team report |
 
 ## Pages in this section
 
-  - **[Initial Access & Payload Delivery](initial-access-phishing.md)** — Pretexting, Evilginx2/Microsoft device-code phishing, LNK/ISO/VHDX/IMG containers, HTML smuggling, MOTW bypasses, and macro tradecraft.
+- **[Initial access and payload delivery](initial-access-phishing.md)** — approved delivery scenarios, user-safety constraints and evidence.
+- **[C2 infrastructure and OPSEC](c2-infrastructure-opsec.md)** — segmented infrastructure, logging, identity separation and deconfliction.
+- **[EDR and AMSI evasion](edr-amsi-evasion.md)** — lab-first validation of prevention and telemetry assumptions; not a promise of invisibility.
 
-  - **[C2 Infrastructure & OPSEC](c2-infrastructure-opsec.md)** — Domain categorization, SMTP/SPF/DKIM/DMARC setup, redirectors (nginx/Apache mod_rewrite), CDN fronting, malleable C2 profiles (Sliver/Havoc), and operator hygiene.
+## Detection log
 
-  - **[EDR, AMSI & Syscall Evasion](edr-amsi-evasion.md)** — AMSI/ETW patching, unhooking (Ntdll, Halo's Gate, Tartarus Gate), indirect & fresh syscalls, PE/Shellcode loaders (Module Stomping, Phantom DLL), and C2 profiles.
+Keep one line per meaningful action. A detection gap is only useful when the defender can reproduce the expected telemetry.
 
----
+```text
+# UTC timestamp | operator action | ATT&CK technique | host/account |
+# expected telemetry | observed telemetry | detected? | evidence reference
+<UTC> | <ACTION> | <T####> | <HOST>/<ACCOUNT> |
+<EXPECTED_SOURCE> | <OBSERVED_SOURCE> | <YES_NO_PARTIAL> | <FILE_OR_TICKET>
+```
 
-## Engagement Phases & Deliverables
+Record both successful and blocked actions. A blocked payload, MFA prompt, EDR quarantine or account lockout is evidence about a control; it is not a reason to silently escalate the technique.
 
-| Phase | Key Activities | Deliverable |
-| :--- | :--- | :--- |
-| **0. Scoping & ROE** | Define crown jewels, in-scope infrastructure, forbidden hosts, emergency contacts, rules of engagement | Signed ROE, deconfliction plan |
-| **1. Threat Intel & Planning** | Determine threat actor emulation (APT29, FIN7, ransomware affiliate), map TTPs | Emulation plan (MITRE ATT&CK mapped) |
-| **2. Infrastructure Setup** | Age and categorize domains, configure redirectors, prepare payloads | Infrastructure diagram, IOC list for blue team |
-| **3. Initial Access** | Spearphishing, USB drops, exploit public-facing app, supplier compromise | Access evidence, timeline |
-| **4. Foothold & Elevation** | Host recon, privesc, credential theft, persistence | Attack graph |
-| **5. Objective Execution** | Achieve defined objectives (DCSync, crown jewel access, data exfil simulation) | Evidence + timestamps |
-| **6. Cleanup & Reporting** | Remove artifacts, report TTPs + defensive recommendations + dwell time | Final report with purple-team findings |
+## Engagement guardrails
 
-!!! tip "Purple Teaming Note"
-    Every action should map to a **detection opportunity**. Keep a parallel log of: `timestamp | technique | ATT&CK ID | host | expected telemetry source | detected (Y/N/M)`. This makes the debrief enormously more valuable than a raw screenshot dump.
+- Separate simulation data from real client data; use a canary or marker file where possible.
+- Never collect a full mailbox, password database or customer dataset when a canary proves access.
+- Rate-limit email, authentication and discovery actions to the agreed threshold.
+- Do not disable security controls unless the ROE explicitly requires a measured test and a rollback is ready.
+- Use a client-approved out-of-band channel for a safety stop, not the C2 channel alone.
+- Keep infrastructure, domain, certificate, hash and payload IOCs ready for the defender before the debrief.
+
+## What success looks like
+
+A strong red team result can be “the objective was blocked at MFA and the alert arrived in four minutes.” A strong result can also be “the objective was reached, but the client can now see the exact missing control.” The report should include the timeline, objective evidence, detection latency, prevention points, cleanup status and a prioritized remediation plan.

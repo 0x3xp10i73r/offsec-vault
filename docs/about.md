@@ -27,16 +27,22 @@ Corrections, disagreements and additions are all welcome. If you are sending a f
 
 Plain Markdown in a Git repository, built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme, deployed to GitHub Pages by a GitHub Actions workflow on every push to `main`. The small amount of custom CSS and JavaScript that powers the command variable box and the checklists is in `docs/assets/`, and everything is deliberately dependency-light so the site still builds in a few years.
 
-A `.gitbook.yaml` and a `SUMMARY.md` are included as well, so the same source can be imported into GitBook if you prefer that reading experience. MkDocs remains the canonical version.
+A `.gitbook.yaml` and a `SUMMARY.md` are included as well, so the same source can be imported into GitBook if you prefer that reading experience. The [field guide](field-guide.md) documents the reader-first workflow and the conventions used to keep command blocks understandable. MkDocs remains the canonical version.
 
 If you want to run it locally or use it as a starting point for your own notes:
 
 ```bash
+# Clone the repository and enter the working tree.
 git clone https://github.com/0x3xp10i73r/notes.git
 cd notes
-python3 -m venv .venv && source .venv/bin/activate
+
+# Use an isolated Python environment for MkDocs and its plugins.
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-mkdocs serve
+
+# Start the local documentation server with live reload.
+mkdocs serve -a 0.0.0.0:8000
 ```
 
 The site is licensed for reuse of the *structure and configuration*. The written content is mine — quote it, link it, learn from it, but do not republish it as your own.

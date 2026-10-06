@@ -10,6 +10,9 @@ tags:
 
 # Intercepting traffic
 
+!!! note "What this page is doing"
+    Traffic interception is a trust-chain exercise: the device must reach the proxy, the app must trust the test CA, and pinning must be handled separately. Change one layer at a time and restore the proxy and certificate state when finished.
+
 Before any application testing, get HTTPS traffic into Burp. On Android this has three parts: a CA the app will accept, a proxy the device sends traffic to, and — usually — a pinning bypass.
 
 ## Why the certificate has to go in the system store

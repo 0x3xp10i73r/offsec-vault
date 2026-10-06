@@ -16,6 +16,7 @@ I keep them public because notes are more useful when other people can correct t
 
 | Section | Contents |
 | :--- | :--- |
+| [How to use this vault](field-guide.md) | Plain-language workflow, target worksheet, code-block conventions, evidence, reporting, safety gates and cleanup |
 | [Recon](recon/index.md) | Subdomain and virtual host enumeration, ASN and DNS work, port and service playbooks, content discovery, JavaScript review, dorking |
 | [Web and Bug Bounty](web-bugbounty/index.md) | Authentication and account takeover, injections, SSRF and request smuggling, access control bugs, XSS and client-side, APIs and file uploads |
 | [Active Directory](active-directory/index.md) | Enumeration and BloodHound, Kerberos and credential attacks, ADCS and ACL abuse, lateral movement, domain dominance and persistence |

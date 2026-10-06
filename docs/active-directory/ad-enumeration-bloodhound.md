@@ -11,6 +11,9 @@ tags:
 
 # AD Enumeration & BloodHound CE Attack Paths
 
+!!! note "What this page is doing"
+    Enumeration is building a trustworthy identity graph. Collect only what the scope allows, label the account and collection method, verify important edges manually, and describe the shortest path in terms of the permission that created it.
+
 ---
 
 ## 1. Unauthenticated Enumeration

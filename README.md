@@ -6,6 +6,7 @@ Built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https
 
 Sections:
 
+- [How to use this vault](docs/field-guide.md) — plain-language workflow, evidence and code-block conventions
 - Recon
 - Web and Bug Bounty
 - Active Directory
@@ -33,7 +34,7 @@ Sections:
 | `tools.md` | Tool table, helper commands, references |
 | `ios-cross-platform.md` | iOS, Flutter, React Native and Cordova |
 
-Every command block is commented line by line: what the command does, why that flag is there, and what the output tells you. Code from the source notes is kept as-is, with the explanation around it.
+Code blocks follow the same convention as the rest of the vault: executable input is separated from sample output, related commands are grouped by phase, non-obvious flags and cleanup steps are commented, and the prose explains how to interpret the result. The [field guide](docs/field-guide.md#how-to-read-a-command-block) is the checklist for adding or correcting a block.
 
 ## Page design
 
@@ -96,11 +97,18 @@ Blog posts are split with a `<!-- more -->` marker: everything above it becomes 
 ## Running it locally
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+# Create and activate an isolated environment for the documentation toolchain.
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install the project dependencies declared in requirements.txt.
 pip install -r requirements.txt
 
-mkdocs serve -a 0.0.0.0:8000   # live reload while writing
-mkdocs build                   # static site into ./site, fails on broken links
+# Start a live-reloading server on all interfaces for local or preview use.
+mkdocs serve -a 0.0.0.0:8000
+
+# Build the static site and catch broken links before publishing.
+mkdocs build
 ```
 
 ## Deploying
@@ -110,6 +118,8 @@ The included GitHub Actions workflow (`.github/workflows/deploy.yml`) builds the
 Manually, from a clone:
 
 ```bash
+# Build the site and publish the generated output to the configured Pages branch.
+# Run this only from the repository and only when the deployment target is correct.
 mkdocs gh-deploy --force
 ```
 
@@ -134,8 +144,12 @@ GitBook sync is also possible: `.gitbook.yaml` and `docs/SUMMARY.md` are include
 To publish a rebuilt copy:
 
 ```bash
+# Build the static site into ./site and fail early if the Markdown is invalid.
 mkdocs build
-cd .. && zip -r notes-site.zip <project-folder>
+
+# Package the project directory from its parent when a portable archive is needed.
+cd ..
+zip -r notes-site.zip <project-folder>
 ```
 
 ## Content warning

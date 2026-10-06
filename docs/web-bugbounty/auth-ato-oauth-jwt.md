@@ -12,6 +12,9 @@ tags:
 
 # Authentication, ATO, OAuth 2.0 & JWT Exploitation
 
+!!! note "What this page is doing"
+    The question here is whether the application binds identity, recovery and token claims to the correct user, session, client and issuer. Use dedicated accounts, stop at a controlled proof, and never take over a real person’s account.
+
 !!! tip "Why This Section Matters"
     Authentication bugs consistently pay the highest bounties. A single ATO in a SaaS platform can compromise every tenant on it. This page mirrors the **HowToHunt Account Takeover Methodology** with modern 2026 bypass variations.
 
@@ -100,8 +103,9 @@ The 6 highest-yield password reset attacks, derived from **HowToHunt's Password 
 | 9 | **Race Condition on 2FA Setup** | Fire many parallel requests to enable/confirm 2FA to get an inconsistent state. |
 | 10 | **CSRF on 2FA Disable** | If disabling 2FA is a `GET` request or lacks a CSRF token → chain it. |
 
-```bash
-# Turbo Intruder snippet for a 6-digit OTP brute force with connection pooling
+```python
+# Turbo Intruder snippet for a 6-digit OTP test with connection pooling.
+# Use only the approved test account, rate limit and stop condition.
 def queueRequests(target, wordlists):
     engine = RequestEngine(endpoint='https://<DOMAIN>/api/verify-otp',
                            concurrentConnections=30,
