@@ -2,7 +2,7 @@
 
 A personal notes site for authorized penetration testing, red team work and bug bounty hunting: web application testing, Active Directory, privilege escalation, cloud and mobile, plus a blog for longer writeups.
 
-Built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme. Navigation is a single left sidebar (no top tabs) with grouped section labels. The look uses the [Dracula](https://draculatheme.com/) palette on a deep charcoal base: flat surfaces, hairline borders, and Dracula's colours for text, links and syntax highlighting. Dark only — there is no light mode.
+Built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme. Navigation is a single left sidebar (no top tabs) with grouped section labels. The look uses Dracula's charcoal `#282a36` base with darker code surfaces, hairline borders, and Dracula's colours for text, links and syntax highlighting. Dark only — there is no light mode.
 
 Sections:
 

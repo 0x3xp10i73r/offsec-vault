@@ -103,7 +103,7 @@ markdown_extensions:
   - pymdownx.tilde
 
 extra_css:
-  - assets/stylesheets/extra.css
+  - assets/stylesheets/extra-charcoal.css
 
 extra_javascript:
   - assets/javascripts/extra.js

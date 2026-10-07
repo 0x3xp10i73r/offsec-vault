@@ -10,9 +10,9 @@
 
 /* ------------------------------------------------------------------- tokens */
 :root {
-  --bg: #181a24;            /* deep charcoal page background */
-  --bg-raised: #20222e;     /* code blocks, boxes, cards */
-  --bg-raised-2: #2b2d3a;   /* inline code, table heads */
+  --bg: #282a36;            /* Dracula charcoal page background */
+  --bg-raised: #303241;     /* code blocks, boxes, cards */
+  --bg-raised-2: #44475a;   /* inline code, table heads */
 
   --line: rgba(98, 114, 164, 0.3);
   --line-strong: rgba(98, 114, 164, 0.55);
@@ -39,8 +39,8 @@
   color-scheme: dark;
 
   --md-default-bg-color: var(--bg);
-  --md-default-bg-color--light: #20222e;
-  --md-default-bg-color--lighter: #242632;
+  --md-default-bg-color--light: #303241;
+  --md-default-bg-color--lighter: #383a4a;
   --md-default-bg-color--lightest: rgba(98, 114, 164, 0.16);
 
   --md-default-fg-color: var(--fg);
@@ -48,21 +48,21 @@
   --md-default-fg-color--lighter: var(--fg-faint);
   --md-default-fg-color--lightest: rgba(98, 114, 164, 0.35);
 
-  --md-primary-fg-color: #181a24;
-  --md-primary-fg-color--light: #20222e;
-  --md-primary-fg-color--dark: #11121a;
+  --md-primary-fg-color: #282a36;
+  --md-primary-fg-color--light: #303241;
+  --md-primary-fg-color--dark: #1f202a;
   --md-primary-bg-color: var(--fg);
   --md-primary-bg-color--light: var(--fg-soft);
 
   --md-accent-fg-color: var(--d-pink);
   --md-accent-fg-color--transparent: rgba(255, 121, 198, 0.12);
-  --md-accent-bg-color: #181a24;
-  --md-accent-bg-color--light: #20222e;
+  --md-accent-bg-color: #282a36;
+  --md-accent-bg-color--light: #303241;
 
   --md-typeset-a-color: var(--d-purple);
 
   --md-code-fg-color: var(--fg);
-  --md-code-bg-color: #12141c;
+  --md-code-bg-color: #1f202a;
   --md-code-hl-color: rgba(189, 147, 249, 0.22);
   --md-code-hl-number-color: var(--d-purple);
   --md-code-hl-special-color: var(--d-orange);
@@ -92,8 +92,8 @@
   --md-footer-fg-color: var(--fg);
   --md-footer-fg-color--light: var(--fg-soft);
   --md-footer-fg-color--lighter: var(--fg-faint);
-  --md-footer-bg-color: #14161f;
-  --md-footer-bg-color--dark: #20222e;
+  --md-footer-bg-color: #21222c;
+  --md-footer-bg-color--dark: #303241;
 }
 
 html {
@@ -744,18 +744,18 @@ body {
    keep the diagrams flat and Dracula-coloured instead. The selector matches
    Material's own `:root > *` and loads later, so it wins. */
 [data-md-color-scheme="slate"] > * {
-  --md-mermaid-node-bg-color: #2b2d3a;
+  --md-mermaid-node-bg-color: #44475a;
   --md-mermaid-node-fg-color: #f8f8f2;
   --md-mermaid-edge-color: #6272a4;
-  --md-mermaid-label-bg-color: #181a24;
+  --md-mermaid-label-bg-color: #282a36;
   --md-mermaid-label-fg-color: #f8f8f2;
-  --md-mermaid-sequence-actor-bg-color: #2b2d3a;
-  --md-mermaid-sequence-actorman-bg-color: #2b2d3a;
+  --md-mermaid-sequence-actor-bg-color: #44475a;
+  --md-mermaid-sequence-actorman-bg-color: #44475a;
 }
 
 /* ------------------------------------------------------------------ footer */
 .md-footer {
-  background-color: #14161f;
+  background-color: #21222c;
   border-top: 1px solid var(--line);
 }
 
