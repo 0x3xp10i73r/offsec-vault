@@ -60,12 +60,6 @@ The planned direction includes a local database backend, user-defined modules an
 - **GitHub:** [0x3xp10i73r](https://github.com/0x3xp10i73r)
 - **X:** [@0x3xp10i73r](https://x.com/0x3xp10i73r)
 
-## About this site
-
-The site is written in Markdown, built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme, and deployed to GitHub Pages. The custom styling and small pieces of JavaScript live in `docs/assets/`.
-
-The pages are organized as a working reference rather than a linear course. Each section gives context first, then groups commands, observations and reporting notes around a particular security question. The same source can also be imported into GitBook through `.gitbook.yaml` and `docs/SUMMARY.md`.
-
 ## Get in touch
 
 For corrections, collaboration or security discussion, email [meghantashi.h4cks@gmail.com](mailto:meghantashi.h4cks@gmail.com).

@@ -5,7 +5,6 @@ site_url: "https://0x3xp10i73r.github.io/offsec-vault/"
 repo_name: "0x3xp10i73r/offsec-vault"
 repo_url: "https://github.com/0x3xp10i73r/offsec-vault"
 edit_uri: "edit/main/docs/"
-copyright: "&copy; 2026 0x3xp10i73r &middot; Notes for authorized testing and educational use only."
 
 theme:
   name: material
@@ -16,7 +15,7 @@ theme:
   font:
     text: Inter
     code: JetBrains Mono
-  # AMOLED base, Dracula palette, dark only - there is no light mode.
+  # Dracula charcoal base, dark only - there is no light mode.
   palette:
     scheme: slate
     primary: custom
@@ -109,6 +108,7 @@ extra_javascript:
   - assets/javascripts/extra.js
 
 extra:
+  generator: false
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/0x3xp10i73r
