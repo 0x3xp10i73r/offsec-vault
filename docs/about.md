@@ -1,90 +1,73 @@
 ---
 title: "About"
-description: "About this site, its author, and how it is built."
+description: "About Meghan Tashi, the projects behind this notebook, and how the site is built."
 ---
 
 # About
 
-I go by **0x3xp10i73r**. I work in offensive security — web application testing, internal network and Active Directory assessments, and red team engagements — with bug bounty hunting on the side.
+## Meghan Tashi
 
-This site is my notebook. I started keeping notes publicly for three reasons: I was tired of solving the same problem twice, writing something down properly forces me to actually understand it, and other people's notes have saved me hundreds of hours, so this is the version of that I can give back.
+**Cyber Security Analyst**
 
-A few things about the content:
+This site is my practical security notebook: a place for testing notes, project writeups, checklists and lessons that are easier to reuse when they are written down clearly.
 
-- Everything technical here is either something I have run myself, something I have verified in a lab, or something I have clearly flagged as untested reading. If I am not sure, I say so in the page.
-- The notes assume you already understand the basics. They are written for someone mid-engagement who needs the exact flag, the exact path, or the detection signal — not as a beginner course.
-- Tooling ages fast. If a command no longer works with the current version of a tool, tell me and I will fix it.
+## Who I am
 
-## Profile
+I am interested in the places where software makes a trust decision: whether a user is really who they claim to be, whether an object belongs to the current account, whether input stays data, and whether a service exposes more than it should.
 
-**Meghan Tashi** — **Cyber Security Analyst**
+My technical focus includes web application pentesting, network pentesting, API security, Android security, vulnerability assessment, the OWASP Top 10, reconnaissance, enumeration, exploitation and privilege escalation.
 
-My focus areas include web application pentesting, network pentesting, API security, Android security, vulnerability assessment, the OWASP Top 10, reconnaissance, enumeration, exploitation and privilege escalation.
+The goal of this site is not to present security as a collection of tricks. It is to explain the question behind a test, the evidence that answers it, and the impact that makes a result meaningful.
 
-### Projects
+## What I work on
 
-#### An Exploitable App
+- **Web and API security** — authentication, authorization, input handling, browser controls and modern API behavior.
+- **Mobile and network security** — Android assessment, traffic analysis, service enumeration and practical validation.
+- **Offensive security methodology** — reconnaissance, enumeration, exploitation, privilege escalation and clear reporting.
+- **Security learning** — turning repeated investigations into notes, checklists and small tools that are easier to use next time.
 
-An intentionally vulnerable full-stack web application created to demonstrate and test common web security flaws. The project includes Cross-Site Request Forgery, open redirects, sensitive data exposure and missing access control. Manual and tool-based assessments were used to validate exploitability and demonstrate impact.
+## Featured projects
 
-The project was published in a peer-reviewed journal: [An Exploitable App — IRJMETS](https://www.irjmets.com/uploadedfiles/paper//issue_2_february_2023/33924/final/fin_irjmets1678126362.pdf).
+### An Exploitable App
 
-#### Hacker Methodology Manager
+An intentionally vulnerable full-stack web application created to demonstrate common web security flaws in a controlled setting. It includes Cross-Site Request Forgery, open redirects, sensitive data exposure and missing access control.
 
-A centralized tool for organizing and tracking offensive security methodologies and testing checklists. It uses tags and categories for areas such as Web, Active Directory and Privilege Escalation, with search, a lightweight interface and an offline-first design for portability. Planned improvements include a local database backend, user-defined modules and real-time synchronization for collaborative workflows.
+The project was assessed manually and with security tools to validate exploitability and demonstrate impact. It was also published in a peer-reviewed journal: [An Exploitable App — IRJMETS](https://www.irjmets.com/uploadedfiles/paper//issue_2_february_2023/33924/final/fin_irjmets1678126362.pdf).
 
-### Certification
+### Hacker Methodology Manager
+
+A centralized tool for organizing and tracking offensive security methodologies and testing checklists. It uses tags and categories for areas such as Web, Active Directory and Privilege Escalation, with search, a lightweight interface and an offline-first design for portability.
+
+The planned direction includes a local database backend, user-defined modules and real-time synchronization for collaborative workflows.
+
+## Certification
 
 - **Certified Penetration Testing Professional (C|PENT)** — EC-Council
 
-### Skills
+## Skills and tools
 
-| Area | Skills |
+| Area | Focus |
 | :--- | :--- |
-| **Cybersecurity** | Web application pentesting, network pentesting, API security, Android security, vulnerability assessment, OWASP Top 10, reconnaissance, enumeration, exploitation and privilege escalation |
+| **Security** | Web application pentesting, network pentesting, API security, Android security, vulnerability assessment, OWASP Top 10, reconnaissance, enumeration, exploitation and privilege escalation |
 | **Systems** | Linux, Kali, Ubuntu, macOS, Bash scripting, VirtualBox and VMware |
 | **Tools** | Postman, Visual Studio Code, Notion, Nessus, MobSF, Frida, Objection, ADB, Apktool, Burp Suite, Caido, Nmap, SQLMap, ffuf and Nuclei |
-| **Soft skills** | Problem solving, initiative, time management, communication and teamwork |
+| **Working style** | Problem solving, initiative, time management, communication and teamwork |
 
-### Online profiles
+## Links and profiles
 
-- Handle: `meghan-tashi`
-- Hack The Box
-- TryHackMe
-- Portfolio
+- **Handle:** `meghan-tashi`
+- **Online platforms:** Hack The Box, TryHackMe and Portfolio
+- **GitHub:** [0x3xp10i73r](https://github.com/0x3xp10i73r)
+- **X:** [@0x3xp10i73r](https://x.com/0x3xp10i73r)
 
-## Contact
+## About this site
 
-- GitHub: [0x3xp10i73r](https://github.com/0x3xp10i73r)
-- X: [@0x3xp10i73r](https://x.com/0x3xp10i73r)
-- Email: meghantashi.h4cks@gmail.com
+The site is written in Markdown, built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme, and deployed to GitHub Pages. The custom styling and small pieces of JavaScript live in `docs/assets/`.
 
-Corrections, disagreements and additions are all welcome. If you are sending a fix, a link to the documentation or the commit that changed the behaviour is worth more than a description.
+The pages are organized as a working reference rather than a linear course. Each section gives context first, then groups commands, observations and reporting notes around a particular security question. The same source can also be imported into GitBook through `.gitbook.yaml` and `docs/SUMMARY.md`.
 
-## How this site is built
+## Get in touch
 
-Plain Markdown in a Git repository, built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme, deployed to GitHub Pages by a GitHub Actions workflow on every push to `main`. The small amount of custom CSS and JavaScript that powers the command variable box and the checklists is in `docs/assets/`, and everything is deliberately dependency-light so the site still builds in a few years.
+For corrections, collaboration or security discussion, email [meghantashi.h4cks@gmail.com](mailto:meghantashi.h4cks@gmail.com).
 
-A `.gitbook.yaml` and a `SUMMARY.md` are included as well, so the same source can be imported into GitBook if you prefer that reading experience. MkDocs remains the canonical version.
-
-If you want to run it locally or use it as a starting point for your own notes:
-
-```bash
-# Clone the repository and enter the working tree.
-git clone https://github.com/0x3xp10i73r/notes.git
-cd notes
-
-# Use an isolated Python environment for MkDocs and its plugins.
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-# Start the local documentation server with live reload.
-mkdocs serve -a 0.0.0.0:8000
-```
-
-The site is licensed for reuse of the *structure and configuration*. The written content is mine — quote it, link it, learn from it, but do not republish it as your own.
-
-## A note on credibility
-
-I do not claim to be an authority on any of this. Some of what is on this site will be wrong, some of it will be opinionated in ways you disagree with, and the field moves fast enough that parts of it will be dated by the time you read them. Treat it as one practitioner's notebook, cross-check it against primary sources, and test things in a lab before you trust them in production.
+If you spot a technical mistake, a link to the relevant page and a short explanation of the correction is the most useful way to report it.
