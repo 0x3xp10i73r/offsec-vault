@@ -1,18 +1,18 @@
 /* ============================================================================
    0x3xp10i73r — notes theme
 
-   Dracula on an AMOLED base. Pure black background, Dracula's palette for
-   everything else, dark only (there is no light mode). Flat surfaces, hairline
-   borders, no gradients, no blur, no animation beyond the usual hover.
+   Dracula on a deep charcoal base. The background keeps the theme dark without
+   the harsh contrast of pure black. Flat surfaces, hairline borders, no
+   gradients, no blur, no animation beyond the usual hover.
 
    Everything here is layered on top of Material for MkDocs; nothing replaces it.
    ========================================================================== */
 
 /* ------------------------------------------------------------------- tokens */
 :root {
-  --bg: #000000;            /* AMOLED */
-  --bg-raised: #12131a;     /* code blocks, boxes, cards */
-  --bg-raised-2: #21222c;   /* inline code, table heads */
+  --bg: #181a24;            /* deep charcoal page background */
+  --bg-raised: #20222e;     /* code blocks, boxes, cards */
+  --bg-raised-2: #2b2d3a;   /* inline code, table heads */
 
   --line: rgba(98, 114, 164, 0.3);
   --line-strong: rgba(98, 114, 164, 0.55);
@@ -39,30 +39,30 @@
   color-scheme: dark;
 
   --md-default-bg-color: var(--bg);
-  --md-default-bg-color--light: rgba(0, 0, 0, 0.7);
-  --md-default-bg-color--lighter: rgba(0, 0, 0, 0.45);
-  --md-default-bg-color--lightest: rgba(98, 114, 164, 0.12);
+  --md-default-bg-color--light: #20222e;
+  --md-default-bg-color--lighter: #242632;
+  --md-default-bg-color--lightest: rgba(98, 114, 164, 0.16);
 
   --md-default-fg-color: var(--fg);
   --md-default-fg-color--light: var(--fg-soft);
   --md-default-fg-color--lighter: var(--fg-faint);
   --md-default-fg-color--lightest: rgba(98, 114, 164, 0.35);
 
-  --md-primary-fg-color: #000000;
-  --md-primary-fg-color--light: #12131a;
-  --md-primary-fg-color--dark: #000000;
+  --md-primary-fg-color: #181a24;
+  --md-primary-fg-color--light: #20222e;
+  --md-primary-fg-color--dark: #11121a;
   --md-primary-bg-color: var(--fg);
   --md-primary-bg-color--light: var(--fg-soft);
 
   --md-accent-fg-color: var(--d-pink);
   --md-accent-fg-color--transparent: rgba(255, 121, 198, 0.12);
-  --md-accent-bg-color: #000000;
-  --md-accent-bg-color--light: rgba(0, 0, 0, 0.7);
+  --md-accent-bg-color: #181a24;
+  --md-accent-bg-color--light: #20222e;
 
   --md-typeset-a-color: var(--d-purple);
 
   --md-code-fg-color: var(--fg);
-  --md-code-bg-color: #191a21;
+  --md-code-bg-color: #12141c;
   --md-code-hl-color: rgba(189, 147, 249, 0.22);
   --md-code-hl-number-color: var(--d-purple);
   --md-code-hl-special-color: var(--d-orange);
@@ -92,8 +92,8 @@
   --md-footer-fg-color: var(--fg);
   --md-footer-fg-color--light: var(--fg-soft);
   --md-footer-fg-color--lighter: var(--fg-faint);
-  --md-footer-bg-color: #000000;
-  --md-footer-bg-color--dark: #12131a;
+  --md-footer-bg-color: #14161f;
+  --md-footer-bg-color--dark: #20222e;
 }
 
 html {
@@ -150,7 +150,7 @@ body {
 
 /* ------------------------------------------------------------------ header */
 .md-header {
-  background-color: #000000;
+  background-color: var(--bg);
   border-bottom: 1px solid var(--line);
   box-shadow: none;
 }
@@ -323,7 +323,7 @@ body {
 }
 
 .md-typeset pre > code {
-  background-color: #191a21;
+  background-color: var(--md-code-bg-color);
   border: none;
   border-radius: var(--radius);
   padding: 0.9em 1.1em;
@@ -744,18 +744,18 @@ body {
    keep the diagrams flat and Dracula-coloured instead. The selector matches
    Material's own `:root > *` and loads later, so it wins. */
 [data-md-color-scheme="slate"] > * {
-  --md-mermaid-node-bg-color: #21222c;
+  --md-mermaid-node-bg-color: #2b2d3a;
   --md-mermaid-node-fg-color: #f8f8f2;
   --md-mermaid-edge-color: #6272a4;
-  --md-mermaid-label-bg-color: #000000;
+  --md-mermaid-label-bg-color: #181a24;
   --md-mermaid-label-fg-color: #f8f8f2;
-  --md-mermaid-sequence-actor-bg-color: #21222c;
-  --md-mermaid-sequence-actorman-bg-color: #21222c;
+  --md-mermaid-sequence-actor-bg-color: #2b2d3a;
+  --md-mermaid-sequence-actorman-bg-color: #2b2d3a;
 }
 
 /* ------------------------------------------------------------------ footer */
 .md-footer {
-  background-color: #000000;
+  background-color: #14161f;
   border-top: 1px solid var(--line);
 }
 
@@ -786,10 +786,12 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: rgba(98, 114, 164, 0.45);
-  border: 3px solid #000000;
+  border: 3px solid var(--bg);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--d-purple);
+}
+(--d-purple);
 }
