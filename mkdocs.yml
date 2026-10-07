@@ -141,6 +141,10 @@ nav:
       - Protocol and API:
           - SSRF, CORS, CSRF and smuggling: web-bugbounty/ssrf-cors-csrf-smuggling.md
           - APIs, GraphQL and file uploads: web-bugbounty/api-graphql-modern-web.md
+  - Web Application Pentesting:
+      - web-application-pentesting/index.md
+      - Authentication vulnerabilities:
+          - What is authentication?: web-application-pentesting/authentication-vulnerabilities/what-is-authentication.md
   - Active Directory:
       - active-directory/index.md
       - Enumeration:

@@ -18,6 +18,7 @@ I keep them public because notes are more useful when other people can correct t
 | :--- | :--- |
 | [Recon](recon/index.md) | Subdomain and virtual host enumeration, ASN and DNS work, port and service playbooks, content discovery, JavaScript review, dorking |
 | [Web and Bug Bounty](web-bugbounty/index.md) | Authentication and account takeover, injections, SSRF and request smuggling, access control bugs, XSS and client-side, APIs and file uploads |
+| [Web Application Pentesting](web-application-pentesting/index.md) | Beginner-friendly authentication foundations, authentication vulnerabilities, brute-force risks and username enumeration |
 | [Active Directory](active-directory/index.md) | Enumeration and BloodHound, Kerberos and credential attacks, ADCS and ACL abuse, lateral movement, domain dominance and persistence |
 | [Red Team](red-team/index.md) | Initial access and payload delivery, command and control infrastructure, what actually matters for EDR and AMSI evasion |
 | [Privilege Escalation](privesc/index.md) | Linux and Windows escalation paths, ordered roughly by how often they work |

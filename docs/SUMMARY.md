@@ -18,6 +18,9 @@
     - Protocol and API
         - [SSRF, CORS, CSRF and smuggling](web-bugbounty/ssrf-cors-csrf-smuggling.md)
         - [APIs, GraphQL and file uploads](web-bugbounty/api-graphql-modern-web.md)
+- Web Application Pentesting
+    - Authentication vulnerabilities
+        - [What is authentication?](web-application-pentesting/authentication-vulnerabilities/what-is-authentication.md)
 - Active Directory
     - Enumeration
         - [Enumeration and BloodHound](active-directory/ad-enumeration-bloodhound.md)

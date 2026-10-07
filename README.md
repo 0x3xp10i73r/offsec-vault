@@ -8,6 +8,7 @@ Sections:
 
 - Recon
 - Web and Bug Bounty
+- Web Application Pentesting
 - Active Directory
 - Red Team
 - Privilege Escalation
