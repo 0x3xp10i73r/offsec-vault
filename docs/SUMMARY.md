@@ -2,6 +2,36 @@
 
 - [About](index.md)
 - [How to start](how-to-start.md)
+- Web Application Pentesting
+    - Authentication vulnerabilities
+        - [What is authentication?](web-application-pentesting/authentication-vulnerabilities/what-is-authentication.md)
+- Android
+    - [Setup and ADB](android/setup-adb.md)
+    - [Intercepting traffic](android/proxy-certificates.md)
+    - [Static analysis](android/static-analysis.md)
+    - [Dynamic analysis](android/dynamic-analysis.md)
+    - [Testing checklist](android/checklist.md)
+    - [Frida](android/frida.md)
+    - [Glossary](android/glossary.md)
+    - [Tools and references](android/tools.md)
+    - [iOS and cross-platform](android/ios-cross-platform.md)
+- Privilege Escalation
+    - [Linux](privesc/linux-privesc.md)
+    - [Windows](privesc/windows-privesc.md)
+- Active Directory
+    - [Enumeration and BloodHound](active-directory/ad-enumeration-bloodhound.md)
+    - Credential attacks
+        - [Kerberos and credentials](active-directory/kerberos-credential-attacks.md)
+        - [ADCS and ACL abuse](active-directory/adcs-delegation-acl.md)
+    - Post-exploitation
+        - [Lateral movement and pivoting](active-directory/lateral-movement-pivoting.md)
+        - [Domain dominance and persistence](active-directory/domain-dominance-persistence.md)
+- Red Team
+    - [Initial access and payloads](red-team/initial-access-phishing.md)
+    - [C2 infrastructure and OPSEC](red-team/c2-infrastructure-opsec.md)
+    - [EDR and AMSI evasion](red-team/edr-amsi-evasion.md)
+- Cloud
+    - [AWS, Azure and GCP](cloud-mobile/aws-azure-gcp.md)
 - Recon
     - Passive discovery
         - [Subdomains and virtual hosts](recon/subdomain-enumeration.md)
@@ -19,37 +49,6 @@
     - Protocol and API
         - [SSRF, CORS, CSRF and smuggling](web-bugbounty/ssrf-cors-csrf-smuggling.md)
         - [APIs, GraphQL and file uploads](web-bugbounty/api-graphql-modern-web.md)
-- Web Application Pentesting
-    - Authentication vulnerabilities
-        - [What is authentication?](web-application-pentesting/authentication-vulnerabilities/what-is-authentication.md)
-- Active Directory
-    - Enumeration
-        - [Enumeration and BloodHound](active-directory/ad-enumeration-bloodhound.md)
-    - Credential attacks
-        - [Kerberos and credentials](active-directory/kerberos-credential-attacks.md)
-        - [ADCS and ACL abuse](active-directory/adcs-delegation-acl.md)
-    - Post-exploitation
-        - [Lateral movement and pivoting](active-directory/lateral-movement-pivoting.md)
-        - [Domain dominance and persistence](active-directory/domain-dominance-persistence.md)
-- Red Team
-    - [Initial access and payloads](red-team/initial-access-phishing.md)
-    - [C2 infrastructure and OPSEC](red-team/c2-infrastructure-opsec.md)
-    - [EDR and AMSI evasion](red-team/edr-amsi-evasion.md)
-- Privilege Escalation
-    - [Linux](privesc/linux-privesc.md)
-    - [Windows](privesc/windows-privesc.md)
-- Android
-    - [Setup and ADB](android/setup-adb.md)
-    - [Intercepting traffic](android/proxy-certificates.md)
-    - [Static analysis](android/static-analysis.md)
-    - [Dynamic analysis](android/dynamic-analysis.md)
-    - [Testing checklist](android/checklist.md)
-    - [Frida](android/frida.md)
-    - [Glossary](android/glossary.md)
-    - [Tools and references](android/tools.md)
-    - [iOS and cross-platform](android/ios-cross-platform.md)
-- Cloud
-    - [AWS, Azure and GCP](cloud-mobile/aws-azure-gcp.md)
 - Checklists
     - Working checklists
         - [Web and bug bounty checklist](checklists-arsenal/web-bugbounty-checklist.md)

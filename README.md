@@ -8,14 +8,14 @@ Sections:
 
 - About (the default page)
 - How to start
-- Recon
-- Bug Bounty
 - Web Application Pentesting
+- Android
+- Privilege Escalation
 - Active Directory
 - Red Team
-- Privilege Escalation
-- Android
 - Cloud
+- Recon
+- Bug Bounty
 - Checklists
 - Blog (one sample post)
 
