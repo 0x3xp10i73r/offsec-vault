@@ -69,7 +69,7 @@ The planned direction includes a local database backend, user-defined modules an
 ## Links and profiles
 
 - **Handle:** `meghan-tashi`
-- **Online platforms:** Hack The Box, TryHackMe and Portfolio
+- **Online platforms:** [Hack The Box](https://app.hackthebox.com/users/3104146), [TryHackMe](https://tryhackme.com/p/0x3xp10i73r), [Portfolio](https://meghan-portfolio.vercel.app/) and [LinkedIn](https://www.linkedin.com/in/meghan-tashi/)
 - **GitHub:** [0x3xp10i73r](https://github.com/0x3xp10i73r)
 - **X:** [@0x3xp10i73r](https://x.com/0x3xp10i73r)
 
