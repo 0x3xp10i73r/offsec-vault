@@ -15,6 +15,44 @@ A few things about the content:
 - The notes assume you already understand the basics. They are written for someone mid-engagement who needs the exact flag, the exact path, or the detection signal — not as a beginner course.
 - Tooling ages fast. If a command no longer works with the current version of a tool, tell me and I will fix it.
 
+## Profile
+
+**Meghan Tashi** — **Cyber Security Analyst**
+
+My focus areas include web application pentesting, network pentesting, API security, Android security, vulnerability assessment, the OWASP Top 10, reconnaissance, enumeration, exploitation and privilege escalation.
+
+### Projects
+
+#### An Exploitable App
+
+An intentionally vulnerable full-stack web application created to demonstrate and test common web security flaws. The project includes Cross-Site Request Forgery, open redirects, sensitive data exposure and missing access control. Manual and tool-based assessments were used to validate exploitability and demonstrate impact.
+
+The project was published in a peer-reviewed journal: [An Exploitable App — IRJMETS](https://www.irjmets.com/uploadedfiles/paper//issue_2_february_2023/33924/final/fin_irjmets1678126362.pdf).
+
+#### Hacker Methodology Manager
+
+A centralized tool for organizing and tracking offensive security methodologies and testing checklists. It uses tags and categories for areas such as Web, Active Directory and Privilege Escalation, with search, a lightweight interface and an offline-first design for portability. Planned improvements include a local database backend, user-defined modules and real-time synchronization for collaborative workflows.
+
+### Certification
+
+- **Certified Penetration Testing Professional (C|PENT)** — EC-Council
+
+### Skills
+
+| Area | Skills |
+| :--- | :--- |
+| **Cybersecurity** | Web application pentesting, network pentesting, API security, Android security, vulnerability assessment, OWASP Top 10, reconnaissance, enumeration, exploitation and privilege escalation |
+| **Systems** | Linux, Kali, Ubuntu, macOS, Bash scripting, VirtualBox and VMware |
+| **Tools** | Postman, Visual Studio Code, Notion, Nessus, MobSF, Frida, Objection, ADB, Apktool, Burp Suite, Caido, Nmap, SQLMap, ffuf and Nuclei |
+| **Soft skills** | Problem solving, initiative, time management, communication and teamwork |
+
+### Online profiles
+
+- Handle: `meghan-tashi`
+- Hack The Box
+- TryHackMe
+- Portfolio
+
 ## Contact
 
 - GitHub: [0x3xp10i73r](https://github.com/0x3xp10i73r)
