@@ -9,6 +9,8 @@
         - [What is CORS?](web-application-pentesting/cors/what-is-cors.md)
         - [CORS vs CSRF](web-application-pentesting/cors/cors-vs-csrf.md)
         - [SOP vs CSRF](web-application-pentesting/cors/sop-vs-csrf.md)
+        - CORS Labs
+            - [Lab: CORS vulnerability with basic origin reflection](web-application-pentesting/cors/cors-labs/cors-basic-origin-reflection.md)
 - Android
     - [Setup and ADB](android/setup-adb.md)
     - [Intercepting traffic](android/proxy-certificates.md)
