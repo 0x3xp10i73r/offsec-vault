@@ -1,0 +1,961 @@
+/* ============================================================================
+   0x3xp10i73r — notes theme
+
+   Dracula on a deep charcoal base. The background keeps the theme dark without
+   the harsh contrast of pure black. Flat surfaces, hairline borders, no
+   gradients, no blur, no animation beyond the usual hover.
+
+   Everything here is layered on top of Material for MkDocs; nothing replaces it.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------- tokens */
+:root {
+  --bg: #282a36;            /* Dracula charcoal page background */
+  --bg-raised: #303241;     /* code blocks, boxes, cards */
+  --bg-raised-2: #44475a;   /* inline code, table heads */
+
+  --line: rgba(98, 114, 164, 0.3);
+  --line-strong: rgba(98, 114, 164, 0.55);
+
+  --fg: #f8f8f2;
+  --fg-soft: #b8bfd4;
+  --fg-faint: #6272a4;
+
+  /* Dracula */
+  --d-purple: #bd93f9;
+  --d-pink: #ff79c6;
+  --d-cyan: #8be9fd;
+  --d-green: #50fa7b;
+  --d-orange: #ffb86c;
+  --d-red: #ff5555;
+  --d-yellow: #f1fa8c;
+  --d-comment: #6272a4;
+
+  --radius: 8px;
+}
+
+/* --------------------------------------------------- Material palette reset */
+[data-md-color-scheme="slate"] {
+  color-scheme: dark;
+
+  --md-default-bg-color: var(--bg);
+  --md-default-bg-color--light: #303241;
+  --md-default-bg-color--lighter: #383a4a;
+  --md-default-bg-color--lightest: rgba(98, 114, 164, 0.16);
+
+  --md-default-fg-color: var(--fg);
+  --md-default-fg-color--light: var(--fg-soft);
+  --md-default-fg-color--lighter: var(--fg-faint);
+  --md-default-fg-color--lightest: rgba(98, 114, 164, 0.35);
+
+  --md-primary-fg-color: #282a36;
+  --md-primary-fg-color--light: #303241;
+  --md-primary-fg-color--dark: #1f202a;
+  --md-primary-bg-color: var(--fg);
+  --md-primary-bg-color--light: var(--fg-soft);
+
+  --md-accent-fg-color: var(--d-pink);
+  --md-accent-fg-color--transparent: rgba(255, 121, 198, 0.12);
+  --md-accent-bg-color: #282a36;
+  --md-accent-bg-color--light: #303241;
+
+  --md-typeset-a-color: var(--d-purple);
+
+  --md-code-fg-color: var(--fg);
+  --md-code-bg-color: #1f202a;
+  --md-code-hl-color: rgba(189, 147, 249, 0.22);
+  --md-code-hl-number-color: var(--d-purple);
+  --md-code-hl-special-color: var(--d-orange);
+  --md-code-hl-function-color: var(--d-green);
+  --md-code-hl-constant-color: var(--d-purple);
+  --md-code-hl-keyword-color: var(--d-pink);
+  --md-code-hl-string-color: var(--d-yellow);
+  --md-code-hl-name-color: var(--fg);
+  --md-code-hl-operator-color: var(--d-pink);
+  --md-code-hl-punctuation-color: var(--fg);
+  --md-code-hl-comment-color: var(--d-comment);
+  --md-code-hl-generic-color: var(--d-cyan);
+  --md-code-hl-variable-color: var(--fg);
+
+  --md-typeset-table-color: var(--line);
+  --md-typeset-table-color--light: rgba(98, 114, 164, 0.12);
+  --md-typeset-mark-color: rgba(241, 250, 140, 0.22);
+  --md-typeset-del-color: rgba(255, 85, 85, 0.15);
+  --md-typeset-ins-color: rgba(80, 250, 123, 0.15);
+  --md-typeset-kbd-color: var(--bg-raised-2);
+  --md-typeset-kbd-accent-color: #2b2d3a;
+  --md-typeset-kbd-border-color: #44475a;
+
+  --md-admonition-fg-color: var(--fg);
+  --md-admonition-bg-color: var(--bg-raised);
+
+  --md-footer-fg-color: var(--fg);
+  --md-footer-fg-color--light: var(--fg-soft);
+  --md-footer-fg-color--lighter: var(--fg-faint);
+  --md-footer-bg-color: #21222c;
+  --md-footer-bg-color--dark: #303241;
+}
+
+html {
+  background-color: var(--bg);
+}
+
+body {
+  color: var(--fg);
+}
+
+::selection {
+  background: rgba(189, 147, 249, 0.3);
+}
+
+/* ------------------------------------------------------- page proportions */
+/* Material caps the layout at 61rem; GitBook-style pages read wider than that
+   while keeping the text measure around 800px. */
+.md-grid {
+  max-width: 68rem;
+}
+
+/* --------------------------------------------------------------- page cover */
+.md-typeset .page-cover {
+  margin: 0 0 1.6rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.md-typeset .page-cover img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 1;   /* LinkedIn profile header proportions (1584x396) */
+  object-fit: cover;
+  border-radius: 0;
+  margin: 0;
+}
+
+/* the same cover for pages whose template replaces the content block
+   (the blog index) */
+.md-typeset img.page-cover-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 1;   /* LinkedIn profile header proportions (1584x396) */
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 0 0 1.6rem;
+}
+
+.md-typeset p:has(> img.page-cover-img) {
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ header */
+.md-header {
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.md-header__title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.md-search__form {
+  background-color: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.md-search__form:hover {
+  background-color: var(--bg-raised-2);
+  border-color: var(--line-strong);
+}
+
+.md-search__input::placeholder {
+  color: var(--fg-faint);
+}
+
+.md-search-result__meta,
+.md-search-result__more > summary > div,
+.md-search-result__link:not(:hover) {
+  color: var(--fg-soft);
+}
+
+/* ----------------------------------------------------------- links + type */
+.md-typeset a {
+  color: var(--md-typeset-a-color);
+  text-decoration-color: rgba(189, 147, 249, 0.35);
+  text-underline-offset: 0.15em;
+}
+
+.md-typeset a:hover,
+.md-typeset a:focus {
+  color: var(--d-pink);
+  text-decoration-color: currentColor;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h1 {
+  font-weight: 640;
+}
+
+.md-typeset hr {
+  border-bottom: 1px solid var(--line);
+}
+
+.md-typeset .headerlink {
+  color: var(--fg-faint);
+}
+
+/* ---------------------------------------------------------- heading links */
+.md-typeset .headerlink {
+  color: var(--d-comment);
+  margin-left: 0.35em;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.md-typeset h1:hover .headerlink,
+.md-typeset h2:hover .headerlink,
+.md-typeset h3:hover .headerlink,
+.md-typeset h4:hover .headerlink,
+.md-typeset .headerlink:focus {
+  opacity: 1;
+}
+
+.md-typeset .headerlink:hover {
+  color: var(--d-pink);
+}
+
+/* -------------------------------------------------------------- navigation */
+/* Section labels in the sidebar: small caps rather than full-size links. */
+.md-nav--primary > .md-nav__list > .md-nav__item--nested > .md-nav__link {
+  margin-top: 0.6rem;
+  color: var(--fg-faint);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* third level: named sub-groups inside a section */
+.md-nav--primary .md-nav .md-nav__item--nested > .md-nav__link {
+  color: var(--fg-soft);
+  font-weight: 600;
+}
+
+.md-nav--primary .md-nav .md-nav__item--nested > .md-nav__link:hover {
+  color: var(--d-purple);
+}
+
+/* indent the pages inside a sub-group behind a hairline, the way GitBook
+   shows nesting */
+.md-nav--primary .md-nav .md-nav__item--nested > .md-nav > .md-nav__list {
+  border-left: 1px solid var(--line);
+  margin-left: 0.35rem;
+  padding-left: 0.3rem;
+}
+
+.md-nav__link {
+  border-radius: 6px;
+}
+
+.md-nav__link:hover {
+  color: var(--d-purple);
+}
+
+.md-nav__link--active,
+.md-nav__link--active:hover,
+.md-nav__item .md-nav__link--active {
+  color: var(--d-pink);
+  font-weight: 600;
+}
+
+.md-nav--primary .md-nav__item--active > .md-nav__link,
+.md-nav--primary .md-nav__link--active {
+  box-shadow: inset 2px 0 0 var(--d-pink);
+  border-radius: 0 6px 6px 0;
+  padding-left: 0.5rem;
+}
+
+.md-nav--secondary .md-nav__title {
+  font-size: 0;
+}
+
+.md-nav--secondary .md-nav__title::after {
+  content: "On this page";
+  color: var(--fg-faint);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.md-nav--secondary .md-nav__link--active {
+  box-shadow: none;
+  padding-left: 0;
+}
+
+.md-nav__source {
+  background-color: var(--bg-raised);
+}
+
+/* ------------------------------------------------------- code and content */
+.md-typeset code {
+  background-color: var(--bg-raised-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--fg);
+  padding: 0.05em 0.3em;
+}
+
+.md-typeset pre {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+.md-typeset pre > code {
+  background-color: var(--md-code-bg-color);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.9em 1.1em;
+}
+
+.md-clipboard {
+  color: var(--fg-faint);
+}
+
+.md-clipboard:hover {
+  color: var(--d-purple);
+}
+
+.md-typeset .highlight span.filename,
+.md-typeset .highlighttable .filename {
+  background-color: var(--bg-raised-2);
+  border-bottom: 1px solid var(--line);
+  color: var(--fg-soft);
+}
+
+.md-typeset .tabbed-set > .tabbed-labels {
+  border-bottom: 1px solid var(--line);
+}
+
+.md-typeset .tabbed-set > .tabbed-labels > label {
+  color: var(--fg-faint);
+  font-size: 0.68rem;
+}
+
+.md-typeset .tabbed-set > .tabbed-labels > label:hover {
+  color: var(--fg);
+}
+
+.md-typeset .tabbed-set > input:checked + label {
+  border-color: var(--d-pink);
+  color: var(--d-pink);
+}
+
+/* ----------------------------------------------------------------- tables */
+.md-typeset table:not([class]) {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.74rem;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--bg-raised-2);
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.md-typeset table:not([class]) td {
+  border-top: 1px solid var(--line);
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background-color: rgba(98, 114, 164, 0.08);
+}
+
+/* ------------------------------------------------------------ admonitions */
+/* Material styles the twelve canonical types with its own palette; these map
+   each one onto the closest Dracula colour instead. */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  --adm: var(--d-cyan);
+}
+
+.md-typeset .admonition.abstract,
+.md-typeset details.abstract {
+  --adm: var(--d-purple);
+}
+
+.md-typeset .admonition.info,
+.md-typeset details.info {
+  --adm: var(--d-cyan);
+}
+
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  --adm: var(--d-green);
+}
+
+.md-typeset .admonition.success,
+.md-typeset details.success {
+  --adm: var(--d-green);
+}
+
+.md-typeset .admonition.question,
+.md-typeset details.question {
+  --adm: var(--d-purple);
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  --adm: var(--d-orange);
+}
+
+.md-typeset .admonition.failure,
+.md-typeset details.failure {
+  --adm: var(--d-red);
+}
+
+.md-typeset .admonition.danger,
+.md-typeset details.danger {
+  --adm: var(--d-red);
+}
+
+.md-typeset .admonition.bug,
+.md-typeset details.bug {
+  --adm: var(--d-red);
+}
+
+.md-typeset .admonition.example,
+.md-typeset details.example {
+  --adm: var(--d-purple);
+}
+
+.md-typeset .admonition.quote,
+.md-typeset details.quote {
+  --adm: var(--d-comment);
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  --adm: var(--d-comment);
+  background-color: var(--bg-raised);
+  border-radius: var(--radius);
+  box-shadow: none;
+  font-size: 0.76rem;
+}
+
+/* Material sets the border colour per type with three-class selectors, so this
+   one has to match that specificity to win, and it has to come after. */
+.md-typeset .admonition[class],
+.md-typeset details[class] {
+  border-color: var(--adm, var(--line));
+}
+
+.md-typeset .admonition > .admonition-title,
+.md-typeset details > .admonition-title,
+.md-typeset details > summary {
+  background-color: rgba(98, 114, 164, 0.12);
+  color: var(--fg);
+}
+
+.md-typeset .admonition > .admonition-title::before,
+.md-typeset details > .admonition-title::before,
+.md-typeset details > summary::before {
+  background-color: var(--adm);
+}
+
+.md-typeset .admonition > .admonition-title::after,
+.md-typeset details > .admonition-title::after,
+.md-typeset details > summary::after {
+  color: var(--adm);
+}
+
+/* ------------------------------------------------------ buttons and cards */
+.md-typeset .md-button {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--fg);
+}
+
+.md-typeset .md-button:hover,
+.md-typeset .md-button:focus {
+  background-color: var(--bg-raised-2);
+  border-color: var(--d-pink);
+  color: var(--d-pink);
+}
+
+.md-typeset .md-button--primary {
+  background-color: var(--d-purple);
+  border-color: var(--d-purple);
+  color: #000000;
+  font-weight: 600;
+}
+
+.md-typeset .md-button--primary:hover,
+.md-typeset .md-button--primary:focus {
+  background-color: var(--d-pink);
+  border-color: var(--d-pink);
+  color: #000000;
+}
+
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: var(--bg-raised);
+}
+
+.md-typeset img {
+  border-radius: 6px;
+}
+
+/* ---------------------------------------------- command variables (script) */
+.cmd-vars {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: var(--bg-raised);
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.3rem;
+}
+
+.cmd-vars__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cmd-vars__title {
+  color: var(--d-pink);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cmd-vars__hint {
+  flex: 1;
+  text-align: right;
+  color: var(--fg-faint);
+  font-size: 0.66rem;
+}
+
+.cmd-vars__reset {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--fg-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.66rem;
+  padding: 0.2rem 0.6rem;
+}
+
+.cmd-vars__reset:hover {
+  border-color: var(--d-purple);
+  color: var(--d-purple);
+}
+
+.cmd-vars__fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.6rem;
+}
+
+.cmd-vars__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cmd-vars__field label {
+  color: var(--fg-faint);
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.64rem;
+}
+
+.cmd-vars__field input {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background-color: #0b0b10;
+  color: var(--fg);
+  font: inherit;
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.72rem;
+  padding: 0.28rem 0.5rem;
+}
+
+.cmd-vars__field input:focus {
+  border-color: var(--d-purple);
+  box-shadow: 0 0 0 2px rgba(189, 147, 249, 0.18);
+  outline: none;
+}
+
+/* ------------------------------------------------ checklist progress (script) */
+.checklist-progress {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: var(--bg-raised);
+  color: var(--fg-soft);
+  font-size: 0.68rem;
+  margin-bottom: 1.1rem;
+  padding: 0.6rem 0.9rem;
+}
+
+.checklist-progress__bar {
+  flex: 1;
+  min-width: 120px;
+  height: 4px;
+  border-radius: 999px;
+  background-color: rgba(98, 114, 164, 0.25);
+  overflow: hidden;
+}
+
+.checklist-progress__fill {
+  height: 100%;
+  width: 0;
+  background-color: var(--d-green);
+  transition: width 0.25s ease;
+}
+
+.checklist-progress button {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--fg-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.66rem;
+  padding: 0.2rem 0.6rem;
+}
+
+.checklist-progress button:hover {
+  border-color: var(--d-purple);
+  color: var(--d-purple);
+}
+
+/* Task list checkboxes: flat squares that fill with Dracula purple when done */
+.md-typeset .task-list-item {
+  list-style: none;
+}
+
+.md-typeset .task-list-control {
+  color: transparent;
+}
+
+.md-typeset .task-list-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  vertical-align: -2px;
+}
+
+.md-typeset .task-list-item input[type="checkbox"]:hover {
+  border-color: var(--d-purple);
+}
+
+.md-typeset .task-list-item input[type="checkbox"]:checked {
+  background-color: var(--d-purple);
+  border-color: var(--d-purple);
+}
+
+.md-typeset .task-list-item input[type="checkbox"]:checked::after {
+  content: "";
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin: 2px 0 0 2px;
+  background-color: #000000;
+  clip-path: polygon(14% 46%, 0 60%, 40% 100%, 100% 22%, 85% 10%, 38% 71%);
+}
+
+/* -------------------------------------------------------------------- blog */
+
+/* excerpts show the post text, not its cover */
+.md-post--excerpt .md-post__content img.page-cover-img {
+  display: none;
+}
+.md-post__meta,
+.md-meta {
+  color: var(--fg-faint);
+  font-size: 0.68rem;
+}
+
+.md-post--excerpt {
+  border-bottom: 1px solid var(--line);
+}
+
+.md-post__title a,
+.md-search-result__title {
+  color: var(--fg);
+}
+
+.md-post__title a:hover {
+  color: var(--d-pink);
+}
+
+.md-post__action a {
+  color: var(--d-purple);
+}
+
+.md-author {
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+
+.md-categories__item,
+.md-tags__item,
+.md-tag {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: var(--bg-raised);
+}
+
+.md-tag:hover {
+  background-color: var(--bg-raised-2);
+  border-color: var(--d-purple);
+}
+
+/* -------------------------------------------------------- mermaid diagrams */
+/* Mermaid inherits Material's accent colour, which tints every node pink. These
+   keep the diagrams flat and Dracula-coloured instead. The selector matches
+   Material's own `:root > *` and loads later, so it wins. */
+[data-md-color-scheme="slate"] > * {
+  --md-mermaid-node-bg-color: #44475a;
+  --md-mermaid-node-fg-color: #f8f8f2;
+  --md-mermaid-edge-color: #6272a4;
+  --md-mermaid-label-bg-color: #282a36;
+  --md-mermaid-label-fg-color: #f8f8f2;
+  --md-mermaid-sequence-actor-bg-color: #44475a;
+  --md-mermaid-sequence-actorman-bg-color: #44475a;
+}
+
+/* ------------------------------------------------------------------ footer */
+.md-footer {
+  background-color: #21222c;
+  border-top: 1px solid var(--line);
+}
+
+.md-footer-meta {
+  background-color: var(--bg-raised);
+}
+
+.md-copyright,
+.md-footer__inner {
+  color: var(--fg-faint);
+  font-size: 0.68rem;
+}
+
+/* -------------------------------------------------------------- scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(98, 114, 164, 0.5) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(98, 114, 164, 0.45);
+  border: 3px solid var(--bg);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--d-purple);
+}
+(--d-purple);
+}
+
+
+/* ---------------------------------------------------------- CORS lab images */
+/*
+   Lab screenshots use a small framed treatment so they read as deliberate
+   figures, while the linked image opens in the reusable click-to-zoom viewer
+   added in extra.js.
+*/
+.md-typeset .cors-lab-figure {
+  margin: 1.6rem 0 2rem;
+  text-align: center;
+}
+
+.md-typeset .cors-lab-image-link {
+  display: inline-block;
+  max-width: 100%;
+  cursor: zoom-in;
+  line-height: 0;
+}
+
+.md-typeset .cors-lab-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  padding: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--bg-raised);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.md-typeset .cors-lab-image-link:hover .cors-lab-image,
+.md-typeset .cors-lab-image-link:focus-visible .cors-lab-image {
+  border-color: var(--d-purple);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+  transform: translateY(-1px);
+}
+
+.md-typeset .cors-lab-figure figcaption {
+  max-width: 58rem;
+  margin: 0.7rem auto 0;
+  color: var(--fg-soft);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  text-align: left;
+}
+
+/* ---------------------------------------------------------- image lightbox */
+body.cors-lightbox-open {
+  overflow: hidden;
+}
+
+.cors-image-lightbox[hidden] {
+  display: none;
+}
+
+.cors-image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  color: var(--fg);
+}
+
+.cors-image-lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 19, 25, 0.9);
+  cursor: zoom-out;
+}
+
+.cors-image-lightbox__dialog {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(96vw, 1500px);
+  max-height: 96vh;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--bg-raised);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+}
+
+.cors-image-lightbox__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.cors-image-lightbox__toolbar button {
+  min-width: 2.25rem;
+  min-height: 2.1rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--bg-raised-2);
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.cors-image-lightbox__toolbar button:hover,
+.cors-image-lightbox__toolbar button:focus-visible {
+  border-color: var(--d-purple);
+  color: var(--d-pink);
+}
+
+.cors-image-lightbox__zoom-level {
+  min-width: 3.5rem;
+  color: var(--fg-soft);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.cors-image-lightbox__stage {
+  display: flex;
+  max-height: calc(96vh - 5rem);
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #1f202a;
+}
+
+.cors-image-lightbox__image {
+  display: block;
+  max-width: calc(96vw - 4rem);
+  max-height: calc(96vh - 7rem);
+  width: auto;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.cors-image-lightbox__image.is-zoomed {
+  max-width: none;
+  max-height: none;
+}
+
+@media (max-width: 600px) {
+  .cors-image-lightbox {
+    padding: 0.5rem;
+  }
+
+  .cors-image-lightbox__dialog {
+    width: 100vw;
+    max-height: 100vh;
+    padding: 0.5rem;
+  }
+
+  .cors-image-lightbox__stage {
+    max-height: calc(100vh - 4.5rem);
+  }
+}
