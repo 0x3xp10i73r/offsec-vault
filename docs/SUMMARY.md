@@ -1,6 +1,7 @@
 # Summary
 
-- [Home](index.md)
+- [About](index.md)
+- [How to start](how-to-start.md)
 - Recon
     - Passive discovery
         - [Subdomains and virtual hosts](recon/subdomain-enumeration.md)
@@ -8,7 +9,7 @@
     - Active enumeration
         - [Ports and services](recon/port-service-enumeration.md)
         - [Web recon and fuzzing](recon/web-recon-fuzzing.md)
-- Web and Bug Bounty
+- Bug Bounty
     - Identity and access
         - [Authentication and account takeover](web-bugbounty/auth-ato-oauth-jwt.md)
         - [Access control, IDOR and race conditions](web-bugbounty/access-control-idor-race.md)
@@ -58,4 +59,3 @@
         - [Reference index](checklists-arsenal/security-reference-index.md)
 - [Blog](blog/index.md)
 - [Tags](tags.md)
-- [About](about.md)

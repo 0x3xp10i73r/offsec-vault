@@ -1,51 +1,80 @@
 ---
-title: "Home"
-description: "Personal offensive security notes: web application testing, Active Directory, red team operations, privilege escalation, cloud and mobile."
+title: "About"
+description: "About Meghan Tashi, the projects behind this security notebook, and the areas I am learning and practising."
 ---
 
-# Offensive security notes
+# About
 
-These are my working notes for authorized penetration testing, red team engagements and bug bounty hunting: commands I look up repeatedly, techniques that took me too long to get right, and short writeups of vulnerabilities I have actually used or reported.
+## Meghan Tashi
 
-I keep them public because notes are more useful when other people can correct them. They are a working reference, not a book — expect gaps, expect things that are out of date, and verify anything before you rely on it.
+**Cyber Security Analyst**
 
-!!! danger "Read this first"
-    Everything on this site is written for **authorized security testing, red team engagements, CTFs and lab environments**. Do not use any of it against systems you do not own or have written permission to test.
+This site is my practical security notebook: a place for testing notes, project writeups, checklists and lessons that are easier to reuse when they are written down clearly.
 
-## What is here
+## A little about me
 
-| Section | Contents |
+I learn best by taking a complicated security question and breaking it into smaller ones: what is the application trusting, what should the user be allowed to do, what evidence would prove the problem, and how could the control be improved?
+
+The notes here are a running record of that process. They are meant to be useful to someone opening a page during a lab, a review or an authorized assessment, without pretending that every answer fits every target.
+
+## What I work on
+
+### Web application security
+
+Authentication, authorization, input handling, browser controls, common OWASP Top 10 issues and the reasoning behind a useful finding.
+
+### API security
+
+API discovery, identity and access decisions, object-level authorization, request and response behavior, and safe validation of business impact.
+
+### Mobile security
+
+Android application structure, traffic analysis, static and dynamic analysis, storage, IPC, WebViews and practical use of tools such as Frida, MobSF and ADB.
+
+### Network security
+
+Reconnaissance, service enumeration, network-facing applications, vulnerability assessment and clear evidence for the next testing decision.
+
+### Learning Active Directory
+
+Building a stronger foundation in identity, enumeration, Kerberos, ACLs, ADCS, lateral movement and privilege escalation through labs, notes and repeatable checklists.
+
+## Featured projects
+
+### An Exploitable App
+
+An intentionally vulnerable full-stack web application created to demonstrate common web security flaws in a controlled setting. It includes Cross-Site Request Forgery, open redirects, sensitive data exposure and missing access control.
+
+The project was assessed manually and with security tools to validate exploitability and demonstrate impact. It was also published in a peer-reviewed journal: [An Exploitable App — IRJMETS](https://www.irjmets.com/uploadedfiles/paper//issue_2_february_2023/33924/final/fin_irjmets1678126362.pdf).
+
+### Hacker Methodology Manager
+
+A centralized tool for organizing and tracking offensive security methodologies and testing checklists. It uses tags and categories for areas such as Web, Active Directory and Privilege Escalation, with search, a lightweight interface and an offline-first design for portability.
+
+The planned direction includes a local database backend, user-defined modules and real-time synchronization for collaborative workflows.
+
+## Certification
+
+- **Certified Penetration Testing Professional (C|PENT)** — EC-Council
+
+## Skills and tools
+
+| Area | Focus |
 | :--- | :--- |
-| [Recon](recon/index.md) | Subdomain and virtual host enumeration, ASN and DNS work, port and service playbooks, content discovery, JavaScript review, dorking |
-| [Web and Bug Bounty](web-bugbounty/index.md) | Authentication and account takeover, injections, SSRF and request smuggling, access control bugs, XSS and client-side, APIs and file uploads |
-| [Web Application Pentesting](web-application-pentesting/index.md) | Beginner-friendly authentication foundations, authentication vulnerabilities, brute-force risks and username enumeration |
-| [Active Directory](active-directory/index.md) | Enumeration and BloodHound, Kerberos and credential attacks, ADCS and ACL abuse, lateral movement, domain dominance and persistence |
-| [Red Team](red-team/index.md) | Initial access and payload delivery, command and control infrastructure, what actually matters for EDR and AMSI evasion |
-| [Privilege Escalation](privesc/index.md) | Linux and Windows escalation paths, ordered roughly by how often they work |
-| [Android](android/index.md) | APK internals, traffic interception, static and dynamic analysis, Frida, and the full testing checklist |
-| [Cloud](cloud-mobile/index.md) | AWS, Azure and Entra ID, GCP |
-| [Checklists](checklists-arsenal/index.md) | Interactive web and internal AD checklists, Burp configuration, tooling notes, external reference index |
-| [Blog](blog/index.md) | Longer writeups: vulnerability research, engagement notes and lab walkthroughs |
-| [About](about.md) | Who writes this, how it is built, how to get in touch |
+| **Security** | Web application pentesting, network pentesting, API security, Android security, vulnerability assessment, OWASP Top 10, reconnaissance, enumeration, exploitation and privilege escalation |
+| **Systems** | Linux, Kali, Ubuntu, macOS, Bash scripting, VirtualBox and VMware |
+| **Tools** | Postman, Visual Studio Code, Notion, Nessus, MobSF, Frida, Objection, ADB, Apktool, Burp Suite, Caido, Nmap, SQLMap, ffuf and Nuclei |
+| **Working style** | Problem solving, initiative, time management, communication and teamwork |
 
-## About the commands on this site
+## Links and profiles
 
-Commands in these pages use placeholders so they can be copied between targets without rewriting half of them:
+- **Handle:** `meghan-tashi`
+- **Online platforms:** Hack The Box, TryHackMe and Portfolio
+- **GitHub:** [0x3xp10i73r](https://github.com/0x3xp10i73r)
+- **X:** [@0x3xp10i73r](https://x.com/0x3xp10i73r)
 
-| Placeholder | Meaning |
-| :--- | :--- |
-| `<TARGET_IP>` | The host you are testing |
-| `<DOMAIN>` | The AD domain or primary web domain |
-| `<DC_IP>` | Domain controller |
-| `<LHOST>` / `<LPORT>` | Your own listening host and port |
-| `<USER>` | A domain or application user |
+## Get in touch
 
-On any page whose commands contain one of the placeholders below you will see a **Command variables** box above the first code block. Fill it in once and every command on the page is updated, including the text the copy button puts on your clipboard. The values are remembered in your browser, and the **Reset** button puts the defaults back.
+For corrections, collaboration or security discussion, email [meghantashi.h4cks@gmail.com](mailto:meghantashi.h4cks@gmail.com).
 
-The checklists work the same way: tick items off as you go and your progress is kept per page.
-
-## A note on these notes
-
-Anything on this site that I have only read about is marked as such in the text. Where I know a technique is noisy, unreliable or usually blocked, I say so, because knowing when *not* to run something saves more time than knowing how to run it.
-
-If something is wrong, open an issue on GitHub or send me an email. Corrections are welcome and I usually fix them the same week.
+If you spot a technical mistake, a link to the relevant page and a short explanation of the correction is the most useful way to report it.

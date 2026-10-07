@@ -1,13 +1,15 @@
 # 0x3xp10i73r — Offensive Security Notes
 
-A personal notes site for authorized penetration testing, red team work and bug bounty hunting: web application testing, Active Directory, privilege escalation, cloud and mobile, plus a blog for longer writeups.
+A personal notes site for authorized penetration testing, red team work and bug bounty hunting: web application testing, Active Directory, privilege escalation, cloud and mobile, plus a small sample blog.
 
 Built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme. Navigation is a single left sidebar (no top tabs) with grouped section labels. The look uses Dracula's charcoal `#282a36` base with darker code surfaces, hairline borders, and Dracula's colours for text, links and syntax highlighting. Dark only — there is no light mode.
 
 Sections:
 
+- About (the default page)
+- How to start
 - Recon
-- Web and Bug Bounty
+- Bug Bounty
 - Web Application Pentesting
 - Active Directory
 - Red Team
@@ -15,7 +17,7 @@ Sections:
 - Android
 - Cloud
 - Checklists
-- Blog
+- Blog (one sample post)
 
 ## The Android section
 
@@ -40,9 +42,9 @@ Code blocks follow a consistent convention across the vault: executable input is
 
 | Piece | Where |
 | :--- | :--- |
-| Cover image on every page | `overrides/main.html` picks a default from the page's section; a page overrides it with `cover:` front matter, or sets `cover: false` |
+| Cover image on every page | `overrides/main.html` picks a default from the page's section; the About page is the default root page and uses the home cover, while a page can override it with `cover:` front matter or set `cover: false` |
 | Cover artwork | `docs/assets/images/cover-*.jpg` (1584x396, LinkedIn profile header proportions) |
-| Reading width | `.md-grid { max-width: 68rem }` in `extra.css` |
+| Reading width | `.md-grid { max-width: 68rem }` in `extra-charcoal.css` |
 | Heading anchors | Hidden until you hover a heading |
 | Sidebar tree | Three levels: section label, collapsible sub-group, pages behind a hairline |
 
@@ -62,18 +64,18 @@ The blog index and blog posts use an inline image with the `page-cover-img` clas
 
 | Piece | Where |
 | :--- | :--- |
-| Palette overrides, component colours | `docs/assets/stylesheets/extra.css` — the variables at the top |
+| Palette overrides, component colours | `docs/assets/stylesheets/extra-charcoal.css` — the variables at the top |
 | Site logo, favicon, blog author avatar | `docs/assets/images/logo.svg`, `favicon.svg`, `avatar.svg` |
 | Fonts | `mkdocs.yml` — `theme.font` (Inter for text, JetBrains Mono for code) |
 
-`extra.css` sets Material's own variables rather than restyling components, so the theme keeps working normally:
+`extra-charcoal.css` sets Material's own variables rather than restyling components, so the theme keeps working normally:
 
 ```css
 [data-md-color-scheme="slate"] {
-  --md-default-bg-color: #000000;      /* AMOLED */
+  --md-default-bg-color: #282a36;      /* Dracula charcoal */
   --md-typeset-a-color: #bd93f9;       /* Dracula purple links */
   --md-accent-fg-color: #ff79c6;       /* Dracula pink */
-  --md-code-bg-color: #191a21;
+  --md-code-bg-color: #1f202a;
   --md-code-hl-keyword-color: #ff79c6;
   --md-code-hl-string-color: #f1fa8c;
   --md-code-hl-function-color: #50fa7b;
@@ -90,9 +92,9 @@ The twelve Material admonition types (`note`, `tip`, `warning`, `danger`, …) a
 
 **Interactive checklists.** The checkbox items on the checklist pages are clickable and their state is stored per page in `localStorage`, with a counter above the list and a reset button.
 
-Both live in `docs/assets/javascripts/extra.js`. The styling for them is in `docs/assets/stylesheets/extra.css`. Both are skipped on the blog index and on post pages, where they would otherwise pick up code blocks and list items from post excerpts.
+Both live in `docs/assets/javascripts/extra.js`. The styling for them is in `docs/assets/stylesheets/extra-charcoal.css`. Both are skipped on the blog index and on post pages, where they would otherwise pick up code blocks and list items from post excerpts.
 
-Blog posts are split with a `<!-- more -->` marker: everything above it becomes the excerpt on `/blog/`, and the rest stays on the post page.
+The sample blog post is split with a `<!-- more -->` marker: everything above it becomes the excerpt on `/blog/`, and the rest stays on the post page.
 
 ## Running it locally
 
@@ -129,12 +131,12 @@ GitBook sync is also possible: `.gitbook.yaml` and `docs/SUMMARY.md` are include
 
 | What | Where |
 | :--- | :--- |
-| Site name, description, copyright | `mkdocs.yml` |
-| Domain and repository links | `mkdocs.yml` — `site_url`, `repo_url`, `repo_name`, `edit_uri` |
+| Site name and description | `mkdocs.yml` |
+| Site URL | `mkdocs.yml` — `site_url` |
 | Social links | `mkdocs.yml` — `extra.social` |
 | Navigation and section order | `mkdocs.yml` — `nav` (mirror changes in `docs/SUMMARY.md`) |
-| Colour scheme | `mkdocs.yml` — `theme.palette`, plus the variables at the top of `extra.css` |
-| Dracula colour values | The `--d-*` variables at the top of `extra.css` |
+| Colour scheme | `mkdocs.yml` — `theme.palette`, plus the variables at the top of `extra-charcoal.css` |
+| Dracula colour values | The `--d-*` variables at the top of `extra-charcoal.css` |
 | Default values in the command box | `docs/assets/javascripts/extra.js` — `DEFAULT_VARS` |
 | Author name and avatar for blog posts | `docs/blog/.authors.yml` |
 | Images, covers | `docs/assets/images/` |

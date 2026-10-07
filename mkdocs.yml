@@ -2,9 +2,6 @@ site_name: "0x3xp10i73r"
 site_description: "Personal offensive security notes, cheatsheets, checklists and writeups — web application testing, Active Directory, red team operations and cloud."
 site_author: "0x3xp10i73r"
 site_url: "https://0x3xp10i73r.github.io/offsec-vault/"
-repo_name: "0x3xp10i73r/offsec-vault"
-repo_url: "https://github.com/0x3xp10i73r/offsec-vault"
-edit_uri: "edit/main/docs/"
 
 theme:
   name: material
@@ -20,8 +17,6 @@ theme:
     scheme: slate
     primary: custom
     accent: custom
-  icon:
-    repo: fontawesome/brands/github
   features:
     - navigation.instant
     - navigation.tracking
@@ -110,9 +105,6 @@ extra_javascript:
 extra:
   generator: false
   social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/0x3xp10i73r
-      name: GitHub
     - icon: fontawesome/brands/x-twitter
       link: https://x.com/0x3xp10i73r
       name: X
@@ -121,7 +113,8 @@ extra:
       name: Email
 
 nav:
-  - Home: index.md
+  - About: index.md
+  - How to start: how-to-start.md
   - Recon:
       - recon/index.md
       - Passive discovery:
@@ -130,7 +123,7 @@ nav:
       - Active enumeration:
           - Ports and services: recon/port-service-enumeration.md
           - Web recon and fuzzing: recon/web-recon-fuzzing.md
-  - Web and Bug Bounty:
+  - Bug Bounty:
       - web-bugbounty/index.md
       - Identity and access:
           - Authentication and account takeover: web-bugbounty/auth-ato-oauth-jwt.md
@@ -188,4 +181,3 @@ nav:
           - Reference index: checklists-arsenal/security-reference-index.md
   - Blog: blog/index.md
   - Tags: tags.md
-  - About: about.md
