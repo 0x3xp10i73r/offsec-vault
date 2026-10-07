@@ -5,6 +5,10 @@
 - Web Application Pentesting
     - Authentication vulnerabilities
         - [What is authentication?](web-application-pentesting/authentication-vulnerabilities/what-is-authentication.md)
+    - CORS
+        - [What is CORS?](web-application-pentesting/cors/what-is-cors.md)
+        - [CORS vs CSRF](web-application-pentesting/cors/cors-vs-csrf.md)
+        - [SOP vs CSRF](web-application-pentesting/cors/sop-vs-csrf.md)
 - Android
     - [Setup and ADB](android/setup-adb.md)
     - [Intercepting traffic](android/proxy-certificates.md)
