@@ -11,6 +11,7 @@
         - [SOP vs CSRF](web-application-pentesting/cors/sop-vs-csrf.md)
         - CORS Labs
             - [Lab: CORS vulnerability with basic origin reflection](web-application-pentesting/cors/cors-labs/cors-basic-origin-reflection.md)
+            - [Lab: CORS vulnerability with trusted null origin](web-application-pentesting/cors/cors-labs/trusted-null-origin/cors-trusted-null-origin.md)
 - Android
     - [Setup and ADB](android/setup-adb.md)
     - [Intercepting traffic](android/proxy-certificates.md)
