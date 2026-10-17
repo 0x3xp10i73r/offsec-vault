@@ -11,6 +11,9 @@ tags:
 
 # Windows Privilege Escalation
 
+!!! note "What this page is doing"
+    Windows escalation is usually a permissions problem: token rights, service configuration, scheduled work, registry ACLs or stored credentials. Confirm the exact build and effective access before changing a service or loading a payload.
+
 ---
 
 ## 1. Enumeration (Run These First)
@@ -73,17 +76,17 @@ If you have `SeImpersonatePrivilege` (common for IIS, MSSQL, and service account
 # Get a CLSID list: https://ohpe.it/juicy-potato/CLSID/
 ```
 
-```env
-# --- Check which privileges you have (and what they enable) ---
-SeImpersonatePrivilege -> Potato attacks -> SYSTEM
-SeAssignPrimaryToken -> Same path / token duplication
-SeDebugPrivilege -> Dump LSASS, inject into SYSTEM processes
-SeBackupPrivilege -> Copy SAM/SYSTEM/SECURITY hives -> local admin hashes
-SeRestorePrivilege -> Write to protected paths -> DLL hijack
-SeTakeOwnership -> Take ownership of files/registry -> write anywhere
-SeLoadDriverPrivilege -> Load a vulnerable/malicious driver -> kernel ring0
-SeManageVolumePrivilege -> Create arbitrary files -> DLL/EXE overwrite
-SeTcbPrivilege -> Act as OS -> create SYSTEM tokens directly
+```text
+# Privilege-to-impact map. This is reference text, not executable input.
+SeImpersonatePrivilege  -> token impersonation / service-to-SYSTEM paths
+SeAssignPrimaryToken    -> token duplication paths
+SeDebugPrivilege        -> inspect or inject into protected processes
+SeBackupPrivilege       -> read protected files and registry hives
+SeRestorePrivilege      -> write protected paths or replace a DLL
+SeTakeOwnershipPrivilege -> take ownership before changing permissions
+SeLoadDriverPrivilege   -> load a driver; review kernel-risk and policy first
+SeManageVolumePrivilege -> create or overwrite files through volume operations
+SeTcbPrivilege          -> act as part of the operating system
 ```
 
 ---
@@ -164,7 +167,10 @@ type C:\Windows\Panther\Unattend\Unattend.xml
 type C:\Windows\System32\sysprep\sysprep.xml
 type C:\unattend.xml
 # Search the whole disk for them:
-Get-ChildItem -Path C:\ -Include unattend.xml,unattend.txt,sysprep.inf,*.config,web.config,*.log -Recurse -ErrorAction SilentlyContinue
+Get-ChildItem `
+  -Path C:\ `
+  -Include unattend.xml,unattend.txt,sysprep.inf,*.config,web.config,*.log `
+  -Recurse -ErrorAction SilentlyContinue
 # --- Group Policy Preferences (cPassword) ---
 findstr /S /I cpassword \\<DOMAIN>\sysvol\<DOMAIN>\Policies\*.xml
 # Decrypt the AES key (Microsoft published it):

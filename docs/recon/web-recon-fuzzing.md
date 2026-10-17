@@ -11,6 +11,9 @@ tags:
 
 # Web Recon, Content Fuzzing & JavaScript Mining
 
+!!! note "What this page is doing"
+    This workflow turns a live HTTP host into an application map. Establish a normal response first so a fuzzing result is a meaningful difference rather than a false positive caused by a wildcard, redirect or WAF.
+
 ---
 
 ## 1. HTTP Probing & Tech Fingerprinting

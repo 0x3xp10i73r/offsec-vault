@@ -10,6 +10,9 @@ tags:
 
 # Dynamic analysis
 
+!!! note "What this page is doing"
+    Dynamic analysis answers what the app actually writes, logs, sends and checks. Run from a clean snapshot, capture a baseline action, change one input or environment signal, and preserve only the data needed to demonstrate the boundary.
+
 Static analysis tells you what the app could do. Dynamic analysis tells you what it actually does — what it writes to disk, what it logs, what it sends, and which checks it fails when the environment is not what it expects.
 
 Do this on a rooted device or an emulator with a snapshot you can roll back, because you will be pulling data, attaching Frida and rebooting.
@@ -28,16 +31,20 @@ Every app has a private directory, owned by its Linux UID. With root (or via `ru
 ```
 
 ```bash
-# Copy the database to the host so you can work on it with a normal
-# sqlite3 client instead of the limited on-device one
-adb pull /data/data/<package>/databases/<db_name>
+# Copy the database to the host so the original remains unchanged and you can
+# use a full SQLite client for repeatable evidence collection.
+adb pull /data/data/<package>/databases/<db_name> ./<db_name>
 
-# Open it
-sqlite3 name.db
+# Open the pulled copy. The next block contains SQLite input, not shell input.
+sqlite3 ./<db_name>
+```
 
-# List the tables, then read the interesting ones. The query below asks
-# SQLite's own schema table what objects of type "table" exist
-SELECT name FROM sqlite_master WHERE type='table';
+```sql
+-- List tables before reading application data.
+SELECT name FROM sqlite_master WHERE type = 'table';
+
+-- Replace this with a minimum-necessary query for the lab or test record.
+SELECT * FROM <approved_table> LIMIT 10;
 ```
 
 What makes this a finding: anything in those tables that should have been encrypted or not stored at all — tokens, session cookies, message bodies, location history, personal data. A plaintext copy on a rooted device is not a finding on its own; a plaintext copy on a device where the app also claims to encrypt data is.
@@ -66,13 +73,13 @@ adb shell "su -c 'cat /data/data/com.rozana.customer/shared_prefs/FlutterSharedP
 Temp files are where half-finished sensitive data ends up: a token written before a redirect, an export written before it is encrypted, a debug dump nobody deleted.
 
 ```bash
-# List the preferences and cache directories, looking for anything with a
-# "tmp" or "cache" name that contains readable content
-adb shell /data/data/<package>/shared_prefs/
+# List the preferences and cache directories, looking for temporary files or
+# readable content. `ls` is intentional; a directory is not an executable.
+adb shell ls -la /data/data/<package>/shared_prefs/
 adb shell ls -R /data/data/<package>/cache/
 
-# Read a candidate file. If it holds credentials or tokens, that is the finding
-cat users<id>tmp
+# Read a candidate file only after confirming it is an approved test artifact.
+adb shell cat /data/data/<package>/files/<approved_test_file>
 ```
 
 ## 4. External storage
@@ -153,7 +160,8 @@ This is why a perfectly installed Burp CA still produces no traffic: browsers us
 ```bash
 # What a pinning failure looks like in the logs. These three strings are the
 # ones to search for when traffic stops
-adb logcat | grep -iE "Trust anchor for certification path not found|SSLPeerUnverifiedException|Certificate pinning failure"
+adb logcat \
+  | grep -iE "Trust anchor for certification path not found|SSLPeerUnverifiedException|Certificate pinning failure"
 ```
 
 Eight ways to get around it — iptables redirection, patching the hardcoded hash, editing the manifest, reFlutter for Flutter apps, swapping the pinned certificate, Objection, Frida scripts, and smali patching — are on the [testing checklist](checklist.md#1-ssl-pinning-bypass).

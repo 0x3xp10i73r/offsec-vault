@@ -10,6 +10,9 @@ tags:
 
 # Static analysis
 
+!!! note "What this page is doing"
+    Static analysis answers what the APK can do and where its trust assumptions live. Start with the manifest and resources, identify the app architecture, then follow a secret, permission, parser or endpoint to its runtime use before calling it a finding.
+
 Static analysis means reading the APK without running it: the manifest, the decompiled Java, the smali, the resources and the native libraries. It is where you find most of the quick wins, and it is where you work out what to attack once the app is running.
 
 The order below is roughly the order I go in — cheap greps first, then the parts that need reading.
@@ -77,46 +80,36 @@ grep -Rni -e 'key' -e 'iv' -e 'seed' ./myapp/res/values/strings.xml
 This one comes from a lab target (`com.hackthebox.chatapp`). It is a useful template because the whole chain — install, list data, pull the database, read it, then find the key in the APK — is the same on a real engagement.
 
 ```bash
-# Install the app and get a shell on the device
-adb install <package_name>
-adb shell
+# Install the lab APK from the host and confirm the package identifier.
+adb install <path-to-apk>
+adb shell pm list packages | grep chatapp
 
-# Become root so the app's private data directory is readable.
-# Without root, /data/data/<package> is owned by the app's UID and closed
-su
+# Read the lab app's private directory through a rooted test device.
+# The package UID normally prevents this without root or a debuggable build.
+adb shell su -c 'ls -la /data/data/com.hackthebox.chatapp/'
+adb shell su -c 'ls -la /data/data/com.hackthebox.chatapp/databases/'
 
-# Confirm the package is installed and get its exact name
-whyred:/ # pm list packages | grep chatapp
-# package:com.hackthebox.chatapp
+# Copy only the lab database to shared storage, then pull it to the host.
+adb shell su -c 'cp /data/data/com.hackthebox.chatapp/databases/messages.db /sdcard/'
+adb pull /sdcard/messages.db ./messages.db
+```
 
-# List the app's data directory. This is the layout every Android app has:
-#   cache/       temporary files the app can recreate
-#   code_cache/  compiled code caches
-#   databases/   SQLite databases
-#   files/       general purpose storage
-whyred:/ # ls -l /data/data/com.hackthebox.chatapp/
-total 12
-drwxrws--x 2 u0_a170 u0_a170_cache 3464 2026-05-27 12:36 cache
-drwxrws--x 2 u0_a170 u0_a170_cache 3464 2026-05-27 12:36 code_cache
-drwxrwx--x 2 u0_a170 u0_a170       3464 2026-05-27 12:36 databases
-drwxrwx--x 2 u0_a170 u0_a170       3464 2026-05-27 12:37 files
+The device commands show the data location; they do not prove that the data is protected. Open the pulled copy on the host so the original database remains unchanged:
 
-# Go into the databases directory — this is where messages land
-whyred:/ # cd /data/data/com.hackthebox.chatapp/databases/
-whyred:/data/data/com.hackthebox.chatapp/databases # ls
-messages.db  messages.db-journal
+```text
+# SQLite client command: list tables before reading application data.
+.tables
+```
 
-# Open the database with the on-device sqlite3 client
-whyred:/data/data/com.hackthebox.chatapp/databases # sqlite3 messages.db
-SQLite version 3.28.0 2021-07-13 15:30:48
-Enter ".help" for usage hints.
+```sql
+-- Read only the lab rows needed to demonstrate the storage behavior.
+SELECT id, message, direction FROM encrypted_messages;
+```
 
-# List the tables
-sqlite> .tables
-android_metadata    encrypted_messages
+Example lab output is evidence, not a command to paste back into SQLite:
 
-# Read the messages. Columns are: row id, message, direction
-sqlite> select * from encrypted_messages;
+```text
+# Illustrative output from the isolated lab target.
 1|3TeYGFf35IYMKAOC4weoNeEmhKfzD5TVaD5Q4tKtTQk=|OUTGOING
 2|SVXQJjZ3y1AjG1w9aI9UqoPUyWX/XneKq8syYiAWYNE=|INCOMING
 3|1a9aV2NE2Q6/ZYOeQsB7ZZITBoYzBflNxfmzeIz+fHo=|OUTGOING
@@ -126,12 +119,18 @@ sqlite> select * from encrypted_messages;
 The messages look encrypted — base64, and the `=` padding suggests a block cipher. Now look for the key in the decompiled APK:
 
 ```bash
-# Search the resources for anything named like an IV or a key
-cat ./chatapp/res/values/strings.xml | grep -i "init"
-# <string name="initialization_vector">4fR7!jW3@1nV6#yZ</string>
+# Search decoded resources for names that commonly hold initialization
+# vectors or keys. The command prints a lead for manual review.
+grep -n -iE 'initial|vector|secret|key' \
+  ./chatapp/res/values/strings.xml
+```
 
-cat ./chatapp/res/values/strings.xml | grep -i "key"
-# <string name="secret_key">9xG5#vQ2@LmP8!zB</string>
+The lab resource contains values like these. They are sample output, not shell commands:
+
+```xml
+<!-- Illustrative lab values; never publish real credentials or key material. -->
+<string name="initialization_vector">4fR7!jW3@1nV6#yZ</string>
+<string name="secret_key">9xG5#vQ2@LmP8!zB</string>
 ```
 
 Both the key and the IV are in the APK as plain strings, all 16 bytes of each. The database is therefore decryptable offline by anyone with a copy of the app, and the "encrypted" messages table offers no protection at all. In the lab the decryption yields the flag:
@@ -323,10 +322,13 @@ grep -R "firebaseio" .
 ```
 
 ```bash
-# Also try the appspot domain, and check whether CORS allows a browser to
-# read the response (a header alone is not proof, a 200 with data is)
-curl -I https://myapp-12345.appspot.com/.json
-https://<appname>.appspot.com/.json
+# Check the appspot host with a read-only request. A permissive CORS header
+# alone is not proof; inspect whether a test record is actually disclosed.
+curl --silent --show-error --head \
+  "https://<APP_NAME>.appspot.com/.json"
+curl --silent --show-error \
+  "https://<APP_NAME>.appspot.com/.json" \
+  --output firebase-response.json
 ```
 
 An open `.json` endpoint is a critical finding: it usually exposes every user record, and if writes are open it is also a data-integrity problem. Report it with the exact request and response, and stop before writing anything.

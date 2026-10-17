@@ -11,6 +11,9 @@ tags:
 
 # OSINT, dorking and origin IPs
 
+!!! note "What this page is doing"
+    Public search results are evidence about exposure, not permission to access an asset. Use them to form a hypothesis, verify ownership and scope, and report the minimum sensitive material needed to explain the risk.
+
 Dorks I keep coming back to for exposed credentials, cloud storage buckets and origin servers that are hiding behind a CDN or WAF.
 
 ---
@@ -55,9 +58,12 @@ Search both the organization's official GitHub repos (`org:target`) and personal
 ```
 
 ```bash
-# Automated Git repository secret scanning with TruffleHog & Gitleaks
-trufflehog github --org=<DOMAIN> --only-verified
-gitleaks detect --source ./cloned_repo -v
+# Scan only repositories and organizations named in the approved scope.
+# `--only-verified` reduces noise; it does not make a secret safe to print.
+trufflehog github --org=<GITHUB_ORG> --only-verified
+
+# Scan a local clone without echoing secret values into a shared terminal log.
+gitleaks detect --source ./cloned_repo --redact --verbose
 ```
 
 ---

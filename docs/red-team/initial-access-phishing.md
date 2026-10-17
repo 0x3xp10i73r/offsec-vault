@@ -11,6 +11,9 @@ tags:
 
 # Initial Access & Payload Delivery
 
+!!! note "What this page is doing"
+    Initial-access exercises are safety experiments with real users and real controls. The ROE must define the audience, content, timing, data handling, stop signal and approved landing pages before any message or payload is prepared.
+
 ---
 
 ## 1. Phishing Infrastructure Setup

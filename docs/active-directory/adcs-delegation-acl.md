@@ -12,6 +12,9 @@ tags:
 
 # ADCS (ESC1–ESC8) & ACL Abuse Chains
 
+!!! note "What this page is doing"
+    ADCS and ACL work begins with reading configuration and effective rights. A certificate request or directory write can have Tier 0 consequences, so validate only the approved edge, record the object change, and clean it up immediately.
+
 ---
 
 ## 1. ADCS Reconnaissance

@@ -11,6 +11,9 @@ tags:
 
 # Android testing checklist
 
+!!! note "What this page is doing"
+    Use each checkbox as a test record: note the device/app version, identity, method, result and evidence reference. “Not vulnerable,” “blocked by a control” and “not applicable” are useful outcomes when they are explained.
+
 The working list, in the order that makes sense on an engagement: get traffic flowing first, then storage, then the IPC surface, then everything the code tells you to look for.
 
 ## Quick list
@@ -103,7 +106,10 @@ grep -RnE "[A-Za-z0-9+/]{43}=" test/ | head
 #   pkey -pubin -outform der   re-encode it as DER, the format the hash covers
 #   dgst -sha256 -binary       hash the DER bytes
 #   enc -base64                encode the digest the way the app stores it
-openssl x509 -in cacert.crt -pubkey -noout | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
+openssl x509 -in cacert.crt -pubkey -noout \
+  | openssl pkey -pubin -outform der \
+  | openssl dgst -sha256 -binary \
+  | openssl enc -base64
 
 # Replace the hash in the decoded app, rebuild, sign and install
 apktool b test -o test.apk
@@ -121,9 +127,14 @@ android:networkSecurityConfig="@xml/network_security_config"
 ```
 
 ```bash
-apktool b test -o test.apk          # rebuild
-java -jar uber-apk-signer-1.2.1.jar --apk test.apk
-adb install -r test.apk            # -r reinstalls over the existing package
+# Rebuild the decoded lab app into a new APK.
+apktool b test -o rebuilt.apk
+
+# Align and sign the rebuilt artifact with a lab-only key.
+java -jar uber-apk-signer-1.2.1.jar --apk rebuilt.apk
+
+# Reinstall over the lab package; do not use this against a production device.
+adb install -r rebuilt.apk
 ```
 
 This also removes any other network rules in that file — cleartext allowances and pin sets alike — so check what else you are changing before you conclude the app is unpinned.
@@ -611,17 +622,16 @@ When the app goes to the background, Android may keep a snapshot for the recents
 ## 20. Insecure Firebase database
 
 ```bash
-# Find the database URL in the decoded app
-grep -R "firebaseio.com" -n .
+# Find the database URL in the decoded lab app.
+grep -RIn "firebaseio.com" .
 
-# Test it. A 200 with JSON and no auth header means the rules are open
-https://<appname>.firebaseio.com/.json
-
-# Try the appspot domain too
-https://<appname>.appspot.com/.json
-
-# Check whether a browser could read it as well
-curl -I https://myapp-12345.appspot.com/.json
+# Make read-only requests and save headers/body separately for evidence.
+# Stop at the first approved canary record; do not write to the database.
+curl --silent --show-error --dump-header firebase-headers.txt \
+  "https://<APP_NAME>.firebaseio.com/.json" \
+  --output firebase-response.json
+curl --silent --show-error --head \
+  "https://<APP_NAME>.appspot.com/.json"
 ```
 
 Read-only is still a breach of confidentiality — stop at the first record that proves it and document the request. If writes are open, note that too, but do not write to someone else's data.

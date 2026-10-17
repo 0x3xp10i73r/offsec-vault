@@ -45,11 +45,11 @@ notes/
 ├── .github/workflows/deploy.yml # build and deploy on push
 └── docs/
     ├── index.md
-    ├── about.md
+    ├── index.md
     ├── SUMMARY.md               # navigation mirror for GitBook
     ├── assets/
     │   ├── images/
-    │   ├── stylesheets/extra.css
+    │   ├── stylesheets/extra-charcoal.css
     │   └── javascripts/extra.js
     ├── recon/
     ├── web-bugbounty/
@@ -71,7 +71,7 @@ Navigation is defined explicitly in `mkdocs.yml`. Auto-discovery is fine at ten 
 
 The theme is Material with a single dark palette and about 400 lines of CSS on top. Two decisions shape the whole look:
 
-- **Pure black background.** Not "dark grey" — actual `#000`. On an OLED display it means the pixels that are not text are genuinely off, which is easier on the eyes when you are reading at 2am.
+- **Dracula charcoal background.** The base is `#282a36`, with darker code surfaces and raised panels that keep long pages readable without the harsh contrast of pure black.
 - **The Dracula palette on top of it.** The same sixteen colours a lot of people already run in their editor: `#f8f8f2` for text, `#bd93f9` purple for links, `#ff79c6` pink for the active item and for keywords in code, `#50fa7b`, `#f1fa8c`, `#8be9fd` and `#ffb86c` for everything the highlighter needs. Nothing is invented, and nothing is a gradient — flat colour, hairline borders, no blur, no shadows beyond the ones the theme ships with.
 
 The navigation lives entirely in the left sidebar — no top tab bar — because that is the layout that works best when the navigation tree is deep. Section names render as small uppercase group labels and the current page is marked with a pink rail.
@@ -118,7 +118,7 @@ description: "Finding subdomains and vhosts that do not show up in DNS."
 ---
 ```
 
-The Dracula colours are set as CSS variables in `docs/assets/stylesheets/extra.css`, overriding the theme's own palette variables — `--md-default-bg-color` for the black background, `--md-typeset-a-color` for link purple, and the `--md-code-hl-*` group for syntax highlighting, which is what makes code blocks come out in Dracula colours instead of Material's blues:
+The Dracula colours are set as CSS variables in `docs/assets/stylesheets/extra-charcoal.css`, overriding the theme's own palette variables — `--md-default-bg-color` for the Dracula charcoal background, `--md-typeset-a-color` for link purple, and the `--md-code-hl-*` group for syntax highlighting, which is what makes code blocks come out in Dracula colours instead of Material's blues:
 
 ```css
 [data-md-color-scheme="slate"] {
@@ -170,7 +170,7 @@ The covers are 1584x396 JPEGs — LinkedIn profile header proportions, which is 
 
 The nav is three levels deep in places, which is where a sidebar earns its keep. Section names are small uppercase group labels, the middle level holds collapsible sub-groups, and the pages inside a sub-group sit behind a hairline so the nesting is visible without a colour change:
 
-```
+```text
 RECON
   Passive discovery
     Subdomains and virtual hosts
@@ -232,8 +232,10 @@ About forty lines of JavaScript fixes that: it enables the checkboxes, stores th
 If you are copying this for your own site, the one thing to watch out for is `navigation.instant`, Material's client-side navigation. Your script only runs once on the first page load, so anything you do on page render has to be registered on the `document$` observable rather than `DOMContentLoaded`:
 
 ```javascript
+// Material's instant navigation emits document$ for every page transition.
+// Fall back to DOMContentLoaded when the theme's observable is unavailable.
 if (typeof document$ !== "undefined") {
-  document$.subscribe(init);   // runs on every page, including instant navigation
+  document$.subscribe(init);
 } else {
   document.addEventListener("DOMContentLoaded", init);
 }
@@ -320,17 +322,21 @@ jobs:
 Locally it is three commands, and `mkdocs build` is what I actually rely on, because it fails loudly on broken internal links:
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+# Create and activate an isolated documentation environment.
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-mkdocs serve                    # live reload while writing
-mkdocs build                    # catch broken links before pushing
+
+# Serve while writing, then run a clean build before publishing.
+mkdocs serve -a 0.0.0.0:8000
+mkdocs build
 ```
 
 Pinning versions in `requirements.txt` is not optional. A theme release that changes plugin behaviour will otherwise break the build on a Monday morning when you are trying to publish a writeup.
 
 ## Things I got wrong
 
-- I went through three themes in a year. The first was heavily customised — coloured badges, animated cards, a palette per section — and it made long pages harder to read. The second was stock Material with almost no CSS, which was honest but flat. What is here now is the third: black background, the Dracula palette, and nothing decorative that does not also carry meaning. No gradients, no blur, no animation. The colours do all the work.
+- I went through three themes in a year. The first was heavily customised — coloured badges, animated cards, a palette per section — and it made long pages harder to read. The second was stock Material with almost no CSS, which was honest but flat. What is here now is the third: Dracula charcoal background, the Dracula palette, and nothing decorative that does not also carry meaning. No gradients, no blur, no animation. The colours do all the work.
 - I used emoji as visual markers in headings. Fun for a week, actively annoying when scanning a sidebar with fifty entries.
 - I put the navigation in top tabs first. With nine sections and sub-pages, the sidebar is the better layout: the whole tree is visible and nothing is hidden behind a hover state.
 - I wrote `mkdocs.yml` navigation by hand, broke it, and learned that `mkdocs build` validates it. Run the build before you push, every time.
@@ -342,12 +348,17 @@ Pinning versions in `requirements.txt` is not optional. A theme release that cha
 The configuration is meant to be reused. If you want your own version, the short version is:
 
 ```bash
+# Clone the notes and enter the repository.
 git clone https://github.com/0x3xp10i73r/notes.git
 cd notes
+
+# Install dependencies inside an isolated environment before serving.
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-mkdocs serve
+mkdocs serve -a 0.0.0.0:8000
 ```
 
-Then change `site_name`, `site_url` and `repo_url` in `mkdocs.yml`, replace the images in `docs/assets/images/`, and edit `DEFAULT_VARS` in `extra.js` to your usual lab values. The written content is mine; the structure and config you are welcome to take.
+Then change `site_name` and `site_url` in `mkdocs.yml`, replace the images in `docs/assets/images/`, and edit `DEFAULT_VARS` in `extra.js` to your usual lab values. The written content is mine; the structure and config you are welcome to take.
 
 If you build something with it, send me a link. I read other people's note sites for the structure almost as much as for the content.

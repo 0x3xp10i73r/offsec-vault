@@ -1,11 +1,7 @@
 site_name: "0x3xp10i73r"
 site_description: "Personal offensive security notes, cheatsheets, checklists and writeups — web application testing, Active Directory, red team operations and cloud."
 site_author: "0x3xp10i73r"
-site_url: "https://0x3xp10i73r.github.io/notes/"
-repo_name: "0x3xp10i73r/notes"
-repo_url: "https://github.com/0x3xp10i73r/notes"
-edit_uri: "edit/main/docs/"
-copyright: "&copy; 2026 0x3xp10i73r &middot; Notes for authorized testing and educational use only."
+site_url: "https://0x3xp10i73r.github.io/offsec-vault/"
 
 theme:
   name: material
@@ -16,13 +12,11 @@ theme:
   font:
     text: Inter
     code: JetBrains Mono
-  # AMOLED base, Dracula palette, dark only - there is no light mode.
+  # Dracula charcoal base, dark only - there is no light mode.
   palette:
     scheme: slate
     primary: custom
     accent: custom
-  icon:
-    repo: fontawesome/brands/github
   features:
     - navigation.instant
     - navigation.tracking
@@ -103,16 +97,14 @@ markdown_extensions:
   - pymdownx.tilde
 
 extra_css:
-  - assets/stylesheets/extra.css
+  - assets/stylesheets/extra-charcoal.css
 
 extra_javascript:
   - assets/javascripts/extra.js
 
 extra:
+  generator: false
   social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/0x3xp10i73r
-      name: GitHub
     - icon: fontawesome/brands/x-twitter
       link: https://x.com/0x3xp10i73r
       name: X
@@ -121,26 +113,34 @@ extra:
       name: Email
 
 nav:
-  - Home: index.md
-  - Recon:
-      - recon/index.md
-      - Passive discovery:
-          - Subdomains and virtual hosts: recon/subdomain-enumeration.md
-          - OSINT and dorking: recon/osint-dorking.md
-      - Active enumeration:
-          - Ports and services: recon/port-service-enumeration.md
-          - Web recon and fuzzing: recon/web-recon-fuzzing.md
-  - Web and Bug Bounty:
-      - web-bugbounty/index.md
-      - Identity and access:
-          - Authentication and account takeover: web-bugbounty/auth-ato-oauth-jwt.md
-          - Access control, IDOR and race conditions: web-bugbounty/access-control-idor-race.md
-      - Input handling:
-          - Injections: web-bugbounty/injection-attacks.md
-          - XSS, DOM and CSP: web-bugbounty/xss-csp-client-side.md
-      - Protocol and API:
-          - SSRF, CORS, CSRF and smuggling: web-bugbounty/ssrf-cors-csrf-smuggling.md
-          - APIs, GraphQL and file uploads: web-bugbounty/api-graphql-modern-web.md
+  - About: index.md
+  - How to start: how-to-start.md
+  - Web Application Pentesting:
+      - web-application-pentesting/index.md
+      - Authentication vulnerabilities:
+          - What is authentication?: web-application-pentesting/authentication-vulnerabilities/what-is-authentication.md
+      - CORS:
+          - What is CORS?: web-application-pentesting/cors/what-is-cors.md
+          - CORS vs CSRF: web-application-pentesting/cors/cors-vs-csrf.md
+          - SOP vs CSRF: web-application-pentesting/cors/sop-vs-csrf.md
+          - CORS Labs:
+              - "Lab: CORS vulnerability with basic origin reflection": web-application-pentesting/cors/cors-labs/cors-basic-origin-reflection.md
+              - "Lab: CORS vulnerability with trusted null origin": web-application-pentesting/cors/cors-labs/trusted-null-origin/cors-trusted-null-origin.md
+  - Android:
+      - android/index.md
+      - Setup and ADB: android/setup-adb.md
+      - Intercepting traffic: android/proxy-certificates.md
+      - Static analysis: android/static-analysis.md
+      - Dynamic analysis: android/dynamic-analysis.md
+      - Testing checklist: android/checklist.md
+      - Frida: android/frida.md
+      - Glossary: android/glossary.md
+      - Tools and references: android/tools.md
+      - iOS and cross-platform: android/ios-cross-platform.md
+  - Privilege Escalation:
+      - privesc/index.md
+      - Linux: privesc/linux-privesc.md
+      - Windows: privesc/windows-privesc.md
   - Active Directory:
       - active-directory/index.md
       - Enumeration:
@@ -156,24 +156,28 @@ nav:
       - Initial access and payloads: red-team/initial-access-phishing.md
       - C2 infrastructure and OPSEC: red-team/c2-infrastructure-opsec.md
       - EDR and AMSI evasion: red-team/edr-amsi-evasion.md
-  - Privilege Escalation:
-      - privesc/index.md
-      - Linux: privesc/linux-privesc.md
-      - Windows: privesc/windows-privesc.md
-  - Android:
-      - android/index.md
-      - Setup and ADB: android/setup-adb.md
-      - Intercepting traffic: android/proxy-certificates.md
-      - Static analysis: android/static-analysis.md
-      - Dynamic analysis: android/dynamic-analysis.md
-      - Testing checklist: android/checklist.md
-      - Frida: android/frida.md
-      - Glossary: android/glossary.md
-      - Tools and references: android/tools.md
-      - iOS and cross-platform: android/ios-cross-platform.md
   - Cloud:
       - cloud-mobile/index.md
       - AWS, Azure and GCP: cloud-mobile/aws-azure-gcp.md
+  - Recon:
+      - recon/index.md
+      - Passive discovery:
+          - Subdomains and virtual hosts: recon/subdomain-enumeration.md
+          - OSINT and dorking: recon/osint-dorking.md
+      - Active enumeration:
+          - Ports and services: recon/port-service-enumeration.md
+          - Web recon and fuzzing: recon/web-recon-fuzzing.md
+  - Bug Bounty:
+      - web-bugbounty/index.md
+      - Identity and access:
+          - Authentication and account takeover: web-bugbounty/auth-ato-oauth-jwt.md
+          - Access control, IDOR and race conditions: web-bugbounty/access-control-idor-race.md
+      - Input handling:
+          - Injections: web-bugbounty/injection-attacks.md
+          - XSS, DOM and CSP: web-bugbounty/xss-csp-client-side.md
+      - Protocol and API:
+          - SSRF, CORS, CSRF and smuggling: web-bugbounty/ssrf-cors-csrf-smuggling.md
+          - APIs, GraphQL and file uploads: web-bugbounty/api-graphql-modern-web.md
   - Checklists:
       - checklists-arsenal/index.md
       - Working checklists:
@@ -184,4 +188,3 @@ nav:
           - Reference index: checklists-arsenal/security-reference-index.md
   - Blog: blog/index.md
   - Tags: tags.md
-  - About: about.md

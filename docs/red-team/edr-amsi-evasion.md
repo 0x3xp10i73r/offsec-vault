@@ -12,6 +12,9 @@ tags:
 
 # EDR, AMSI & Syscall Evasion
 
+!!! note "What this page is doing"
+    Evasion notes are for a lab-first validation of prevention and telemetry, not a promise of invisibility. Measure what the endpoint records before and after a controlled change, and report the behavioral signal even when a userland technique works.
+
 !!! warning "Authorized Red Team Use Only"
     These techniques exist to validate EDR coverage in **authorized adversary simulation**. Running them against systems you do not own or have written permission to test is illegal. Also note: **EDR evasion is an arms race** — everything here should be validated against your specific target's stack (CrowdStrike, Defender for Endpoint, SentinelOne, Carbon Black) in a lab first.
 

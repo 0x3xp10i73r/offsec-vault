@@ -10,6 +10,9 @@ tags:
 
 # Subdomain, ASN & Virtual Host Enumeration
 
+!!! note "What this page is doing"
+    This page moves from ownership and passive evidence to DNS validation and virtual-host testing. A discovered name is a lead; keep the source, confirm scope, measure wildcard behavior, and only then treat the host as an active target.
+
 ---
 
 ## 1. Horizontal Recon: Acquisitions, ASNs & IP Ranges
@@ -17,15 +20,41 @@ tags:
 When testing large enterprises (unlimited/wide scope), always map subsidiary root domains and Autonomous System Numbers (ASNs) first.
 
 ```bash
-# Lookup ASN numbers for target organization via bgp.he.net / metabigor / amass
+# Collect organization and ASN leads. Treat every result as a candidate until
+# ownership and scope are confirmed.
 metabigor net --org "<DOMAIN>" -o asn_ranges.txt
 amass intel -org "<DOMAIN>"
-# Convert ASN to CIDR blocks and extract SSL/TLS CN & SAN domains via tlsx
-asnmap -d <DOMAIN> -silent | tlsx -san -cn -silent | grep -i "<DOMAIN>" | sort -u
-# Reverse WHOIS & Favicon Hash (MurmurHash3) hunting on Shodan
-python3 -c 'import mmh3,requests,codecs; print(mmh3.hash(codecs.encode(requests.get("https://<DOMAIN>/favicon.ico").content,"base64")))'
-# Then query Shodan: http.favicon.hash:<HASH>
+
+# Resolve certificate names and keep only names related to the approved domain.
+asnmap -d <DOMAIN> -silent \
+  | tlsx -san -cn -silent \
+  | grep -i "<DOMAIN>" \
+  | sort -u \
+  > certificate-names.txt
 ```
+
+```bash
+# Hash the approved site's favicon for an asset-index lookup.
+# The request is read-only; do not submit a target's favicon to a third-party
+# service unless that service is allowed by the engagement.
+python3 favicon_hash.py "https://<DOMAIN>/favicon.ico"
+```
+
+```python
+# favicon_hash.py — calculate the Shodan-compatible MurmurHash3 value.
+import base64
+import sys
+
+import mmh3
+import requests
+
+response = requests.get(sys.argv[1], timeout=10)
+response.raise_for_status()
+encoded = base64.b64encode(response.content)
+print(mmh3.hash(encoded))
+```
+
+Use the resulting value as a search lead such as `http.favicon.hash:<HASH>`; verify the returned asset before treating it as part of the target.
 
 ---
 

@@ -10,6 +10,9 @@ tags:
 
 # Burp Suite configuration and tooling
 
+!!! note "What this page is doing"
+    Configure Burp as an evidence and comparison tool first. Set scope and logging before active testing, use match/replace rules only when their effect is understood, and keep extensions and payloads aligned with the authorized question.
+
 ---
 
 ## 1. Burp Suite Project Setup (Do This First on Every Engagement)
@@ -166,33 +169,39 @@ tags:
 
 ```bash
 #!/usr/bin/env bash
-# Tooling bootstrap — apt + Go + pipx + git-based tools
-set -e
+# Install the optional assessment toolchain on a disposable Kali/Debian/Ubuntu VM.
+# Pin versions for a real engagement; `@latest` is convenient for a fresh lab.
+set -Eeuo pipefail
 
-sudo apt update && sudo apt install -y \
-  nmap masscan feroxbuster ffuf gobuster dirsearch nikto sqlmap hydra john hashcat \
-  smbclient smbmap enum4linux-ng nbtscan onesixtyone snmp snmp-mibs-downloader \
-  ldap-utils rpcbind nfs-common responder proxychains4 chisel socat \
-  python3-pip pipx golang-go ruby-full default-jdk apktool jadx adb \
-  seclists wordlists whatweb tcpdump wireshark
-# --- Go-based tooling (fast, single binaries) ---
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
-go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
-go install -v github.com/projectdiscovery/katana/cmd/katana@latest
-go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
-go install -v github.com/projectdiscovery/tlsx/cmd/tlsx@latest
-go install -v github.com/projectdiscovery/notify/cmd/notify@latest
-go install -v github.com/ffuf/ffuf/v2@latest
-go install -v github.com/tomnomnom/assetfinder@latest
-go install -v github.com/tomnomnom/anew@latest
-go install -v github.com/lc/gau/v2/cmd/gau@latest
-go install -v github.com/hakluke/hakrawler@latest
-go install -v github.com/d3mondev/puredns/v2@latest
-go install -v github.com/ropnop/kerbrute@latest
-go install -v github.com/ropnop/go-windapsearch/cmd/windapsearch@latest
-go install -v github.com/jpillora/chisel@latest
-# --- Pipx (isolated Python CLI tools) ---
+# Keep host packages in one list so the required baseline is easy to review.
+sudo apt update
+sudo apt install -y \
+  nmap masscan feroxbuster ffuf gobuster dirsearch nikto sqlmap \
+  hydra john hashcat smbclient smbmap enum4linux-ng nbtscan \
+  onesixtyone snmp snmp-mibs-downloader ldap-utils rpcbind nfs-common \
+  responder proxychains4 chisel socat python3-pip pipx golang-go \
+  ruby-full default-jdk apktool jadx adb seclists wordlists whatweb \
+  tcpdump wireshark
+
+# Make Go and pipx executables available to the current shell.
+export PATH="$HOME/go/bin:$HOME/.local/bin:$PATH"
+
+# Install Go-based tools as separate, reviewable steps.
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+go install github.com/projectdiscovery/httpx/cmd/httpx@latest
+go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+go install github.com/projectdiscovery/katana/cmd/katana@latest
+go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+go install github.com/projectdiscovery/tlsx/cmd/tlsx@latest
+go install github.com/ffuf/ffuf/v2@latest
+go install github.com/tomnomnom/assetfinder@latest
+go install github.com/tomnomnom/anew@latest
+go install github.com/lc/gau/v2/cmd/gau@latest
+go install github.com/d3mondev/puredns/v2@latest
+go install github.com/ropnop/kerbrute@latest
+go install github.com/jpillora/chisel@latest
+
+# Install Python CLIs in isolated pipx environments.
 pipx install netexec
 pipx install impacket
 pipx install certipy-ad
@@ -203,16 +212,24 @@ pipx install sqlmap
 pipx install wafw00f
 pipx install shodan
 pipx install theHarvester
-# --- Git-based tools ---
-mkdir -p ~/tools && cd ~/tools
-git clone https://github.com/peass-ng/PEASS-ng peass
-git clone https://github.com/nicocha30/ligolo-ng ligolo-ng
-git clone https://github.com/carlospolop/PEASS-ng.git
-git clone https://github.com/swisskyrepo/PayloadsAllTheThings payloads-all-the-things
-git clone https://github.com/danielmiessler/SecLists.git
-git clone https://github.com/GTFOBins/GTFOBins.github.io gtfo
 
-echo "[+] Arsenal installed. Add ~/go/bin and ~/.local/bin to your PATH."
+# Clone reference repositories only when they are not already present.
+mkdir -p "$HOME/tools"
+clone_if_missing() {
+  local url="$1"
+  local destination="$2"
+  if [[ ! -d "$HOME/tools/$destination/.git" ]]; then
+    git clone "$url" "$HOME/tools/$destination"
+  fi
+}
+
+clone_if_missing https://github.com/peass-ng/PEASS-ng peass
+clone_if_missing https://github.com/nicocha30/ligolo-ng ligolo-ng
+clone_if_missing https://github.com/swisskyrepo/PayloadsAllTheThings payloads-all-the-things
+clone_if_missing https://github.com/danielmiessler/SecLists seclists
+clone_if_missing https://github.com/GTFOBins/GTFOBins.github.io gtfo
+
+printf '%s\n' '[+] Baseline installed. Review versions and add ~/go/bin and ~/.local/bin to PATH permanently if needed.'
 ```
 
 !!! tip "Recon → Exploit Handoff"

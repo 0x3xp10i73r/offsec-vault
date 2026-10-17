@@ -12,6 +12,9 @@ tags:
 
 # AWS, Azure / Entra ID & GCP Exploitation
 
+!!! note "What this page is doing"
+    Cloud commands should be read as an identity trace: identify the principal, inspect its effective permissions, use a canary resource, follow one approved assumption path, and revoke anything created. Never paste real keys into a notes page or shell history.
+
 ---
 
 ## 1. AWS

@@ -19,7 +19,20 @@ The workflow the pages follow is always the same shape:
 2. Get traffic flowing through Burp, which usually means installing a CA in the system store because user certificates are not trusted by apps on Android 7 and later.
 3. Read the app statically — manifest, decompiled Java, smali, native libraries, resources.
 4. Run it and watch it — storage, logs, memory, IPC, network.
-5. Prove the finding by exploiting it, not by reporting a code smell.
+5. Compare the client behavior with the server behavior and prove the finding with a controlled test, not a code smell.
+6. Reset the snapshot, remove certificates and test data, and write down the exact app/device/tool versions.
+
+## What an Android assessment is trying to prove
+
+| Question | What to inspect | Useful evidence |
+| :--- | :--- | :--- |
+| **What can the app reach?** | Manifest, permissions, endpoints, exported components, deep links and SDKs | Component/permission inventory and a baseline request |
+| **What does the app trust?** | TLS, certificate pinning, signing certificate, local flags, WebView origins and server responses | Trust decision, failure log and controlled bypass result |
+| **What does it store?** | Preferences, databases, cache, external storage, logs, backups and memory | Minimal canary record and access conditions |
+| **What does the server enforce?** | API authentication, object authorization, replay, rate limits and tenant boundaries | Request/response comparison from two test states |
+| **Can a local component be abused?** | Activities, services, receivers, providers, intents and bridges | Reproducible component call and observed side effect |
+
+A rooted device or emulator helps you inspect the client; it does not make client-side authorization a valid security boundary. If changing a local flag unlocks a feature, continue testing the server and report the missing server-side control when it affects real data or actions.
 
 ## OWASP Mobile Top 10
 

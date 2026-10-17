@@ -10,6 +10,9 @@ tags:
 
 # Setup and ADB
 
+!!! note "What this page is doing"
+    This page prepares a repeatable mobile lab. The purpose of each command is to establish a device identity, a known package, a reversible snapshot and a working path for evidence—not to alter a production phone.
+
 Everything on this page is the plumbing: getting a device or emulator that you can actually test on, and getting ADB to talk to it.
 
 ## Installation order
@@ -25,9 +28,11 @@ The order matters because each step depends on the previous one.
 4. **Install ADB on Windows.** ADB is the single most important tool in this whole set — shell access, file push and pull, logcat, backups and port forwarding all go through it.
 
 ```bash
-# Confirm ADB sees the device or emulator. Serial, state ("device" = ready,
-# "unauthorized" = accept the prompt on screen, "offline" = restart the server)
-./adb devices
+# Confirm ADB sees the device or emulator. State meanings:
+#   device       ready for commands
+#   unauthorized accept the prompt on the device
+#   offline      restart the ADB server and reconnect
+adb devices
 ```
 
 ## Basic ADB commands
