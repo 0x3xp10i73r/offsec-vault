@@ -36,7 +36,7 @@ The supplied RustScan output identified three exposed services:
 | 80/tcp | HTTP | Cap's dashboard and capture download functionality. |
 
 ```bash
-rustscan -a <TARGET_IP> -u 5000 -- -sS -T4
+rustscan -a LAB_IP -u 5000 -- -sS -T4
 ```
 
 The HTTP application presents a dashboard with security snapshots and packet-capture analysis. The first two screenshots preserve the web enumeration sequence from the source notes.
@@ -79,7 +79,7 @@ The key lesson is that an object identifier is not an authorization check. The s
 Use the recovered credentials to connect over SSH:
 
 ```bash
-ssh nathan@<TARGET_IP>
+ssh nathan@LAB_IP
 ```
 
 The fifth screenshot shows the authenticated SSH session.

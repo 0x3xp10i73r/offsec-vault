@@ -30,7 +30,7 @@ description: Facts Hack The Box writeup covering Camaleon CMS escalation, S3-bac
 The scan exposed the following services:
 
 ```bash
-nmap -p- --min-rate 1000 -T4 -sV -Pn -oA nmap_full_scan <TARGET_IP>
+nmap -p- --min-rate 1000 -T4 -sV -Pn -oA nmap_full_scan LAB_IP
 ```
 
 | Port | Service | Observation |

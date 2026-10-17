@@ -31,7 +31,7 @@ description: WingData Hack The Box writeup covering Wing FTP RCE and a tarfile p
 The scan exposed HTTP and SSH:
 
 ```bash
-nmap -p- --min-rate 1000 -T4 -A -sV -Pn -oA nmap_full_scan <TARGET_IP>
+nmap -p- --min-rate 1000 -T4 -A -sV -Pn -oA nmap_full_scan LAB_IP
 ```
 
 | Port | Service | Observation |

