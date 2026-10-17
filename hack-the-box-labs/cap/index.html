@@ -3435,7 +3435,7 @@
 </tr>
 </tbody>
 </table>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>rustscan<span class="w"> </span>-a<span class="w"> </span>&lt;TARGET_IP&gt;<span class="w"> </span>-u<span class="w"> </span><span class="m">5000</span><span class="w"> </span>--<span class="w"> </span>-sS<span class="w"> </span>-T4
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>rustscan<span class="w"> </span>-a<span class="w"> </span>LAB_IP<span class="w"> </span>-u<span class="w"> </span><span class="m">5000</span><span class="w"> </span>--<span class="w"> </span>-sS<span class="w"> </span>-T4
 </span></code></pre></div>
 <p>The HTTP application presents a dashboard with security snapshots and packet-capture analysis. The first two screenshots preserve the web enumeration sequence from the source notes.</p>
 <figure class="htb-figure">
@@ -3467,7 +3467,7 @@
 <p>The key lesson is that an object identifier is not an authorization check. The server must verify that the current user is allowed to access the requested capture, not merely that the identifier exists.</p>
 <h2 id="3-obtain-the-user-shell">3. Obtain the user shell<a class="headerlink" href="#3-obtain-the-user-shell" title="Permanent link">&para;</a></h2>
 <p>Use the recovered credentials to connect over SSH:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ssh<span class="w"> </span>nathan@&lt;TARGET_IP&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ssh<span class="w"> </span>nathan@LAB_IP
 </span></code></pre></div>
 <p>The fifth screenshot shows the authenticated SSH session.</p>
 <figure class="htb-figure">

