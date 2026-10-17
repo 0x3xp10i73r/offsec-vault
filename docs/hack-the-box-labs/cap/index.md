@@ -201,6 +201,14 @@ PORT   STATE SERVICE REASON
 Read data files from: /usr/share/nmap
 Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
            Raw packets sent: 7 (284B) | Rcvd: 6 (240B)
+
+```
+
+### Source block 2 (`text`)
+
+```text
+username - nathan
+password - Buck3tH4TF0RM3!
 ```
 
 ### Source block 3 (`bash`)

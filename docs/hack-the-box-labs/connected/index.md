@@ -148,6 +148,7 @@ PORT    STATE SERVICE    VERSION
 
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 160.33 seconds
+
 ```
 
 ### Source block 2 (`jsx`)
@@ -250,6 +251,7 @@ user.txt
 [asterisk@connected ~]$cat user.txt
 cat user.txt
 <USER_FLAG_REDACTED>
+
 ```
 
 ### Source block 3 (`bash`)
@@ -308,4 +310,5 @@ root
 [root@connected /]# cat /root/root.txt 
 cat /root/root.txt
 <ROOT_FLAG_REDACTED>
+
 ```
