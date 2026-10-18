@@ -15,6 +15,10 @@
         <link rel="canonical" href="https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/Cap/HTB%20-%20Cap/">
       
       
+        <link rel="prev" href="../../">
+      
+      
+        <link rel="next" href="../../connected/">
       
       
         
@@ -28,7 +32,7 @@
     
     
       
-        <title>HTB Cap - 0x3xp10i73r</title>
+        <title>Cap - 0x3xp10i73r</title>
       
     
     
@@ -114,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              HTB   Cap
+              Cap
             
           </span>
         </div>
@@ -693,6 +697,8 @@
       
   
   
+    
+  
   
   
     
@@ -716,11 +722,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -748,7 +754,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -765,10 +771,35 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../cap/index.md" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cap
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -784,6 +815,163 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-reconnaissance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Reconnaissance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Reconnaissance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#port-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Port Scan
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-web-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Web Enumeration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-exploiting-the-idor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Exploiting the IDOR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-initial-access-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Initial Access (SSH)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Initial Access (SSH)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-privilege-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Privilege Escalation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Privilege Escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#root-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-root-cause-remediation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Root Cause &amp; Remediation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-attack-chain-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Attack Chain Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3319,7 +3507,7 @@
 
 
 
-  <h1>HTB   Cap</h1>
+  <h1>Cap</h1>
 
 <p><strong>Difficulty:</strong> Easy <strong>OS:</strong> Linux </p>
 <p><img alt="Cap — Hack The Box, Linux, Easy" src="../images/banner.jpg" /></p>
@@ -3406,20 +3594,20 @@
 <hr />
 <h2 id="2-web-enumeration">2. Web Enumeration<a class="headerlink" href="#2-web-enumeration" title="Permanent link">&para;</a></h2>
 <p>Browsing to <code>http://10.129.6.89</code> presented a "Security Dashboard" application, logged in as a user named <strong>Nathan</strong>. The sidebar exposed several sections, including an interesting feature: <strong>Security Snapshot (5 Second PCAP + Analysis)</strong>.</p>
-<p>![[image.png]]
+<p><img alt="" src="../images/image.png" />
 Dashboard with Security Snapshot feature highlighted</p>
 <p>Selecting this option captures 5 seconds of live network traffic on the box and presents summary statistics (packet counts, protocol breakdown, etc.) with a <strong>Download</strong> button to pull the raw <code>.pcap</code> file.</p>
 <p>Testing this feature generated the capture shown at <code>http://10.129.6.89/data/1</code>, and the UI exposed a <strong>Download</strong> button for grabbing the corresponding <code>.pcap</code>.</p>
-<p>![[image 1.png]]</p>
+<p><img alt="Security snapshot capture" src="../images/image%201.png" /></p>
 <p>/data/1 endpoint showing a freshly generated 1-packet capture</p>
 <hr />
 <h2 id="3-exploiting-the-idor">3. Exploiting the IDOR<a class="headerlink" href="#3-exploiting-the-idor" title="Permanent link">&para;</a></h2>
 <p>The capture is referenced directly by a numeric, user-controllable ID in the URL path — <code>/data/&lt;id&gt;</code>. This is a textbook <strong>Insecure Direct Object Reference (IDOR)</strong>: there is no check that the requesting user owns or generated that particular capture ID.</p>
 <p>By simply decrementing the ID and requesting <code>http://10.129.6.89/data/0</code>, an earlier capture belonging to another session was retrieved — one containing significantly more traffic (72 packets vs. 1 in the fresh capture), including FTP sessions and HTTP data never generated by the current session.</p>
-<p>![[image 2.png]]</p>
+<p><img alt="IDOR capture" src="../images/image%202.png" /></p>
 <p>/data/0 endpoint returning a much larger, previously-generated capture — the IDOR</p>
 <p>Downloading and opening <code>0.pcap</code> in Wireshark surfaced a full <strong>FTP login sequence in plaintext</strong>:</p>
-<p>![[image 3.png]]</p>
+<p><img alt="FTP credentials in Wireshark" src="../images/image%203.png" /></p>
 <p>Wireshark view of the FTP session showing USER/PASS in cleartext</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Request: USER nathan
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Response: 331 Please specify the password.
@@ -3438,7 +3626,6 @@ Dashboard with Security Snapshot feature highlighted</p>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># password: Buck3tH4TF0RM3!</span>
 </span></code></pre></div>
 <p>SSH login as nathan succeeding</p>
-<p>![[image 4.png]]</p>
 <p>This dropped into a shell on an Ubuntu 20.04.2 LTS host as the <code>nathan</code> user.</p>
 <h3 id="user-flag">User Flag<a class="headerlink" href="#user-flag" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>nathan@cap:~$<span class="w"> </span>ls
@@ -3447,7 +3634,7 @@ Dashboard with Security Snapshot feature highlighted</p>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>ad98dcdd3dbd6cc01c857fb6d6e296a6
 </span></code></pre></div>
 <p>Reading user.txt</p>
-<p>![[image 5.png]]</p>
+<p><img alt="User flag" src="../images/image%205.png" /></p>
 <hr />
 <h2 id="5-privilege-escalation">5. Privilege Escalation<a class="headerlink" href="#5-privilege-escalation" title="Permanent link">&para;</a></h2>
 <p>With shell access as <code>nathan</code>, the next step was hunting for privilege escalation vectors. Checking Linux capabilities assigned to binaries on the filesystem revealed the misconfiguration:</p>
@@ -3465,6 +3652,7 @@ Dashboard with Security Snapshot feature highlighted</p>
 </span></code></pre></div>
 <p>This spawns a <code>bash</code> shell running with UID 0.</p>
 <h3 id="root-flag">Root Flag<a class="headerlink" href="#root-flag" title="Permanent link">&para;</a></h3>
+<p><img alt="Privilege escalation" src="../images/image%206.png" /></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>root@cap:/root#<span class="w"> </span>cat<span class="w"> </span>root.txt
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>d5b997c6116dab119a03ab03369d55af
 </span></code></pre></div>
@@ -3546,6 +3734,44 @@ Dashboard with Security Snapshot feature highlighted</p>
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../" class="md-footer__link md-footer__link--prev" aria-label="Previous: HackTheBox Labs">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                HackTheBox Labs
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../connected/" class="md-footer__link md-footer__link--next" aria-label="Next: Connected">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Connected
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
