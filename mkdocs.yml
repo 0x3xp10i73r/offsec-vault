@@ -129,7 +129,7 @@ nav:
   - HackTheBox Labs:
       - hack-the-box-labs/index.md
       - Cap: "hack-the-box-labs/Cap/HTB - Cap.md"
-      - Connected: hack-the-box-labs/connected/index.md
+      - Connected: "hack-the-box-labs/Connected/HTB - Connected.md"
       - Facts: hack-the-box-labs/facts/index.md
       - Reactor: hack-the-box-labs/reactor/index.md
       - WingData: hack-the-box-labs/wingdata/index.md
