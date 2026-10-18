@@ -20,7 +20,7 @@ This section contains writeups for completed Hack The Box machines. Each page fo
 
     Easy Linux/Web machine. The path is an IDOR in a packet-capture application, followed by credential reuse and a Python file capability.
 
-    [:octicons-arrow-right-24: Open the Cap writeup](cap/index.md)
+    [:octicons-arrow-right-24: Open the Cap writeup](<Cap/HTB - Cap.md>)
 
 -   :material-phone-in-talk:{ .lg .middle } **Connected**
 
