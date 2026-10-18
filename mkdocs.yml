@@ -128,7 +128,7 @@ nav:
               - "Lab: CORS vulnerability with trusted null origin": web-application-pentesting/cors/cors-labs/trusted-null-origin/cors-trusted-null-origin.md
   - HackTheBox Labs:
       - hack-the-box-labs/index.md
-      - Cap: hack-the-box-labs/cap/index.md
+      - Cap: "hack-the-box-labs/Cap/HTB - Cap.md"
       - Connected: hack-the-box-labs/connected/index.md
       - Facts: hack-the-box-labs/facts/index.md
       - Reactor: hack-the-box-labs/reactor/index.md
