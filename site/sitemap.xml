@@ -111,6 +111,33 @@
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/cloud-mobile/aws-azure-gcp/</loc>
          <lastmod>2026-10-17</lastmod>
+<<<<<<< HEAD
+=======
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/</loc>
+         <lastmod>2026-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/cap/</loc>
+         <lastmod>2026-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/connected/</loc>
+         <lastmod>2026-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/facts/</loc>
+         <lastmod>2026-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/reactor/</loc>
+         <lastmod>2026-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/wingdata/</loc>
+         <lastmod>2026-10-17</lastmod>
+>>>>>>> 6082a6bdd6edbb925da22a4f8d70a6b3ada6c398
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/privesc/</loc>

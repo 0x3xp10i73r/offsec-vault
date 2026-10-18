@@ -126,6 +126,13 @@ nav:
           - CORS Labs:
               - "Lab: CORS vulnerability with basic origin reflection": web-application-pentesting/cors/cors-labs/cors-basic-origin-reflection.md
               - "Lab: CORS vulnerability with trusted null origin": web-application-pentesting/cors/cors-labs/trusted-null-origin/cors-trusted-null-origin.md
+  - HackTheBox Labs:
+      - hack-the-box-labs/index.md
+      - Cap: hack-the-box-labs/cap/index.md
+      - Connected: hack-the-box-labs/connected/index.md
+      - Facts: hack-the-box-labs/facts/index.md
+      - Reactor: hack-the-box-labs/reactor/index.md
+      - WingData: hack-the-box-labs/wingdata/index.md
   - Android:
       - android/index.md
       - Setup and ADB: android/setup-adb.md

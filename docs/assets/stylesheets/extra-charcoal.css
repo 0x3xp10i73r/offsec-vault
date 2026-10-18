@@ -797,6 +797,55 @@ body {
 }
 
 
+/* ------------------------------------------------------------ HTB writeups */
+/*
+   HTB pages use a replaceable banner in each box folder and roomy, framed
+   figures for the supplied screenshots. The banner is intentionally a simple
+   placeholder until the final box artwork is uploaded.
+*/
+.md-typeset .htb-banner {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1600 / 420;
+  object-fit: cover;
+  margin: 0 0 1.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--bg-raised);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+}
+
+.md-typeset .htb-figure {
+  margin: 1.8rem 0 2.2rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-raised);
+}
+
+.md-typeset .htb-screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: #11131b;
+}
+
+.md-typeset .htb-figure figcaption {
+  margin: 0.75rem 0.2rem 0.1rem;
+  color: var(--fg-soft);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 60em) {
+  .md-typeset .htb-figure {
+    margin-inline: -0.2rem;
+    padding: 0.45rem;
+  }
+}
+
 /* ---------------------------------------------------------- CORS lab images */
 /*
    Lab screenshots use a small framed treatment so they read as deliberate
