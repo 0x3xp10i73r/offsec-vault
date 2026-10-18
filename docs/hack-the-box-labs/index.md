@@ -28,7 +28,7 @@ This section contains writeups for completed Hack The Box machines. Each page fo
 
     Linux machine featuring a web foothold through SQL injection and a FreePBX/Dahdi restart path to root.
 
-    [:octicons-arrow-right-24: Open the Connected writeup](connected/index.md)
+    [:octicons-arrow-right-24: Open the Connected writeup](<Connected/HTB - Connected.md>)
 
 -   :material-cloud-outline:{ .lg .middle } **Facts**
 
