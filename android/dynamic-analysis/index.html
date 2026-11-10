@@ -6246,6 +6246,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#8-attacking-exported-components-at-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Attacking exported components at runtime
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Attacking exported components at runtime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exported-activities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exported activities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exported-services-and-broadcast-receivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exported services and broadcast receivers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content providers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deep-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep links
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-to-do-with-what-you-find" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8110,6 +8171,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#8-attacking-exported-components-at-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Attacking exported components at runtime
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Attacking exported components at runtime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exported-activities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exported activities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exported-services-and-broadcast-receivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exported services and broadcast receivers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content providers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deep-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep links
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-to-do-with-what-you-find" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8173,6 +8295,20 @@
       
       
         <a href="../../tags/#tag:dynamic-analysis" class="md-tag">Dynamic Analysis</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:exported-components" class="md-tag">Exported Components</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:ipc" class="md-tag">IPC</a>
       
     
       
@@ -8298,6 +8434,58 @@
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"Trust anchor for certification path not found|SSLPeerUnverifiedException|Certificate pinning failure"</span>
 </span></code></pre></div>
 <p>Eight ways to get around it — iptables redirection, patching the hardcoded hash, editing the manifest, reFlutter for Flutter apps, swapping the pinned certificate, Objection, Frida scripts, and smali patching — are on the <a href="../checklist/#1-ssl-pinning-bypass">testing checklist</a>.</p>
+<h2 id="8-attacking-exported-components-at-runtime">8. Attacking exported components at runtime<a class="headerlink" href="#8-attacking-exported-components-at-runtime" title="Permanent link">&para;</a></h2>
+<p>Inter-process communication is where most Android-specific bugs live. Any component marked <code>android:exported="true"</code> — or, on older targets, any component given an <code>intent-filter</code> with no explicit <code>exported</code> flag — can be invoked by any other app on the device, and by you from <code>adb</code>. Static analysis finds the exposed components; this is how you actually drive them.</p>
+<p>Start from the manifest (<code>apktool d</code> output) or the live package record, list the exported components, then exercise each one.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># List a package's components and their exported state</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>dumpsys<span class="w"> </span>package<span class="w"> </span>&lt;package&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"Activity|Service|Receiver|Provider|exported"</span>
+</span></code></pre></div>
+<h3 id="exported-activities">Exported activities<a class="headerlink" href="#exported-activities" title="Permanent link">&para;</a></h3>
+<p>An exported activity can be launched directly, which skips whatever flow normally precedes it — the classic "jump past the login screen" bug.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Launch an exported activity by name</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>am<span class="w"> </span>start<span class="w"> </span>-n<span class="w"> </span>&lt;package&gt;/&lt;package&gt;.SecretActivity
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Launch it WITH attacker-controlled extras, to see what it trusts</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>adb<span class="w"> </span>shell<span class="w"> </span>am<span class="w"> </span>start<span class="w"> </span>-n<span class="w"> </span>&lt;package&gt;/.ProfileActivity<span class="w"> </span>--es<span class="w"> </span><span class="s2">"user_id"</span><span class="w"> </span><span class="s2">"1337"</span><span class="w"> </span>--ez<span class="w"> </span><span class="s2">"is_admin"</span><span class="w"> </span><span class="nb">true</span>
+</span></code></pre></div>
+<p>If the screen behind authentication renders, or a value in the extras changes behaviour, the activity trusted its caller. Confirm the server-side consequence before reporting.</p>
+<h3 id="exported-services-and-broadcast-receivers">Exported services and broadcast receivers<a class="headerlink" href="#exported-services-and-broadcast-receivers" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Start an exported service (background work with no caller check)</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>am<span class="w"> </span>startservice<span class="w"> </span>-n<span class="w"> </span>&lt;package&gt;/.ExportedService<span class="w"> </span>--es<span class="w"> </span><span class="s2">"cmd"</span><span class="w"> </span><span class="s2">"sync"</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Send a broadcast an exported receiver will act on</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>adb<span class="w"> </span>shell<span class="w"> </span>am<span class="w"> </span>broadcast<span class="w"> </span>-a<span class="w"> </span>com.target.ACTION_RESET<span class="w"> </span>--es<span class="w"> </span><span class="s2">"token"</span><span class="w"> </span><span class="s2">"attacker-value"</span>
+</span></code></pre></div>
+<p>A receiver that performs a sensitive action — reset, unlock, config change — from an implicit broadcast anyone can send is the finding.</p>
+<h3 id="content-providers">Content providers<a class="headerlink" href="#content-providers" title="Permanent link">&para;</a></h3>
+<p>An exported provider is a database query interface. Missing permissions leak whole tables, string-built queries give SQL injection, and weak path handling gives traversal.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Dump a provider's rows</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>content<span class="w"> </span>query<span class="w"> </span>--uri<span class="w"> </span>content://&lt;authority&gt;/&lt;table&gt;
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># SQL injection via the selection clause (--where is appended to the provider's WHERE)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>adb<span class="w"> </span>shell<span class="w"> </span>content<span class="w"> </span>query<span class="w"> </span>--uri<span class="w"> </span>content://&lt;authority&gt;/users<span class="w"> </span>--where<span class="w"> </span><span class="s2">"1=1"</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># Write through a provider that should be read-only</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>adb<span class="w"> </span>shell<span class="w"> </span>content<span class="w"> </span>insert<span class="w"> </span>--uri<span class="w"> </span>content://&lt;authority&gt;/users<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">  </span>--bind<span class="w"> </span>name:s:attacker<span class="w"> </span>--bind<span class="w"> </span>role:s:admin
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="c1"># Path traversal on a file-backed provider</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>adb<span class="w"> </span>shell<span class="w"> </span>content<span class="w"> </span><span class="nb">read</span><span class="w"> </span>--uri<span class="w"> </span><span class="s2">"content://&lt;authority&gt;/../../databases/app.db"</span>
+</span></code></pre></div>
+<h3 id="deep-links">Deep links<a class="headerlink" href="#deep-links" title="Permanent link">&para;</a></h3>
+<p>A deep link (<code>scheme://host/path</code>) turns a URL into an intent. A link a browser or another app can fire reaches an internal component carrying attacker-controlled parameters.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Fire the app's own scheme as if a link had been tapped</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>adb<span class="w"> </span>shell<span class="w"> </span>am<span class="w"> </span>start<span class="w"> </span>-a<span class="w"> </span>android.intent.action.VIEW<span class="w"> </span>-d<span class="w"> </span><span class="s2">"myapp://open/profile?id=1337"</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Push a WebView deep link at a local file -&gt; file disclosure if it renders it</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>adb<span class="w"> </span>shell<span class="w"> </span>am<span class="w"> </span>start<span class="w"> </span>-a<span class="w"> </span>android.intent.action.VIEW<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"myapp://web?url=file:///data/data/&lt;package&gt;/shared_prefs/secrets.xml"</span>
+</span></code></pre></div>
+<p>Trace each scheme into the code: an <code>id</code> that selects another user's object is an IDOR; a <code>url</code> a WebView loads is file disclosure or RCE; a token in the path can leak to an attacker app that registers the same scheme. A <code>PendingIntent</code> built without a fixed component is a related hijack vector — search the code for <code>PendingIntent.getActivity</code>, <code>getService</code> and <code>getBroadcast</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Drive components only in scope</p>
+<p>Invoking components changes app state — it can send resets, write records or trigger background jobs. Use a lab build or an authorised test account, and record the before/after state as evidence.</p>
+</div>
 <h2 id="what-to-do-with-what-you-find">What to do with what you find<a class="headerlink" href="#what-to-do-with-what-you-find" title="Permanent link">&para;</a></h2>
 <p>For each item, the write-up needs three things: the exact data, the exact command that produced it, and the impact. "Tokens are stored in plaintext and readable by anyone with a rooted device or a backup" is a finding. "The database is unencrypted" is a note to self.</p>
 <p>Next: the <a href="../checklist/">testing checklist</a> for the full list of checks, or <a href="../frida/">Frida</a> if you need to hook something right now.</p>
