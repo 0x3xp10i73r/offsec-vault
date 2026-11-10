@@ -15,8 +15,9 @@ This site is my **practical security notebook** — testing notes, lab writeups 
 
 <div class="about-cta" markdown>
 [:material-book-open-page-variant: Start reading](web-application-pentesting/index.md){ .md-button .md-button--primary }
-[:simple-github: GitHub](https://github.com/0x3xp10i73r){ .md-button }
+[:simple-github: GitHub](https://github.com/meghan-tashi){ .md-button }
 [:simple-hackthebox: Hack The Box](https://app.hackthebox.com/users/3104146){ .md-button }
+[:simple-tryhackme: TryHackMe](https://tryhackme.com/p/0x3xp10i73r){ .md-button }
 [:fontawesome-brands-linkedin: LinkedIn](https://www.linkedin.com/in/meghan-tashi/){ .md-button }
 </div>
 
@@ -117,7 +118,7 @@ This site is my **practical security notebook** — testing notes, lab writeups 
 ## Find me
 
 <div class="about-cta" markdown>
-[:simple-github: GitHub](https://github.com/0x3xp10i73r){ .md-button }
+[:simple-github: GitHub](https://github.com/meghan-tashi){ .md-button }
 [:simple-hackthebox: Hack The Box](https://app.hackthebox.com/users/3104146){ .md-button }
 [:simple-tryhackme: TryHackMe](https://tryhackme.com/p/0x3xp10i73r){ .md-button }
 [:fontawesome-brands-linkedin: LinkedIn](https://www.linkedin.com/in/meghan-tashi/){ .md-button }

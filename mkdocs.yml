@@ -108,6 +108,15 @@ extra_javascript:
 extra:
   generator: false
   social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/meghan-tashi
+      name: GitHub
+    - icon: simple/tryhackme
+      link: https://tryhackme.com/p/0x3xp10i73r
+      name: TryHackMe
+    - icon: simple/hackthebox
+      link: https://app.hackthebox.com/users/3104146
+      name: Hack The Box
     - icon: fontawesome/brands/x-twitter
       link: https://x.com/0x3xp10i73r
       name: X
