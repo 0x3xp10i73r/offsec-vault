@@ -112,4 +112,4 @@ A single low-privileged domain user — the same one a [spray](password-spraying
 
 ## Next
 
-BloodHound will usually point at specific accounts worth targeting directly. If it surfaces SPN-bearing service accounts — especially ones sitting in privileged groups — move to [Kerberoasting](kerberoasting.md).
+BloodHound will usually point at specific accounts worth targeting directly. To keep a quiet footprint while you work the graph, enumerate with native tooling only in [Living Off the Land](living-off-the-land.md). When BloodHound surfaces SPN-bearing service accounts — especially ones sitting in privileged groups — move to [Kerberoasting](kerberoasting.md).

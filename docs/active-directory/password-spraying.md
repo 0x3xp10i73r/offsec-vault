@@ -269,4 +269,4 @@ Detection relies on the same two event IDs: a burst of **4625** (SMB/NTLM) or **
 
 ## Next
 
-A successful spray — or a cracked poisoning hash — hands you a valid `<DOMAIN>` credential. From here the work moves to [credentialed enumeration](credentialed-enumeration.md).
+A successful spray — or a cracked poisoning hash — hands you a valid `<DOMAIN>` credential. Before running louder credentialed tooling, check what is watching the host in [Enumerating Security Controls](security-controls.md).

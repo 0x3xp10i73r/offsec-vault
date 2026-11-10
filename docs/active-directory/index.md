@@ -83,11 +83,11 @@ The commands throughout use a running example: an internal test of **Inlanefreig
 - **[LLMNR & NBT-NS Poisoning](llmnr-nbtns-poisoning.md)** — capturing NetNTLMv2 hashes with Responder (Linux) and Inveigh (Windows).
 - **[Password Spraying & Password Policies](password-spraying.md)** — reading the lockout policy, building a user list, and spraying safely from Linux and Windows.
 
-**Credentialed enumeration**
+**Enumeration with a foothold**
 
+- **[Enumerating Security Controls](security-controls.md)** — spotting Defender, AppLocker, CLM, and LAPS before you run loud tools.
 - **[Credentialed Enumeration](credentialed-enumeration.md)** — digging into the domain with a valid account, from Linux and Windows.
 - **[BloodHound](bloodhound.md)** — collecting directory data and finding the shortest path to Domain Admins.
-- **[Enumerating Security Controls](security-controls.md)** — spotting Defender, AppLocker, CLM, and LAPS before you run loud tools.
 - **[Living Off the Land](living-off-the-land.md)** — enumerating with native Windows tooling only.
 
 **Credential attacks**

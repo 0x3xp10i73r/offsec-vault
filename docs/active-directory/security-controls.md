@@ -97,4 +97,4 @@ Get-LAPSComputers
 
 ## Next
 
-If tooling is more restricted than this page's checks suggest — or the client wants a pure stealth pass — switch to native binaries only, covered in [Living Off the Land](living-off-the-land.md).
+With the defensive picture clear, dig into the domain with your valid account in [Credentialed Enumeration](credentialed-enumeration.md). If tooling turns out to be more restricted than these checks suggest — or the client wants a pure stealth pass — switch to native binaries only, covered in [Living Off the Land](living-off-the-land.md).
