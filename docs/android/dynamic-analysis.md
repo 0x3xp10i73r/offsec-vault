@@ -6,6 +6,8 @@ tags:
   - Dynamic Analysis
   - Data Storage
   - SSL Pinning
+  - IPC
+  - Exported Components
 ---
 
 # Dynamic analysis
@@ -165,6 +167,80 @@ adb logcat \
 ```
 
 Eight ways to get around it — iptables redirection, patching the hardcoded hash, editing the manifest, reFlutter for Flutter apps, swapping the pinned certificate, Objection, Frida scripts, and smali patching — are on the [testing checklist](checklist.md#1-ssl-pinning-bypass).
+
+## 8. Attacking exported components at runtime
+
+Inter-process communication is where most Android-specific bugs live. Any component marked `android:exported="true"` — or, on older targets, any component given an `intent-filter` with no explicit `exported` flag — can be invoked by any other app on the device, and by you from `adb`. Static analysis finds the exposed components; this is how you actually drive them.
+
+Start from the manifest (`apktool d` output) or the live package record, list the exported components, then exercise each one.
+
+```bash
+# List a package's components and their exported state
+adb shell dumpsys package <package> | grep -iE "Activity|Service|Receiver|Provider|exported"
+```
+
+### Exported activities
+
+An exported activity can be launched directly, which skips whatever flow normally precedes it — the classic "jump past the login screen" bug.
+
+```bash
+# Launch an exported activity by name
+adb shell am start -n <package>/<package>.SecretActivity
+
+# Launch it WITH attacker-controlled extras, to see what it trusts
+adb shell am start -n <package>/.ProfileActivity --es "user_id" "1337" --ez "is_admin" true
+```
+
+If the screen behind authentication renders, or a value in the extras changes behaviour, the activity trusted its caller. Confirm the server-side consequence before reporting.
+
+### Exported services and broadcast receivers
+
+```bash
+# Start an exported service (background work with no caller check)
+adb shell am startservice -n <package>/.ExportedService --es "cmd" "sync"
+
+# Send a broadcast an exported receiver will act on
+adb shell am broadcast -a com.target.ACTION_RESET --es "token" "attacker-value"
+```
+
+A receiver that performs a sensitive action — reset, unlock, config change — from an implicit broadcast anyone can send is the finding.
+
+### Content providers
+
+An exported provider is a database query interface. Missing permissions leak whole tables, string-built queries give SQL injection, and weak path handling gives traversal.
+
+```bash
+# Dump a provider's rows
+adb shell content query --uri content://<authority>/<table>
+
+# SQL injection via the selection clause (--where is appended to the provider's WHERE)
+adb shell content query --uri content://<authority>/users --where "1=1"
+
+# Write through a provider that should be read-only
+adb shell content insert --uri content://<authority>/users \
+  --bind name:s:attacker --bind role:s:admin
+
+# Path traversal on a file-backed provider
+adb shell content read --uri "content://<authority>/../../databases/app.db"
+```
+
+### Deep links
+
+A deep link (`scheme://host/path`) turns a URL into an intent. A link a browser or another app can fire reaches an internal component carrying attacker-controlled parameters.
+
+```bash
+# Fire the app's own scheme as if a link had been tapped
+adb shell am start -a android.intent.action.VIEW -d "myapp://open/profile?id=1337"
+
+# Push a WebView deep link at a local file -> file disclosure if it renders it
+adb shell am start -a android.intent.action.VIEW \
+  -d "myapp://web?url=file:///data/data/<package>/shared_prefs/secrets.xml"
+```
+
+Trace each scheme into the code: an `id` that selects another user's object is an IDOR; a `url` a WebView loads is file disclosure or RCE; a token in the path can leak to an attacker app that registers the same scheme. A `PendingIntent` built without a fixed component is a related hijack vector — search the code for `PendingIntent.getActivity`, `getService` and `getBroadcast`.
+
+!!! warning "Drive components only in scope"
+    Invoking components changes app state — it can send resets, write records or trigger background jobs. Use a lab build or an authorised test account, and record the before/after state as evidence.
 
 ## What to do with what you find
 

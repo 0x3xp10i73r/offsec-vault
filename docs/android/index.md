@@ -135,7 +135,7 @@ The developer signs the APK with a private key and ships the matching public cer
 - **[Setup and ADB](setup-adb.md)** — device, emulator, ADB, wireless ADB, package handling, MobSF.
 - **[Intercepting traffic](proxy-certificates.md)** — Burp CA into the system store on a rooted device, proxy configuration, and what breaks on Android 7 and later.
 - **[Static analysis](static-analysis.md)** — hardcoded secrets, weak crypto, hybrid app bundles, obfuscation, native libraries, backup and debuggable flags, Firebase.
-- **[Dynamic analysis](dynamic-analysis.md)** — insecure storage, root and emulator detection, pinning signals, logs and memory.
+- **[Dynamic analysis](dynamic-analysis.md)** — insecure storage, root and emulator detection, pinning signals, and attacking exported components and deep links at runtime.
 - **[Testing checklist](checklist.md)** — the working list, from pinning bypass to biometric bypass, with the command that proves each one.
 - **[Frida](frida.md)** — server setup, hook template, tracing, codeshare scripts, biometric hooks.
 - **[Glossary](glossary.md)** — Android and tooling terms in one place.
