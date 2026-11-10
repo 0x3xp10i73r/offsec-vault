@@ -1,90 +1,95 @@
 ---
 title: "Active Directory"
-description: "A plain-language Active Directory assessment workflow from network position and identity mapping to validated privilege paths and cleanup."
+description: "What Active Directory is and how an internal assessment flows — from external recon and a foothold through credentialed enumeration, BloodHound, and Kerberoasting."
 tags:
   - Active Directory
   - Internal
-  - Red Team
+  - Enumeration
   - Kerberos
   - BloodHound
 ---
 
-# Active Directory and internal networks
+# Active Directory
 
-Active Directory testing is graph analysis. A username, computer, group, certificate template or delegated right is a node; the permissions and authentication paths between them are edges. The assessment asks which edges are intended, which are too broad, and whether a controlled identity can move from the current foothold to a defined objective.
+**Active Directory (AD)** is Microsoft's directory service for Windows networks. It stores every user, computer, group, and policy in the environment in one place and handles authentication and authorization for all of them. Because almost every medium-to-large organisation runs on it, AD is the single most important thing to understand for internal network testing: compromise the directory and you effectively own the network.
 
-!!! note "What we are doing"
-    We begin with network position and identity context, read policy before attempting credentials, collect the minimum directory data needed to model trust, and validate one path at a time. “Domain Admin” is not the goal by itself; the goal is to demonstrate the agreed business objective and explain how defenders can see and remove the path.
+This section rebuilds the **Active Directory Enumeration & Attacks** workflow as a clean, repeatable methodology. It follows the path a real internal assessment takes — map the outside, get a first foothold, turn that foothold into credentials, and use those credentials to find the shortest path to a privileged account — authored from field notes and kept to authorised, educational use.
 
-## The AD assessment loop
+!!! note "What this section covers"
+    The focus is **enumeration and the initial-attack phase**: external recon, getting a foothold through poisoning or spraying, then enumerating the domain with credentials, mapping it in BloodHound, and extracting service-account hashes with Kerberoasting. Post-foothold topics (ADCS, lateral movement, domain dominance) are kept as separate reference pages.
+
+## The directory in plain terms
+
+A few building blocks appear on every page, so it helps to name them once.
+
+- **Domain** — a logical boundary of objects (users, computers, groups) that share a database and policy, e.g. `INLANEFREIGHT.LOCAL`. Domains can be nested into a **forest**, and forests can **trust** each other.
+- **Domain Controller (DC)** — a server that hosts the AD database and answers authentication requests. Find the DC and you have found the heart of the domain. A DC typically exposes DNS (53), Kerberos (88), LDAP (389/636), SMB (445), and the Global Catalog (3268/3269).
+- **Object and principal** — anything stored in the directory is an object; a user, computer, or group that can hold permissions is a **security principal**, identified by a **SID**.
+- **OU (Organisational Unit)** — a container used to organise objects and apply Group Policy.
+- **GPO (Group Policy Object)** — a bundle of settings pushed to users and computers; GPOs frequently leak credentials and misconfigurations.
+
+### The protocols you will attack
+
+AD authentication runs on a handful of protocols. You do not need to implement them, but you must recognise them.
+
+| Protocol | What it is | Why it matters |
+| :--- | :--- | :--- |
+| **LDAP** | Lightweight Directory Access Protocol — the query language/API for reading and writing directory objects | Almost all enumeration (users, groups, ACLs, SPNs) is an LDAP query underneath |
+| **Kerberos** | The default AD authentication protocol — a ticket system where a DC (the KDC) issues a TGT, which is exchanged for service tickets (TGS) | AS-REP Roasting and Kerberoasting both abuse how these tickets are issued and encrypted |
+| **NTLM / NetNTLM** | A legacy challenge-response authentication scheme still enabled almost everywhere | Captured NetNTLMv2 hashes can be cracked offline or relayed to other hosts |
+| **SMB** | File and resource sharing over the network | Null sessions, share hunting, and remote execution all ride on SMB |
+| **DNS** | Name resolution; AD is DNS-dependent | A failed DNS lookup is exactly what triggers the LLMNR/NBT-NS fallback we poison |
+
+## The assessment flow
+
+The pages in this section are ordered the way the work actually happens.
 
 ```mermaid
 flowchart TD
-    A[Scope, network position and ROE] --> B[Hosts, DNS, SMB and LDAP]
-    B --> C[Users, groups, computers and policy]
-    C --> D[Graph permissions and sessions]
-    D --> E[Credentials, certificates and delegation]
-    E --> F[Shortest approved path to objective]
-    F --> G[Minimal validation and evidence]
-    G --> H[Revert, detect and report]
+    A[External recon / OSINT] --> B[Initial domain enumeration]
+    B --> C{Foothold}
+    C -->|Network poisoning| D[LLMNR / NBT-NS]
+    C -->|Credential guessing| E[Password spraying]
+    D --> F[Valid domain credentials]
+    E --> F
+    F --> G[Credentialed enumeration]
+    G --> H[BloodHound attack paths]
+    H --> I[Kerberoasting & onward]
 ```
 
-| Phase | Plain-language question | Useful output |
-| :--- | :--- | :--- |
-| **Position** | Which VLAN, VPN, cloud network or jump host am I on? | Subnet, routes, DNS, egress and exclusions |
-| **Inventory** | Which hosts and services exist? | Host/service inventory with timestamps |
-| **Identity** | What can the current account read or change? | User, group, policy, trust and ACL data |
-| **Graph** | Which principals, sessions and permissions connect me to the objective? | BloodHound/LDAP graph and ranked paths |
-| **Validate** | Can one low-impact step prove the path? | Controlled request, certificate, session or object change |
-| **Close** | What did we create or change, and how will it be detected? | Cleanup log, IOCs, event IDs and remediation |
+Two things run in parallel at the foothold stage: **network poisoning** (listen for and spoof name-resolution traffic to capture hashes) and **password spraying** (try one common password against many accounts). Either one can hand you the first valid credential, and a single low-privilege domain user is enough to start mapping the whole domain.
 
-## Core terms
+## The engagement scenario
 
-- **Domain Controller (DC):** a server providing directory, Kerberos, LDAP, DNS and often file/authentication services.
-- **Principal:** a user, computer, group or service identity that can receive permissions.
-- **ACL/ACE:** the permissions that connect a principal to an object. A short path often comes from an unexpected write right, not a missing password.
-- **SPN:** a service identity used by Kerberos. Service accounts with SPNs deserve careful review because their password strength and delegation settings matter.
-- **Delegation:** permission for one service or computer to act for a user to another service. Scope and target restrictions are the important security questions.
-- **Tier 0:** identities and systems that control the directory or its trust anchors, including domain controllers, PKI and high-privilege groups.
+The commands throughout use a running example: an internal test of **Inlanefreight** (`INLANEFREIGHT.LOCAL`) on the `172.16.5.0/23` subnet, starting from an **anonymous position with no credentials** and working toward Domain Admin. Substitute your own authorised targets for the placeholders:
+
+- `<DC_IP>` — the Domain Controller's IP (example: `172.16.5.5`)
+- `<DOMAIN>` — the target domain (example: `INLANEFREIGHT.LOCAL`)
+- `<TARGET_IP>` — any other in-scope host
+
+!!! danger "Authorisation first — every time"
+    Everything here is for **authorised, educational engagements only**. Before you touch a host: confirm it is explicitly in the scope document, confirm the method is authorised in writing, and confirm whether the test is evasive or non-evasive. Noisy tools (Nmap, Responder, spraying) trip SOC alerts, and a careless spray can lock out every account in the business. When in doubt, ask the client — do not assume.
 
 ## Pages in this section
 
-- **[Enumeration and BloodHound](ad-enumeration-bloodhound.md)** — establish the directory model, permissions, trusts, sessions and shortest paths.
-- **[Kerberos and credentials](kerberos-credential-attacks.md)** — pre-authentication, service tickets, relay, delegation and credential hygiene.
-- **[ADCS and ACL abuse](adcs-delegation-acl.md)** — certificate templates, enrollment endpoints, object rights and controlled escalation validation.
-- **[Lateral movement and pivoting](lateral-movement-pivoting.md)** — choose a remote execution method and tunnel only the network segment required.
-- **[Domain dominance and persistence](domain-dominance-persistence.md)** — high-impact validation, recovery implications, detection and cleanup.
+**Foundations**
 
-## Lab and engagement setup
+- **[Tools of the Trade](tools-of-the-trade.md)** — the standard AD toolkit, grouped by phase.
+- **[External Recon & Enumeration Principles](external-recon.md)** — OSINT, breach data, and building a username list before you go internal.
 
-Keep environment setup separate from exploitation. It should make the target unambiguous and make authentication reproducible without placing real passwords in a shared notes file.
+**Getting a foothold**
 
-```bash
-# Add only approved lab hosts to the local resolver file.
-printf '%s\n' '<DC_IP> <DOMAIN> dc01.<DOMAIN> dc01' \
-  | sudo tee -a /etc/hosts
+- **[Initial Domain Enumeration](initial-domain-enumeration.md)** — passive listening, host discovery, Nmap, and Kerbrute user enumeration.
+- **[LLMNR & NBT-NS Poisoning](llmnr-nbtns-poisoning.md)** — capturing NetNTLMv2 hashes with Responder (Linux) and Inveigh (Windows).
+- **[Password Spraying & Password Policies](password-spraying.md)** — reading the lockout policy, building a user list, and spraying safely from Linux and Windows.
 
-# Confirm the DC exposes the services needed by the next phase.
-nmap -Pn -sV -p 53,88,135,139,389,445,464,636,3268,3269,5985 \
-  <DC_IP> \
-  -oA "evidence/<TARGET_NAME>/dc-baseline"
+**Credentialed enumeration**
 
-# Ask LDAP for the naming contexts. This is an observation, not an exploit.
-ldapsearch -x -H "ldap://<DC_IP>" -s base -b "" \
-  namingContexts defaultNamingContext
-```
+- **[Credentialed Enumeration](credentialed-enumeration.md)** — digging into the domain with a valid account, from Linux and Windows.
+- **[BloodHound](bloodhound.md)** — collecting directory data and finding the shortest path to Domain Admins.
+- **[Enumerating Security Controls](security-controls.md)** — spotting Defender, AppLocker, CLM, and LAPS before you run loud tools.
+- **[Living Off the Land](living-off-the-land.md)** — enumerating with native Windows tooling only.
 
-If Kerberos is in scope, synchronize time and document the source before debugging authentication. A clock error can look like a credential or ticket failure.
+**Credential attacks**
 
-## Safety gates
-
-- Read the password and lockout policy before any spray; use one controlled round and a stop condition.
-- Treat relay, coercion, certificate requests, ACL changes and delegation changes as explicit approval items.
-- Prefer reading and graphing over changing directory objects.
-- Use dedicated test accounts and objects; never reset a real user's password to prove a path.
-- Record every account, host, command, timestamp and object changed.
-- Remove machine accounts, certificates, key credentials, ACLs, RBCD entries, scheduled tasks and routes before closing.
-
-## What to put in the report
-
-Explain the path in human terms: **current identity → permission or credential → intermediate object → target objective**. Include the directory object, the exact right or policy setting, the minimal proof, relevant security events, and the remediation. A graph screenshot is useful; it is not a substitute for naming the edge that made the path possible.
+- **[Kerberoasting](kerberoasting.md)** — requesting service tickets and cracking service-account passwords offline.
