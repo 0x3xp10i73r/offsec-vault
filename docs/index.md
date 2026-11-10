@@ -7,7 +7,7 @@ hide:
 
 # Meghan Tashi
 
-<p class="about-role">Cyber Security Analyst</p>
+<p class="about-role">Security Researcher</p>
 
 <p class="about-lead" markdown>
 This site is my **practical security notebook** — testing notes, lab writeups and checklists, written down clearly so they are easy to reuse during a lab, a review or an authorized assessment. I learn by taking one complicated security question and breaking it into smaller ones: *what is the application trusting, what should the user be allowed to do, what evidence would prove the problem, and how could the control be improved?*

