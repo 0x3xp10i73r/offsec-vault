@@ -202,5 +202,4 @@
     - Tooling and reference
         - [Burp Suite and tooling](checklists-arsenal/burp-extensions-arsenal.md)
         - [Reference index](checklists-arsenal/security-reference-index.md)
-- [Blog](blog/index.md)
 - [Tags](tags.md)
