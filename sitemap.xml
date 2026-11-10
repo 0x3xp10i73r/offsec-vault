@@ -93,14 +93,6 @@
          <lastmod>2026-11-10</lastmod>
     </url>
     <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/blog/</loc>
-         <lastmod>2026-11-10</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/blog/2026/01/22/how-this-site-is-built/</loc>
-         <lastmod>2026-11-10</lastmod>
-    </url>
-    <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/checklists-arsenal/</loc>
          <lastmod>2026-11-10</lastmod>
     </url>
@@ -782,18 +774,6 @@
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-bugbounty/xss-csp-client-side/</loc>
-         <lastmod>2026-11-10</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/blog/archive/2026/</loc>
-         <lastmod>2026-11-10</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/blog/category/meta/</loc>
-         <lastmod>2026-11-10</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/blog/category/tooling/</loc>
          <lastmod>2026-11-10</lastmod>
     </url>
 </urlset>
