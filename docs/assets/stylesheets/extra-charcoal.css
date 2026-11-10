@@ -1008,3 +1008,89 @@ body.cors-lightbox-open {
     max-height: calc(100vh - 4.5rem);
   }
 }
+
+/* ------------------------------------------------------------- about page */
+/* Flat Dracula treatment for the landing/profile page. No gradients. */
+.md-typeset .about-role {
+  display: inline-block;
+  margin: -0.4rem 0 1.1rem;
+  padding: 0.22rem 0.7rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--d-pink);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.md-typeset .about-lead {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--fg-soft);
+  max-width: 44rem;
+}
+
+.md-typeset .about-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.4rem 0 0.4rem;
+}
+
+.md-typeset .about-cta .md-button {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* icon alignment inside cards and buttons */
+.md-typeset .about-cta .md-button svg,
+.md-typeset .grid.cards .twemoji svg {
+  height: 1.05em;
+  width: 1.05em;
+  vertical-align: -0.2em;
+}
+
+.md-typeset .grid.cards > ul > li > p:first-child .twemoji {
+  color: var(--d-cyan);
+  margin-right: 0.3rem;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--line-strong);
+}
+
+/* skill / tool chips — inline code reused as pills inside .chips */
+.md-typeset .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.5rem 0 1.4rem;
+}
+
+.md-typeset .chips > code {
+  background-color: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--fg-soft);
+  font-size: 0.72rem;
+  padding: 0.22rem 0.7rem;
+  box-shadow: none;
+}
+
+.md-typeset .chips > code:hover {
+  border-color: var(--d-purple);
+  color: var(--fg);
+}
+
+/* small section label above chip groups */
+.md-typeset .chip-label {
+  color: var(--d-pink);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0.2rem 0 0.1rem;
+}
