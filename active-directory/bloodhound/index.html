@@ -18,7 +18,7 @@
         <link rel="prev" href="../credentialed-enumeration/">
       
       
-        <link rel="next" href="../kerberoasting/">
+        <link rel="next" href="../living-off-the-land/">
       
       
         
@@ -6495,6 +6495,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../tools-of-the-trade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools of the trade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../external-recon/" class="md-nav__link">
         
   
@@ -6587,6 +6615,34 @@
     
   
     Password spraying and policies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-controls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enumerating security controls
   
 
     
@@ -6804,62 +6860,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../kerberoasting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Kerberoasting
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../security-controls/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Enumerating security controls
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../living-off-the-land/" class="md-nav__link">
         
   
@@ -6888,14 +6888,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools-of-the-trade/" class="md-nav__link">
+      <a href="../kerberoasting/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Tools of the trade
+    Kerberoasting
   
 
     
@@ -8322,7 +8322,7 @@
 <h2 id="why-run-it-early">Why run it early<a class="headerlink" href="#why-run-it-early" title="Permanent link">&para;</a></h2>
 <p>A single low-privileged domain user — the same one a <a href="../password-spraying/">spray</a> or a <a href="../llmnr-nbtns-poisoning/">poisoning capture</a> just handed you — is enough to collect the whole domain's graph. Running BloodHound at the start of credentialed access, rather than after manual enumeration is exhausted, routinely turns up an escalation chain a manual pass would have missed (nested group membership, an ACL grant nobody remembers setting, a DCOM/RDP right left over from a decommissioned admin workflow).</p>
 <h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>
-<p>BloodHound will usually point at specific accounts worth targeting directly. If it surfaces SPN-bearing service accounts — especially ones sitting in privileged groups — move to <a href="../kerberoasting/">Kerberoasting</a>.</p>
+<p>BloodHound will usually point at specific accounts worth targeting directly. To keep a quiet footprint while you work the graph, enumerate with native tooling only in <a href="../living-off-the-land/">Living Off the Land</a>. When BloodHound surfaces SPN-bearing service accounts — especially ones sitting in privileged groups — move to <a href="../kerberoasting/">Kerberoasting</a>.</p>
 
 
 
@@ -8381,13 +8381,13 @@
         
         
           
-          <a href="../kerberoasting/" class="md-footer__link md-footer__link--next" aria-label="Next: Kerberoasting">
+          <a href="../living-off-the-land/" class="md-footer__link md-footer__link--next" aria-label="Next: Living off the land">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Kerberoasting
+                Living off the land
               </div>
             </div>
             <div class="md-footer__button md-icon">

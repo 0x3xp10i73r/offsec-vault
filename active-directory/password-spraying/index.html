@@ -18,7 +18,7 @@
         <link rel="prev" href="../llmnr-nbtns-poisoning/">
       
       
-        <link rel="next" href="../credentialed-enumeration/">
+        <link rel="next" href="../security-controls/">
       
       
         
@@ -6495,6 +6495,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../tools-of-the-trade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools of the trade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../external-recon/" class="md-nav__link">
         
   
@@ -6870,6 +6898,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../security-controls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enumerating security controls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../credentialed-enumeration/" class="md-nav__link">
         
   
@@ -6926,62 +6982,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../kerberoasting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Kerberoasting
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../security-controls/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Enumerating security controls
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../living-off-the-land/" class="md-nav__link">
         
   
@@ -7010,14 +7010,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools-of-the-trade/" class="md-nav__link">
+      <a href="../kerberoasting/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Tools of the trade
+    Kerberoasting
   
 
     
@@ -8748,7 +8748,7 @@
 </table>
 <p>Detection relies on the same two event IDs: a burst of <strong>4625</strong> (SMB/NTLM) or <strong>4771</strong> (Kerberos pre-auth failed) across many distinct accounts in a short window is the signature of a spray, not a brute force.</p>
 <h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>
-<p>A successful spray — or a cracked poisoning hash — hands you a valid <code>&lt;DOMAIN&gt;</code> credential. From here the work moves to <a href="../credentialed-enumeration/">credentialed enumeration</a>.</p>
+<p>A successful spray — or a cracked poisoning hash — hands you a valid <code>&lt;DOMAIN&gt;</code> credential. Before running louder credentialed tooling, check what is watching the host in <a href="../security-controls/">Enumerating Security Controls</a>.</p>
 
 
 
@@ -8807,13 +8807,13 @@
         
         
           
-          <a href="../credentialed-enumeration/" class="md-footer__link md-footer__link--next" aria-label="Next: Credentialed enumeration">
+          <a href="../security-controls/" class="md-footer__link md-footer__link--next" aria-label="Next: Enumerating security controls">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Credentialed enumeration
+                Enumerating security controls
               </div>
             </div>
             <div class="md-footer__button md-icon">
