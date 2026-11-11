@@ -521,90 +521,6 @@ body {
   border-radius: 6px;
 }
 
-/* ---------------------------------------------- command variables (script) */
-.cmd-vars {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background-color: var(--bg-raised);
-  padding: 0.85rem 1rem;
-  margin: 0 0 1.3rem;
-}
-
-.cmd-vars__header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.cmd-vars__title {
-  color: var(--d-pink);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.cmd-vars__hint {
-  flex: 1;
-  text-align: right;
-  color: var(--fg-faint);
-  font-size: 0.66rem;
-}
-
-.cmd-vars__reset {
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  background-color: transparent;
-  color: var(--fg-soft);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.66rem;
-  padding: 0.2rem 0.6rem;
-}
-
-.cmd-vars__reset:hover {
-  border-color: var(--d-purple);
-  color: var(--d-purple);
-}
-
-.cmd-vars__fields {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.6rem;
-}
-
-.cmd-vars__field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.cmd-vars__field label {
-  color: var(--fg-faint);
-  font-family: var(--md-code-font-family, monospace);
-  font-size: 0.64rem;
-}
-
-.cmd-vars__field input {
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background-color: #0b0b10;
-  color: var(--fg);
-  font: inherit;
-  font-family: var(--md-code-font-family, monospace);
-  font-size: 0.72rem;
-  padding: 0.28rem 0.5rem;
-}
-
-.cmd-vars__field input:focus {
-  border-color: var(--d-purple);
-  box-shadow: 0 0 0 2px rgba(189, 147, 249, 0.18);
-  outline: none;
-}
-
 /* ------------------------------------------------ checklist progress (script) */
 .checklist-progress {
   display: flex;
@@ -798,23 +714,7 @@ body {
 
 
 /* ------------------------------------------------------------ HTB writeups */
-/*
-   HTB pages use a replaceable banner in each box folder and roomy, framed
-   figures for the supplied screenshots. The banner is intentionally a simple
-   placeholder until the final box artwork is uploaded.
-*/
-.md-typeset .htb-banner {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1600 / 420;
-  object-fit: cover;
-  margin: 0 0 1.5rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 10px;
-  background: var(--bg-raised);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
-}
-
+/* HTB pages use roomy, framed figures for the supplied screenshots. */
 .md-typeset .htb-figure {
   margin: 1.8rem 0 2.2rem;
   padding: 0.75rem;

@@ -5,11 +5,6 @@ description: Reactor Hack The Box writeup covering React2Shell and a privileged 
 
 # Reactor
 
-<img class="htb-banner" src="images/banner.png" alt="Reactor box banner placeholder">
-
-!!! note "Replaceable banner"
-    Replace `images/banner.png` in this box folder with the final Reactor artwork. The page already points to that filename.
-
 | Field | Value |
 | --- | --- |
 | Status | Completed — May 26, 2026 |

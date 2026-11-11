@@ -5,11 +5,6 @@ description: WingData Hack The Box writeup covering Wing FTP RCE and a tarfile p
 
 # WingData
 
-<img class="htb-banner" src="images/banner.png" alt="WingData box banner placeholder">
-
-!!! note "Replaceable banner"
-    Replace `images/banner.png` in this box folder with the final WingData artwork. The page already points to that filename.
-
 | Field | Value |
 | --- | --- |
 | Status | Completed — May 8, 2026 |

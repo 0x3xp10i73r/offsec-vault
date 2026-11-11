@@ -60,5 +60,4 @@ This section contains writeups for completed Hack The Box machines. Each page fo
 
 - Commands use fenced blocks with the shell or language that produced them.
 - Screenshots are copied from the supplied source notes and shown in their original order.
-- `images/banner.png` in each machine folder is a temporary banner generated for the page. Replace that file with the final box artwork without changing the Markdown.
 - User and root flags are intentionally represented as `<USER_FLAG_REDACTED>` and `<ROOT_FLAG_REDACTED>` in the published writeups.

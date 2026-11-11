@@ -5,11 +5,6 @@ description: Facts Hack The Box writeup covering Camaleon CMS escalation, S3-bac
 
 # Facts
 
-<img class="htb-banner" src="images/banner.png" alt="Facts box banner placeholder">
-
-!!! note "Replaceable banner"
-    Replace `images/banner.png` in this box folder with the final Facts artwork. The page already points to that filename.
-
 | Field | Value |
 | --- | --- |
 | Status | Completed — May 2, 2026 |
