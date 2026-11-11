@@ -994,3 +994,14 @@ body.cors-lightbox-open {
   text-transform: uppercase;
   margin: 0.2rem 0 0.1rem;
 }
+
+/* ------------------------------------------------------------- site logo */
+/* The header logo is a square illustration; round its corners slightly so it
+   reads as an avatar rather than a hard-edged crop. */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 1.9rem;
+  width: 1.9rem;
+  border-radius: 6px;
+  object-fit: cover;
+}
