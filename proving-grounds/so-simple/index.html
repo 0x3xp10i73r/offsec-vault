@@ -6252,6 +6252,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#how-cve-2019-9978-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How CVE-2019-9978 works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#user-flag-and-ssh-key-theft" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8966,6 +8977,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#how-cve-2019-9978-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How CVE-2019-9978 works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#user-flag-and-ssh-key-theft" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9152,6 +9174,13 @@
 <p><strong>Social Warfare ≤ 3.5.2</strong> (CVE-2019-9978) lets an unauthenticated attacker point the plugin's <code>swp_debug=load_options</code> / <code>get_user_options</code> AJAX endpoint at an attacker-hosted "options" file, which the plugin then executes as PHP — a classic remote-file-inclusion-to-RCE chain.</p>
 <p><img alt="GitHub PoC repository for CVE-2019-9978, the Social Warfare plugin RCE" src="../images/so-simple/image.png" /></p>
 <h2 id="3-foothold-social-warfare-unauthenticated-rce-cve-2019-9978">3. Foothold — Social Warfare unauthenticated RCE (CVE-2019-9978)<a class="headerlink" href="#3-foothold-social-warfare-unauthenticated-rce-cve-2019-9978" title="Permanent link">&para;</a></h2>
+<h3 id="how-cve-2019-9978-works">How CVE-2019-9978 works<a class="headerlink" href="#how-cve-2019-9978-works" title="Permanent link">&para;</a></h3>
+<p>Social Warfare ships a debugging feature meant to let a site owner import previously-exported share-count settings from a URL. The vulnerable code path takes an attacker-supplied <code>swp_url</code> parameter (reachable via <code>?swp_debug=load_options&amp;swp_url=&lt;attacker-URL&gt;</code> on the plugin's admin-ajax actions) and, with <strong>no authentication check and no validation that the URL points at the site's own domain</strong>, does two dangerous things with it:</p>
+<ol>
+<li>It performs a server-side HTTP request (<code>wp_remote_get</code>/<code>file_get_contents</code>-style fetch) to whatever <code>swp_url</code> points at — classic Server-Side Request Forgery, since the request originates from the WordPress server, not the attacker's browser.</li>
+<li>It then treats the fetched content as a trusted serialized PHP "options" payload and <strong>unserializes and evaluates it</strong> as part of restoring plugin settings, rather than treating it as inert data.</li>
+</ol>
+<p>Chaining those two flaws means an attacker only needs to host a file containing a crafted PHP payload (wrapped so it survives the plugin's unserialize/eval path) and ask the vulnerable AJAX endpoint to fetch it. Because step 2 ultimately executes attacker-controlled content, this is an <strong>unauthenticated remote code execution</strong>, not just an SSRF — the plugin was never designed to let an anonymous visitor cause arbitrary PHP to run on the server, but the debug-import feature trusted its input completely, with no login requirement at all. This is why an abandoned plugin with a known CVE is treated as critical: no session, no credentials, no admin interaction are needed — a single unauthenticated HTTP request is the whole attack.</p>
 <p>A local HTTP server hosts the malicious "options" payload, and the public exploit script delivers it to the target, which fetches and executes it:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span>
 </span></code></pre></div>
@@ -9182,6 +9211,10 @@
 <p><code>www-data</code> can still read into <code>max</code>'s home directory, including its <code>.ssh</code> folder:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cat<span class="w"> </span>/home/max/.ssh/id_rsa
 </span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Why a readable private key is a direct shell as its owner</p>
+<p>An SSH private key is the entire credential — there's no second factor and no server-side password check in key-based auth; whoever holds the key's bytes <em>is</em> authenticated as that key's owner, as far as SSH is concerned. <code>max</code>'s <code>id_rsa</code> should only ever be readable by <code>max</code> (mode <code>600</code>, owner <code>max</code>), but because <code>www-data</code> ends up with filesystem read access into <code>/home/max/.ssh/</code> (loose home-directory permissions, a misconfigured web root, or simply running as a user that can traverse there), the webshell can <code>cat</code> the key out directly. Once the raw key material is exfiltrated, it's copied locally, <code>chmod 600</code>'d, and handed to <code>ssh -i id_rsa max@target</code> — no password, no brute force, no exploit needed. This is also simply a better shell than the one RCE gave: a webshell/named-pipe reverse shell is not a TTY, breaks on job control, and dies if the HTTP worker process is recycled, while a real SSH session is stable and fully interactive, which is why the key is pulled out and used instead of continuing to pivot through the web shell.</p>
+</div>
 <p>The private key is pulled out and used to log in directly as <code>max</code> over SSH with a proper TTY, rather than fighting the webshell.</p>
 <h2 id="4-privilege-escalation-chaining-sudo-across-three-accounts">4. Privilege escalation — chaining sudo across three accounts<a class="headerlink" href="#4-privilege-escalation-chaining-sudo-across-three-accounts" title="Permanent link">&para;</a></h2>
 <h3 id="max-steven">max → steven<a class="headerlink" href="#max-steven" title="Permanent link">&para;</a></h3>
@@ -9196,6 +9229,10 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>$ whoami
 </span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>steven
 </span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">How the <code>service</code> hop works</p>
+<p><code>sudo -l</code> shows that <code>max</code> can run <code>/usr/sbin/service</code> <strong>as <code>steven</code></strong>, with no password. <code>service &lt;name&gt; &lt;action&gt;</code> is normally just a thin wrapper that looks up an init script under <code>/etc/init.d/&lt;name&gt;</code> and calls it with <code>&lt;action&gt;</code> (<code>start</code>, <code>stop</code>, <code>status</code>, …). The wrapper does essentially no validation that <code>&lt;name&gt;</code> is actually a legitimate service name — it builds a path by string-concatenating <code>/etc/init.d/</code> with whatever is supplied and executes it. By supplying a <strong>path-traversal string</strong> (<code>../../bin/sh</code>) instead of a service name, the concatenated path resolves to <code>/etc/init.d/../../bin/sh</code> → <code>/bin/sh</code>, so <code>service</code> ends up executing <code>/bin/sh</code> directly instead of an init script — and because the whole thing runs under <code>sudo -u steven</code>, that shell spawns with <code>steven</code>'s UID. The underlying lesson: any sudo rule that hands a user control over the <em>first argument</em> to a program which then builds a filesystem path or command from it is a potential privilege-escalation primitive, regardless of what the binary's intended purpose is.</p>
+</div>
 <h3 id="steven-root">steven → root<a class="headerlink" href="#steven-root" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sudo<span class="w"> </span>-l
 </span></code></pre></div>
@@ -9208,6 +9245,10 @@
 </span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>chmod<span class="w"> </span>+x<span class="w"> </span>/opt/tools/server-health.sh
 </span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>sudo<span class="w"> </span>/opt/tools/server-health.sh
 </span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Why a sudo rule pointing at a missing script is still exploitable</p>
+<p><code>sudoers</code> grants permission to execute a <strong>path</strong>, not a specific, verified file — <code>visudo</code>/<code>sudoers</code> has no concept of "the script that currently lives there" versus "whatever ends up at that path later." When the administrator wrote <code>(root) NOPASSWD: /opt/tools/server-health.sh</code> they were presumably planning to create that script eventually, but until they do, the rule is a standing promise: <em>"whatever file sudo finds at this exact path when you run it, you may execute as root, no password needed."</em> Because <code>/opt</code> (and the <code>tools</code> subdirectory once created) is writable by <code>steven</code>, nothing stops <code>steven</code> from being the one who creates that file first, with arbitrary content, and then invoking <code>sudo /opt/tools/server-health.sh</code> to have root run exactly that content. This is the second half of the "sudo chain": the first hop (<code>max → steven</code>) was an argument-injection bug in a real binary; this hop is a pure trust-the-path bug — sudo's guarantee only covers <em>the path string in the rule</em>, never the integrity, existence, or ownership of whatever happens to be sitting at that path when the rule is used.</p>
+</div>
 <h2 id="5-root-prooftxt">5. Root / proof.txt<a class="headerlink" href="#5-root-prooftxt" title="Permanent link">&para;</a></h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>root@so-simple:/opt/tools# cd /root
 </span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>root@so-simple:~# cat proof.txt
@@ -9216,7 +9257,7 @@
 </span></code></pre></div>
 <hr />
 <h2 id="takeaway">Takeaway<a class="headerlink" href="#takeaway" title="Permanent link">&para;</a></h2>
-<p>A single outdated, long-unmaintained WordPress plugin (Social Warfare) was all it took for unauthenticated RCE. From there the box was a three-hop sudo chain: a loosely-validated <code>service</code> wrapper handed over a second account, and a sudo rule pointing at a script that simply didn't exist yet handed over root — sudo's <code>NOPASSWD</code> guarantees only that the <em>named path</em> runs as root, never that the path's contents are trustworthy or even present.</p>
+<p>A single outdated, long-unmaintained WordPress plugin (Social Warfare) was all it took for unauthenticated RCE — the plugin's own "restore settings from a URL" debug feature became an SSRF-to-eval chain with zero authentication required. From there the box was a three-hop sudo chain: a loosely-validated <code>service</code> wrapper handed over a second account via path-traversal argument injection, and a sudo rule pointing at a script that simply didn't exist yet handed over root because <code>steven</code> could write to the parent directory first. Both hops share the same lesson as the initial RCE: a feature or a configuration that <em>trusts its input/path without verifying it</em> is the recurring root cause of every step on this box.</p>
 
 
 

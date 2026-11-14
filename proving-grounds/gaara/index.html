@@ -6136,6 +6136,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="4. Privilege escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-suid-privilege-escalation-via-gdb-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How SUID privilege escalation via gdb works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -8962,6 +8979,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="4. Privilege escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-suid-privilege-escalation-via-gdb-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How SUID privilege escalation via gdb works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -9071,6 +9105,7 @@
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>80/tcp open  http    Apache httpd 2.4.38 ((Debian))
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>|_http-title: Gaara
 </span></code></pre></div>
+<p>Two open ports, both unremarkable on their own: a current-for-its-time OpenSSH build and a default Apache page. There's no outdated CVE-bearing service version jumping out, and no extra ports to pivot through — whatever path to a shell exists has to run through one of these two services.</p>
 <h2 id="2-enumeration">2. Enumeration<a class="headerlink" href="#2-enumeration" title="Permanent link">&para;</a></h2>
 <p>Directory fuzzing against the web server turns up nothing but the standard Apache defaults:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ffuf<span class="w"> </span>-u<span class="w"> </span><span class="s2">"http://192.168.210.142/FUZZ"</span><span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/big.txt
@@ -9090,6 +9125,15 @@
 </span></code></pre></div>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gaara@Gaara:~$
 </span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">How the SSH brute force works</p>
+<p><strong>Online password brute forcing</strong> means repeatedly attempting authentication directly against a live, running service — one guess per network round trip — rather than cracking a stolen password hash offline on local hardware. It's inherently slower and noisier than offline cracking: every attempt is a real TCP connection and a real SSH authentication exchange, which a defended host would rate-limit, lock out after N failures, or flag in its auth logs. It only becomes a realistic path to a shell when two conditions line up:</p>
+<ul>
+<li><strong>The username is known or easily guessed.</strong> Here the page title and the hostname both say <code>Gaara</code>, which is exactly the kind of signal that turns a combined "guess the user <em>and</em> the password" search into a much smaller "guess the password for a known user" search.</li>
+<li><strong>The password is weak enough to live in a common wordlist.</strong> <code>rockyou.txt</code> is the canonical leaked-password dictionary — originally the plaintext password list from a real 2009 breach of over 32 million accounts — and it's the first thing any attacker throws at a login form or SSH service. <code>iloveyou2</code> is a textbook entry for a list like this: a memorable dictionary phrase with a lazy numeric suffix tacked on, exactly the pattern humans fall back on when forced to "add a number" to a password.</li>
+</ul>
+<p><code>hydra -l gaara -P rockyou.txt ssh://&lt;target&gt;</code> fixes the username with <code>-l</code> (a single known login) and iterates the entire wordlist against it with <code>-P</code> (a password <em>list</em>; the lowercase <code>-p</code>/<code>-u</code> flags are for a single static value instead), stopping as soon as one combination authenticates successfully. Against a box with no account-lockout policy and no rate limiting, this is a cheap, fully automated attack — the real defenses are a strong/unique password, login throttling or lockout, and disabling SSH password authentication in favor of keys entirely.</p>
+</div>
 <h3 id="user-flag">User flag<a class="headerlink" href="#user-flag" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ls
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>cat<span class="w"> </span>local.txt
@@ -9122,12 +9166,29 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a># whoami
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>root
 </span></code></pre></div>
-<h2 id="5-root-prooftxt">5. Root / proof.txt<a class="headerlink" href="#5-root-prooftxt" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">cd</span><span class="w"> </span>/root
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>ls
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>cat<span class="w"> </span>proof.txt
+<h3 id="how-suid-privilege-escalation-via-gdb-works">How SUID privilege escalation via <code>gdb</code> works<a class="headerlink" href="#how-suid-privilege-escalation-via-gdb-works" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">The SUID bit, GTFOBins, and why a debugger is dangerous here</p>
+<p><strong>The SUID (Set-owner-UID) bit</strong> is a permission flag stored on an executable file. Normally, when a process runs, it carries the privileges of the <em>user who launched it</em>. A binary with the SUID bit set breaks that rule: the kernel instead grants the resulting process the privileges of the binary's <strong>file owner</strong>, for the entire lifetime of that process, regardless of who actually executed it. In <code>ls -l</code> output this shows up as an <code>s</code> in the owner's execute slot (e.g. <code>-rwsr-xr-x</code>), and in octal permissions it's the leading <code>4</code> in something like <code>4755</code> — which is exactly what <code>find / -perm -4000</code> is searching for: <code>4000</code> octal is the SUID bit on its own.</p>
+<p>This mechanism exists for legitimate reasons — <code>/usr/bin/passwd</code> needs to write a new hash into <code>/etc/shadow</code>, a file an unprivileged user cannot touch directly, so it runs as root just long enough to update one line and then exits. The vulnerability shows up when the SUID bit is set on a binary that was never designed to safely constrain what a caller can make it do on their behalf — particularly one that can execute arbitrary commands or code, such as a general-purpose debugger, a scripting language interpreter, a text editor, or a file-copy/archive utility.</p>
+<p><strong>GTFOBins</strong> (<a href="https://gtfobins.github.io">gtfobins.github.io</a>) is a community-curated reference of exactly this category of binary: common, often legitimately-necessary Unix utilities, each annotated with the specific invocation needed to break out of its intended use and obtain a shell, read/write arbitrary files, or escalate privileges — <em>when</em> that binary happens to be SUID, runnable via <code>sudo</code>, or has an unusual Linux capability set. Cross-referencing every hit from <code>find / -perm -4000</code> against GTFOBins is close to a reflex move on any fresh foothold, because a single match is very often an instant path to root.</p>
+<p><strong>Why <code>gdb</code> specifically works here:</strong> GDB's entire purpose is controlling and inspecting a running process, which by design includes the ability to call arbitrary functions and even run embedded scripts — GDB ships with a built-in Python interpreter for exactly this kind of automation. Breaking down the payload:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>gdb -nx -ex 'python import os; os.setuid(0)' -ex '!/bin/sh' -ex quit
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>&lt;PROOF_REDACTED&gt;
+<ul>
+<li><code>-nx</code> skips loading any <code>.gdbinit</code> startup files, keeping execution predictable.</li>
+<li><code>-ex 'python import os; os.setuid(0)'</code> runs a line of real Python <em>inside GDB's own process</em>. Because that GDB process is running with root's effective UID (courtesy of the SUID bit), calling <code>os.setuid(0)</code> from inside it sets the process's <strong>real</strong> UID to 0 as well — making the privilege elevation stick for anything the process does or spawns afterward, not just a temporary effective-UID bump.</li>
+<li><code>-ex '!/bin/sh'</code> uses GDB's shell-escape syntax (<code>!&lt;command&gt;</code>) to spawn <code>/bin/sh</code> as a child of the now-fully-root GDB process — so the spawned shell inherits full root privileges.</li>
+<li><code>-ex quit</code> is just cleanup once the shell session ends.</li>
+</ul>
+<p>There's no memory corruption, no exploit payload, no CVE involved — the entire "exploit" is abusing a scripting feature the tool is <em>supposed</em> to have, inside a process the operating system itself handed root privileges to, purely because a file permission bit said to.</p>
+</div>
+<h2 id="5-root-prooftxt">5. Root / proof.txt<a class="headerlink" href="#5-root-prooftxt" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>ls
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>cat<span class="w"> </span>proof.txt
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>&lt;PROOF_REDACTED&gt;
 </span></code></pre></div>
 <hr />
 <h2 id="takeaway">Takeaway<a class="headerlink" href="#takeaway" title="Permanent link">&para;</a></h2>

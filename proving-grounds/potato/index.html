@@ -6150,6 +6150,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#how-the-hash-leak-and-cracking-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the hash leak and cracking works
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6191,6 +6202,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="4. Privilege escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-sudo-relative-path-traversal-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the sudo relative-path traversal works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -8976,6 +9004,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#how-the-hash-leak-and-cracking-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the hash leak and cracking works
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -9017,6 +9056,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="4. Privilege escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-sudo-relative-path-traversal-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the sudo relative-path traversal works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -9146,6 +9202,10 @@
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="k">echo</span> <span class="s2">"Welcome! &lt;/br&gt; Go to the &lt;a href=</span><span class="se">\"</span><span class="s2">dashboard.php</span><span class="se">\"</span><span class="s2">&gt;dashboard&lt;/a&gt;"</span><span class="p">;</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="o">...</span>
 </span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Why anonymous FTP is a finding on its own</p>
+<p>FTP has an optional, decades-old convention where the server accepts the literal username <code>anonymous</code> with no real password (traditionally an email address is typed as a courtesy, but it's never verified). This is intended only for public file-distribution servers where every file in the FTP root is meant to be handed out to strangers. When it's enabled on a server that also happens to host application source, backups, configuration, or credential material, it becomes a completely unauthenticated file-read primitive — anyone on the network can connect with <code>ftp &lt;host&gt; -p &lt;port&gt;</code>, log in as <code>anonymous</code>, and <code>mget *</code> every file ProFTPD is serving, no password guessing or exploit required. That's exactly what happens here: the <code>.bak</code> extension on <code>index.php.bak</code> is the giveaway of a developer's backup-before-editing habit that was never cleaned up, and it is served to literally anyone who asks.</p>
+</div>
 <p>The login check uses <code>strcmp()</code> directly on user-controlled input and is theoretically vulnerable to <strong>PHP type juggling</strong> (passing an array instead of a string makes <code>strcmp()</code> return <code>NULL</code>, which loosely equals <code>0</code>), and various brute-force/fuzzing attempts against this form were tried — none succeeded, so this path was a dead end rather than the real foothold.</p>
 <h3 id="content-discovery">Content discovery<a class="headerlink" href="#content-discovery" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ffuf<span class="w"> </span>-u<span class="w"> </span><span class="s2">"http://192.168.210.101/FUZZ"</span><span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/big.txt<span class="w"> </span>-r
@@ -9165,6 +9225,13 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>dragon           (?)
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>1g 0:00:00:00 DONE
 </span></code></pre></div>
+<h3 id="how-the-hash-leak-and-cracking-works">How the hash leak and cracking works<a class="headerlink" href="#how-the-hash-leak-and-cracking-works" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Reading a password hash, and why <code>dragon</code> fell instantly</p>
+<p>A normal <code>/etc/passwd</code> entry has an <code>x</code> in the second field, meaning "the real password hash lives elsewhere, in <code>/etc/shadow</code>, which only root can read." Seeing an <em>actual hash string</em> inline in a <code>passwd</code>-formatted file — <code>webadmin:$1$webadmin$3sXBxGUtDGIFAcnNTNhi6/:1001:...</code> — means this box is either exposing a legacy-style combined file, a backup, or some other misconfigured leak that hands out what should be root-only material to anyone who finds it in the web app.</p>
+<p>The hash format itself, <code>$1$webadmin$3sXBxGUtDGIFAcnNTNhi6/</code>, follows the standard Unix crypt() scheme: fields are separated by <code>$</code>, the first field (<code>1</code>) identifies the <strong>algorithm</strong> — <code>1</code> means <strong>md5crypt</strong>, a deliberately salted, iterated variant of MD5 designed for password storage (as opposed to raw MD5, which is fast and unsalted and should never be used for passwords). The second field (<code>webadmin</code>) is the <strong>salt</strong>, a per-account random value mixed into the hash so that two users with the same password don't produce the same hash, and so precomputed rainbow tables can't be reused across accounts. The third field is the actual hash output.</p>
+<p>Despite being salted, md5crypt is still crackable offline when the underlying password is weak, because cracking doesn't need to reverse the hash — it just needs to <em>hash every candidate password with the same salt and algorithm, and compare</em>. <code>john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt</code> does exactly that: for every line in <code>rockyou.txt</code>, it recomputes <code>md5crypt(candidate, "webadmin")</code> and checks it against the target hash. <code>dragon</code> is a common dictionary word that appears early in <code>rockyou.txt</code>, so the match came back essentially instantly (<code>john</code> reports <code>0:00:00:00</code> — under a second). A long, random, non-dictionary password would have made this computationally infeasible even with the hash in hand; the weakness here is entirely in the password choice, not in md5crypt being "broken."</p>
+</div>
 <h2 id="3-foothold-ssh-with-cracked-credentials">3. Foothold — SSH with cracked credentials<a class="headerlink" href="#3-foothold-ssh-with-cracked-credentials" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>ssh<span class="w"> </span>webadmin@192.168.210.101
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># password: dragon</span>
@@ -9189,12 +9256,27 @@
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>sudo<span class="w"> </span>/bin/nice<span class="w"> </span>/notes/../home/webadmin/root.sh
 </span></code></pre></div>
 <p>The first attempt (<code>/notes/../../../../home/webadmin/root.sh</code>) was rejected as <code>Permission denied</code> by sudo's path matching; relaxing it to a single <code>/notes/../home/webadmin/root.sh</code> resolves correctly and passes the wildcard check while landing exactly on the attacker-controlled script.</p>
-<h2 id="5-root-prooftxt">5. Root / proof.txt<a class="headerlink" href="#5-root-prooftxt" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>root@serv:/home/webadmin# whoami
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>root
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>root@serv:/home/webadmin# cat /root/proof.txt
+<h3 id="how-the-sudo-relative-path-traversal-works">How the sudo relative-path traversal works<a class="headerlink" href="#how-the-sudo-relative-path-traversal-works" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Why <code>/notes/*</code> doesn't mean what the administrator thinks it means</p>
+<p>A <code>sudoers</code> entry like:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>(ALL : ALL) /bin/nice /notes/*
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>&lt;PROOF_REDACTED&gt;
+<p>tells <code>sudo</code> to allow <code>webadmin</code> to run <code>/bin/nice</code> as root, but only when its argument <strong>matches the glob pattern <code>/notes/*</code></strong> — the intent being "anything <em>inside the <code>/notes</code> directory</em>." The critical detail is <em>how</em> sudo checks that match: it is a <strong>string/glob comparison against the literal argument text supplied on the command line</strong>, not a check against the real, canonicalized filesystem path the argument resolves to after traversal. <code>sudo</code> does not resolve <code>..</code> components before matching the wildcard — it only checks whether the text you typed matches the pattern.</p>
+<p><code>..</code> in a path means "go up one directory level" and is resolved by the operating system (and by <code>nice</code>/<code>open()</code> underneath it) at the point the file is actually accessed, not before. So the string <code>/notes/../home/webadmin/root.sh</code>:</p>
+<ul>
+<li><strong>Textually starts with <code>/notes/</code></strong> — satisfying the glob <code>/notes/*</code> as far as sudo's pattern matcher is concerned, since glob matching here is essentially "does the string begin with this prefix, with anything after the <code>*</code>."</li>
+<li><strong>Resolves, once the OS actually walks the path, to <code>/home/webadmin/root.sh</code></strong> — a file entirely outside <code>/notes</code>, fully writable and executable by <code>webadmin</code> themselves.</li>
+</ul>
+<p>So the sudo rule's author scoped the <em>text pattern</em> to <code>/notes/</code>, assuming that would scope the real files reachable — but a path string containing <code>..</code> can satisfy almost any directory-prefix glob while landing anywhere on disk that the traversal math works out to. (The first attempt with four <code>../../../../</code> components actually walked past the filesystem root and got rejected with <code>Permission denied</code> — not because the <em>technique</em> failed, but because that particular depth of traversal didn't land on a path <code>nice</code> could execute given other permission checks; a single <code>..</code> landed exactly on <code>/home/webadmin</code>, which is where <code>root.sh</code> actually was, and it worked.)</p>
+<p>From there, <code>/bin/nice</code> is just a process-priority wrapper — its entire job is to <code>exec()</code> whatever program is handed to it, after adjusting scheduling niceness. Since <code>sudo</code> has already approved running <code>/bin/nice &lt;attacker path&gt;</code> as root, and <code>nice</code> happily execs <code>root.sh</code> (a one-line script invoking <code>/bin/bash -i</code>, an interactive shell), the final <code>exec()</code> hands over a fully interactive <strong>root</strong> shell. The fix is to either scope the sudoers rule with a trailing anchor that <code>sudo</code> itself resolves safely, restrict write access to the parent directories involved, or avoid wildcard path rules against <code>sudo</code>-permitted commands entirely in favor of a fixed, non-writable script path.</p>
+</div>
+<h2 id="5-root-prooftxt">5. Root / proof.txt<a class="headerlink" href="#5-root-prooftxt" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>root@serv:/home/webadmin# whoami
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>root
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>root@serv:/home/webadmin# cat /root/proof.txt
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>&lt;PROOF_REDACTED&gt;
 </span></code></pre></div>
 <hr />
 <h2 id="takeaway">Takeaway<a class="headerlink" href="#takeaway" title="Permanent link">&para;</a></h2>

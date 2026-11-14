@@ -6181,6 +6181,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="2. Enumeration — SQL injection in the search form">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-union-based-sql-injection-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How union-based SQL injection works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -6194,6 +6211,28 @@
   
     <nav class="md-nav" aria-label="3. Foothold — admin LFI leaks the port-knock sequence">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-lfi-works-and-why-it-mattered-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the LFI works, and why it mattered here
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-port-knocking-is-and-why-reading-this-file-broke-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What port knocking is and why reading this file broke it
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#credential-spraying" class="md-nav__link">
@@ -6230,6 +6269,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="4. Privilege escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-sudo-file-append-privesc-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the sudo file-append privesc works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -8934,6 +8990,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="2. Enumeration — SQL injection in the search form">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-union-based-sql-injection-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How union-based SQL injection works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -8947,6 +9020,28 @@
   
     <nav class="md-nav" aria-label="3. Foothold — admin LFI leaks the port-knock sequence">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-lfi-works-and-why-it-mattered-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the LFI works, and why it mattered here
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-port-knocking-is-and-why-reading-this-file-broke-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What port knocking is and why reading this file broke it
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#credential-spraying" class="md-nav__link">
@@ -8983,6 +9078,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="4. Privilege escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-sudo-file-append-privesc-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the sudo file-append privesc works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -9113,6 +9225,14 @@
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Email: 6
 </span></code></pre></div>
 <p><img alt="Burp Repeater showing the UNION SELECT reflected into the Search results page" src="../images/dc-9/image-4.png" /></p>
+<h3 id="how-union-based-sql-injection-works">How union-based SQL injection works<a class="headerlink" href="#how-union-based-sql-injection-works" title="Permanent link">&para;</a></h3>
+<p>A UNION-based injection appends a second, attacker-controlled <code>SELECT</code> statement onto the application's original query, using SQL's <code>UNION</code> operator to stack the two result sets into one response. It works mechanically like this:</p>
+<ol>
+<li><strong>Break out of the intended query.</strong> The <code>search</code> parameter is concatenated into a query such as <code>SELECT id, name, position, phone, email FROM Users WHERE name LIKE '%&lt;search&gt;%'</code>. Closing the quote and comment-terminating the rest of the original statement (<code>'...--+-</code>) lets an attacker supply a completely new clause after it.</li>
+<li><strong>Match the column count.</strong> <code>UNION</code> requires both <code>SELECT</code> statements to return the same number of columns (and compatible types), or the database rejects the query outright. The probe <code>UNION+SELECT+1,2,3,4,5,6</code> is a column-count oracle: trying 1, then 2, then 3... numbered placeholders until the query stops erroring and the numbers themselves are reflected in the output tells you exactly how many columns the original query selects — six, here, with each number landing in the page position its corresponding real column would have occupied (<code>ID: 1</code>, <code>Name: 2 3</code>, <code>Position: 4</code>, etc).</li>
+<li><strong>Exfiltrate through those column slots.</strong> Once the shape is known, any of those numbered placeholders can be replaced with real data instead of a literal number — including data from a completely different table than the one the query was written for. <code>information_schema</code> (MySQL's built-in metadata database) is queried first to walk from "what databases exist" down to "what tables and columns exist" and finally to "what rows are in them," all without ever touching the application's own intended query logic.</li>
+</ol>
+<p>The technique only works because the application builds SQL by string concatenation instead of parameterized queries/prepared statements, so user input is never distinguished from SQL syntax.</p>
 <p>With 6 injectable columns confirmed, the injection is walked up to pull schema names, table names, and finally data:</p>
 <div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">-- enumerate databases</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="s1">'+UNION+SELECT+1,2,3,4,5,gRoUp_cOncaT(0x7c,schema_name,0x7c)+fRoM+information_schema.schemata--+-</span>
@@ -9125,6 +9245,7 @@
 </span></code></pre></div>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>|admin|856f5de590ef37314e7c3bdf6f8a66dc|
 </span></code></pre></div>
+<p><code>GROUP_CONCAT()</code> is used here purely as a convenience: it folds every row of a multi-row result into a single comma/pipe-delimited string, so an entire table can be exfiltrated through a single-row, six-column UNION response instead of needing one injection attempt per row.</p>
 <p>A second, separate <code>users</code> database (unrelated to <code>Staff</code>) is also reachable from the same injection point and holds a much larger set of <strong>plaintext</strong> passwords:</p>
 <div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">hello</span><span class="err">'</span><span class="o">+</span><span class="k">UNION</span><span class="o">+</span><span class="k">SELECT</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">gRoUp_cOncaT</span><span class="p">(</span><span class="mi">0</span><span class="n">x7c</span><span class="p">,</span><span class="n">Username</span><span class="p">,</span><span class="mi">0</span><span class="n">x7c</span><span class="p">,</span><span class="n">Password</span><span class="p">,</span><span class="mi">0</span><span class="n">x7c</span><span class="p">)</span><span class="o">+</span><span class="k">fRoM</span><span class="o">+</span><span class="n">users</span><span class="p">.</span><span class="n">UserDetails</span><span class="c1">--+-</span>
 </span></code></pre></div>
@@ -9134,6 +9255,7 @@
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>|monicag|3248dsds7s|,|phoebeb|smellycats|,|scoots|YR3BVxxxw87|,
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>|janitor|Ilovepeepee|,|janitor2|Hawaii-Five-0|
 </span></code></pre></div>
+<p>This matters beyond just "more credentials": the injection point reaches <em>across</em> databases on the same MySQL instance, not just within the <code>Staff</code> schema the vulnerable query was written against — a reminder that a database user's privileges, not the application's intended query scope, define the real blast radius of a SQL injection.</p>
 <p><code>sqlmap</code> against the same injection point confirms and automates the dump:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>sql.txt<span class="w"> </span>--batch<span class="w"> </span>--dump<span class="w"> </span>--technique<span class="o">=</span>U<span class="w"> </span>-D<span class="w"> </span>users
 </span></code></pre></div>
@@ -9141,6 +9263,7 @@
 <p><img alt="CrackStation resolving the admin MD5 hash to the plaintext password" src="../images/dc-9/image-12.png" /></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>856f5de590ef37314e7c3bdf6f8a66dc → transorbital1
 </span></code></pre></div>
+<p>An unsalted MD5 hash of a short, non-random password is cracked almost instantly because MD5 is fast to compute (designed for checksums, not password storage) and CrackStation maintains precomputed lookup tables for the entire space of common passwords — there is no per-password salt here to force each hash to be attacked individually.</p>
 <h2 id="3-foothold-admin-lfi-leaks-the-port-knock-sequence">3. Foothold — admin LFI leaks the port-knock sequence<a class="headerlink" href="#3-foothold-admin-lfi-leaks-the-port-knock-sequence" title="Permanent link">&para;</a></h2>
 <p>Logging into the admin panel (<code>admin:transorbital1</code>) unlocks extra menu items — <strong>Manage</strong>, <strong>Add Record</strong>, <strong>Log Out</strong>:</p>
 <p><img alt="Logged in as admin, with Manage / Add Record now visible" src="../images/dc-9/image-14.png" /></p>
@@ -9148,6 +9271,14 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>http://192.168.172.209/addrecorddb.php?file=../../../../../../etc/passwd
 </span></code></pre></div>
 <p><img alt="addrecorddb.php?file=../../../../../../etc/passwd dumping /etc/passwd" src="../images/dc-9/image-15.png" /></p>
+<h3 id="how-the-lfi-works-and-why-it-mattered-here">How the LFI works, and why it mattered here<a class="headerlink" href="#how-the-lfi-works-and-why-it-mattered-here" title="Permanent link">&para;</a></h3>
+<p><strong>Local file inclusion (LFI)</strong> happens when an application takes a filename or path from user input and passes it, with little or no validation, into a file-read or <code>include()</code>/<code>require()</code>-style operation on the server's own filesystem. Here, <code>manage.php?file=...</code> and <code>addrecorddb.php?file=...</code> were written to load one of a small, fixed set of record-source files relative to the application directory — a reasonable-looking design until the <code>file</code> parameter is tested with a value the developer never anticipated.</p>
+<ul>
+<li>A bare absolute path like <code>/etc/passwd</code> fails because the code prepends its own base directory to whatever <code>file</code> contains (e.g. <code>records/</code> . <code>$_GET['file']</code>), so the request actually resolves to something like <code>records//etc/passwd</code>, which doesn't exist.</li>
+<li>A <strong>directory traversal</strong> payload (<code>../../../../../../etc/passwd</code>) defeats that prefix: each <code>../</code> walks one directory up, and enough of them walk all the way past the application root and back down to the real filesystem root, landing on the real <code>/etc/passwd</code> regardless of what was prepended.</li>
+<li>The underlying flaw is the same one behind the SQL injection: user input is trusted to stay within the bounds the developer imagined, with no allow-list of filenames and no path-canonicalization check (e.g. rejecting any <code>file</code> value containing <code>..</code>).</li>
+</ul>
+<p>Why this LFI specifically mattered: nmap had already shown SSH as <strong>filtered</strong> rather than closed or open, which on this box means a firewall rule is actively dropping unsolicited traffic to port 22 — it will not simply connect. The LFI is therefore not "a second way in," it is <em>the</em> way to find out how SSH gets unlocked at all, by reading the firewall's own configuration.</p>
 <p>With arbitrary file read confirmed, the same LFI is pointed at the firewall configuration — since port 22 showed as <em>filtered</em> in the nmap scan, <code>knockd.conf</code> is the logical next target:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>http://192.168.172.209/manage.php?file=../../../../../../etc/knockd.conf
 </span></code></pre></div>
@@ -9157,12 +9288,16 @@
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    seq_timeout = 25
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    command = /sbin/iptables -I INPUT -s %IP% -p tcp --dport 22 -j ACCEPT
 </span></code></pre></div>
-<p>That is the port-knock sequence that opens SSH. Knocking it and re-scanning confirms the port is now open:</p>
+<h3 id="what-port-knocking-is-and-why-reading-this-file-broke-it">What port knocking is and why reading this file broke it<a class="headerlink" href="#what-port-knocking-is-and-why-reading-this-file-broke-it" title="Permanent link">&para;</a></h3>
+<p><strong>Port knocking</strong> is a technique for hiding a service behind a firewall that drops all traffic to it by default, only opening access for a client that first sends a specific, pre-agreed <strong>sequence of connection attempts</strong> to a set of otherwise-closed ports. A daemon (<code>knockd</code>) sniffs incoming packets; when it observes the exact configured sequence — in order, within the configured timeout — from a given source IP, it runs a command (typically an <code>iptables</code> rule) that opens the real service port for that IP. Done right, this means nothing about the open service is visible to a port scan: 22/tcp will show as <code>filtered</code> to everyone who has not first performed the correct knock.</p>
+<p>The entire scheme's security rests on the knock sequence being a secret the firewall operator holds — exactly like a password. <code>/etc/knockd.conf</code>, the daemon's own configuration file, necessarily contains that sequence in plaintext (<code>sequence = 7469,8475,9842</code>) along with the exact command it runs once satisfied (here, an <code>iptables -I INPUT ... ACCEPT</code> rule scoped to the knocking IP, and only for port 22). Reading that file via the LFI is therefore not an incidental information leak — it hands over the entire "secret" the port-knocking defense depends on, collapsing it instantly from "unscannable, unreachable service" to "service reachable by anyone who sends three TCP packets in the right order."</p>
+<p>That is the knock sequence that opens SSH. Knocking it and re-scanning confirms the port is now open:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">for</span><span class="w"> </span>p<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">7469</span><span class="w"> </span><span class="m">8475</span><span class="w"> </span><span class="m">9842</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>nmap<span class="w"> </span>-Pn<span class="w"> </span>--host_timeout<span class="w"> </span><span class="m">201</span><span class="w"> </span>--max-retries<span class="w"> </span><span class="m">0</span><span class="w"> </span>-p<span class="w"> </span><span class="nv">$p</span><span class="w"> </span><span class="m">192</span>.168.101.209<span class="p">;</span><span class="w"> </span><span class="k">done</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">192</span>.168.101.209
 </span></code></pre></div>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u1 (protocol 2.0)
 </span></code></pre></div>
+<p>Each <code>nmap -p &lt;port&gt;</code> connection attempt here <em>is</em> one knock — the sequence does not need a dedicated <code>knock</code> client, just three connection attempts arriving at <code>knockd</code> in the configured order and within its 25-second timeout window.</p>
 <h3 id="credential-spraying">Credential spraying<a class="headerlink" href="#credential-spraying" title="Permanent link">&para;</a></h3>
 <p>With SSH reachable, the plaintext passwords recovered from the second database are sprayed against the usernames from <code>/etc/passwd</code>:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>hydra<span class="w"> </span>-L<span class="w"> </span>users.list<span class="w"> </span>-P<span class="w"> </span>pass.list<span class="w"> </span><span class="m">192</span>.168.101.209<span class="w"> </span>ssh
@@ -9203,6 +9338,14 @@
 </span></code></pre></div>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>Usage: python test.py read append
 </span></code></pre></div>
+<h3 id="how-the-sudo-file-append-privesc-works">How the sudo file-append privesc works<a class="headerlink" href="#how-the-sudo-file-append-privesc-works" title="Permanent link">&para;</a></h3>
+<p>This sudo rule looks, at first glance, like a reasonably scoped privilege: <code>fredf</code> can run exactly one binary (not a shell, not an interpreter, not <code>ALL</code>), and that binary's own <code>--help</code> output describes a narrow, apparently harmless job — append the contents of one file onto another. The flaw is what is missing from the rule and from the tool itself:</p>
+<ul>
+<li><strong>No restriction on either file argument.</strong> The sudoers entry grants <code>NOPASSWD: /opt/devstuff/dist/test/test</code> with no fixed arguments, so <code>fredf</code> can supply <em>any</em> two paths as <code>read</code> and <code>append</code>, not just ones the administrator intended.</li>
+<li><strong>The tool runs as root.</strong> Because the sudoers rule's target is <code>(root)</code>, the binary opens and reads whatever <code>read</code> path is given with root's filesystem permissions — regardless of whether <code>fredf</code> himself is allowed to read that file directly.</li>
+<li><strong>"Append," not "print," is still disclosure.</strong> The tool does not need to print anything to the terminal to leak data: it writes the contents of the root-only-readable source file into a destination file that <code>fredf</code> owns and can read freely (<code>two.txt</code>, created with <code>touch</code> beforehand so it is writable by <code>fredf</code>). The root process does the one thing <code>fredf</code> cannot do himself — read <code>/root/proof.txt</code> — and the sudo rule's scoping was never designed to stop him pointing that capability at an arbitrary target.</li>
+</ul>
+<p>This is the general pattern behind most "restricted sudo binary" privilege escalations: a tool that performs file I/O as root, combined with a sudo rule that restricts <em>which program</em> runs but not <em>which files it touches</em>, is equivalent to granting arbitrary-file-read (or write) as root. The fix is not to trust the binary's advertised intent, but to either drop the capability entirely or have the sudoers rule pin exact, non-attacker-controlled arguments.</p>
 <p>The tool is meant to append the contents of one file onto another, running as root with no path restriction on either argument — which means it can be pointed at a file the invoking user has no permission to read directly, such as <code>/root/proof.txt</code>:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>touch<span class="w"> </span>two.txt
 </span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>sudo<span class="w"> </span>/opt/devstuff/dist/test/test<span class="w"> </span>/root/proof.txt<span class="w"> </span>two.txt

