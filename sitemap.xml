@@ -2,778 +2,734 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tags/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/bloodhound/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/credentialed-enumeration/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/external-recon/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/initial-domain-enumeration/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/kerberoasting/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/living-off-the-land/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/llmnr-nbtns-poisoning/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/password-spraying/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/security-controls/</loc>
-         <lastmod>2026-11-11</lastmod>
-    </url>
-    <url>
-         <loc>https://0x3xp10i73r.github.io/offsec-vault/active-directory/tools-of-the-trade/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/checklist/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/dynamic-analysis/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/frida/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/glossary/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/ios-cross-platform/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/proxy-certificates/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/setup-adb/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/static-analysis/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/tools/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/checklists-arsenal/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/checklists-arsenal/burp-extensions-arsenal/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/checklists-arsenal/internal-ad-checklist/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/checklists-arsenal/security-reference-index/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/checklists-arsenal/web-bugbounty-checklist/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/Cap/HTB%20-%20Cap/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/Connected/HTB%20-%20Connected/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/facts/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/reactor/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/hack-the-box-labs/wingdata/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/privesc/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/privesc/linux-privesc/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/privesc/windows-privesc/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/recon/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/recon/osint-dorking/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/recon/port-service-enumeration/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/recon/subdomain-enumeration/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/recon/web-recon-fuzzing/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/corp-website/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/daily-bugle/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/debug/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/hammer/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/ignite/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/lazy-admin/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/oh-my-webserver/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/pickle-rick/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/rootme/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/simple-ctf/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/skynet/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/ultratech/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/tryhackme/watcher/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/idor/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/method-based-access-control-circumvented/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/multi-step-process-no-access-control/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/referer-based-access-control/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/unprotected-admin-functionality-unpredictable-url/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/unprotected-admin-functionality/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/url-based-access-control-circumvented/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/user-id-controlled-by-request-parameter/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/user-id-controlled-data-leakage-in-redirect/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/user-id-controlled-password-disclosure/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/user-id-controlled-unpredictable-ids/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/user-role-controlled-by-request-parameter/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/access-control/user-role-modifiable-in-profile/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/authentication-vulnerabilities/username-enumeration-different-responses/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/authentication-vulnerabilities/username-enumeration-response-timing/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/authentication-vulnerabilities/username-enumeration-subtly-different-responses/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/authentication-vulnerabilities/what-is-authentication/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/business-logic/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/business-logic/excessive-trust-client-side-controls/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/business-logic/high-level-logic-vulnerability/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/business-logic/low-level-logic-flaw/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/command-injection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/command-injection/blind-oob-exfiltration/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/command-injection/blind-oob-interaction/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/command-injection/blind-output-redirection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/command-injection/blind-time-delays/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/command-injection/simple-case/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cors/cors-prevention/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cors/cors-vs-csrf/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cors/sop-vs-csrf/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cors/what-is-cors/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cors/cors-labs/cors-basic-origin-reflection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cors/cors-labs/cors-trusted-insecure-protocols/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cors/cors-labs/trusted-null-origin/cors-trusted-null-origin/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/dom-angularjs/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/dom-document-write/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/dom-innerhtml/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/dom-jquery-href/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/reflected-attribute-angle-brackets/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/reflected-html-nothing-encoded/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/reflected-js-string/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/stored-anchor-href/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/cross-site-scripting/stored-html-nothing-encoded/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/csrf-no-defenses/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/samesite-lax-bypass-cookie-refresh/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/samesite-lax-bypass-method-override/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/samesite-strict-bypass-client-side-redirect/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/token-duplicated-in-cookie/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/token-not-tied-to-session/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/token-tied-to-non-session-cookie/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/token-validation-depends-on-request-method/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/csrf/token-validation-depends-on-token-being-present/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/dom-based-vulnerabilities/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/file-upload/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/file-upload/content-type-restriction-bypass/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/file-upload/extension-blacklist-bypass/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/file-upload/null-byte-extension-bypass/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/file-upload/path-traversal-upload/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/file-upload/polyglot-web-shell-upload/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/http-host-header/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/http-host-header/basic-password-reset-poisoning/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/http-host-header/host-header-authentication-bypass/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/http-host-header/host-validation-bypass-connection-state/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/http-host-header/routing-based-ssrf/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/http-host-header/ssrf-via-flawed-request-parsing/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/http-request-smuggling/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/http-request-smuggling/basic-cl-te-vulnerability/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/information-disclosure/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/information-disclosure/authentication-bypass/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/information-disclosure/backup-files-source-code/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/information-disclosure/debug-page/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/information-disclosure/error-messages/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/information-disclosure/version-control-history/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/insecure-deserialization/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/insecure-deserialization/arbitrary-object-injection-php/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/insecure-deserialization/java-deserialization-apache-commons/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/insecure-deserialization/modifying-serialized-data-types/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/insecure-deserialization/modifying-serialized-objects/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/insecure-deserialization/using-application-functionality/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/jwt/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/jwt/flawed-signature-verification/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/jwt/jku-header-injection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/jwt/jwk-header-injection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/jwt/kid-header-path-traversal/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/jwt/unverified-signature/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/jwt/weak-signing-key/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/nosql-injection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/nosql-injection/detecting-nosql-injection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/nosql-injection/extracting-data-via-nosql-injection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/nosql-injection/operator-injection-auth-bypass/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/oauth/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/oauth/authentication-bypass-via-implicit-flow/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/oauth/ssrf-via-openid-dynamic-client-registration/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/path-traversal/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/path-traversal/absolute-path-bypass/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/path-traversal/sequences-stripped-non-recursively/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/path-traversal/sequences-stripped-superfluous-decode/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/path-traversal/simple-case/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/path-traversal/validation-of-file-extension-null-byte/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/path-traversal/validation-of-start-of-path/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/prototype-pollution/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/race-conditions/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/race-conditions/bypassing-rate-limits-via-race-conditions/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/race-conditions/limit-overrun-race-conditions/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/race-conditions/multi-endpoint-race-conditions/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/race-conditions/single-endpoint-race-conditions/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/server-side-template-injection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/server-side-template-injection/basic-ssti-code-context/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/server-side-template-injection/basic-ssti/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/sql-injection/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/sql-injection/login-bypass/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/sql-injection/where-clause-hidden-data/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/ssrf/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/ssrf/basic-ssrf-backend-system/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/ssrf/basic-ssrf-local-server/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/ssrf/blind-ssrf-oob/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/ssrf/ssrf-blacklist-filter/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/ssrf/ssrf-filter-bypass-open-redirect/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/blind-xxe-error-messages/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/blind-xxe-exfiltration/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/blind-xxe-oast/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/exploiting-xxe-ssrf/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/exploiting-xxe-to-retrieve-files/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/hidden-xxe-attack-surface/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/xml-parameter-entities/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-application-pentesting/xxe/xxe-content-type/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-bugbounty/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-bugbounty/access-control-idor-race/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-bugbounty/api-graphql-modern-web/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-bugbounty/auth-ato-oauth-jwt/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-bugbounty/injection-attacks/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-bugbounty/ssrf-cors-csrf-smuggling/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/web-bugbounty/xss-csp-client-side/</loc>
-         <lastmod>2026-11-11</lastmod>
+         <lastmod>2026-11-14</lastmod>
     </url>
 </urlset>
