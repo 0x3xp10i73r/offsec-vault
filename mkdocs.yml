@@ -283,6 +283,15 @@ nav:
       - Corp Website: tryhackme/corp-website.md
       - UltraTech: tryhackme/ultratech.md
       - Oh My WebServer: tryhackme/oh-my-webserver.md
+  - Proving Grounds:
+      - proving-grounds/index.md
+      - Gaara: proving-grounds/gaara.md
+      - Potato: proving-grounds/potato.md
+      - Blogger: proving-grounds/blogger.md
+      - DC-9: proving-grounds/dc-9.md
+      - Funbox: proving-grounds/funbox.md
+      - So Simple: proving-grounds/so-simple.md
+      - Tre: proving-grounds/tre.md
   - Android:
       - android/index.md
       - Android fundamentals:
