@@ -72,9 +72,22 @@
 
   /* --------------------------------------------------------- image lightbox */
 
-  function initCorsImageLightbox() {
-    const links = document.querySelectorAll(".cors-lab-image-link");
-    if (!links.length) return;
+  function initImageLightbox() {
+    // Every content image becomes zoomable: skip the page cover and emoji/icon SVGs.
+    const corsLinks = Array.prototype.slice.call(
+      document.querySelectorAll(".cors-lab-image-link")
+    );
+    const contentImages = Array.prototype.filter.call(
+      document.querySelectorAll(".md-typeset img"),
+      function (img) {
+        if (img.closest(".cors-lab-image-link")) return false; // opened via its anchor
+        if (img.classList.contains("page-cover-img")) return false;
+        if (img.closest(".page-cover")) return false;
+        if (img.classList.contains("twemoji") || img.classList.contains("emojione")) return false;
+        return true;
+      }
+    );
+    if (!corsLinks.length && !contentImages.length) return;
 
     let overlay = document.querySelector(".cors-image-lightbox");
     if (!overlay) {
@@ -84,7 +97,7 @@
       overlay.setAttribute("aria-hidden", "true");
       overlay.innerHTML =
         '<div class="cors-image-lightbox__backdrop" data-lightbox-close></div>' +
-        '<div class="cors-image-lightbox__dialog" role="dialog" aria-modal="true" aria-label="Expanded CORS lab image">' +
+        '<div class="cors-image-lightbox__dialog" role="dialog" aria-modal="true" aria-label="Expanded image">' +
           '<div class="cors-image-lightbox__toolbar">' +
             '<button type="button" data-lightbox-zoom-out aria-label="Zoom out" title="Zoom out">−</button>' +
             '<span class="cors-image-lightbox__zoom-level" data-lightbox-zoom-level>100%</span>' +
@@ -105,9 +118,8 @@
     let zoom = 1;
 
     function updateZoom(nextZoom) {
-      zoom = Math.max(0.5, Math.min(3, nextZoom));
+      zoom = Math.max(0.5, Math.min(5, nextZoom));
       level.textContent = Math.round(zoom * 100) + "%";
-
       if (zoom === 1 || !image.naturalWidth) {
         image.style.width = "";
         image.classList.remove("is-zoomed");
@@ -117,17 +129,25 @@
       }
     }
 
+    // Zoom toward a point given as fractions (0..1) of the image.
+    function zoomToPoint(targetZoom, rx, ry) {
+      updateZoom(targetZoom);
+      if (image.classList.contains("is-zoomed")) {
+        stage.scrollLeft = rx * image.offsetWidth - stage.clientWidth / 2;
+        stage.scrollTop = ry * image.offsetHeight - stage.clientHeight / 2;
+      }
+    }
+
     function closeLightbox() {
       overlay.hidden = true;
       overlay.setAttribute("aria-hidden", "true");
       document.body.classList.remove("cors-lightbox-open");
     }
 
-    function openLightbox(link) {
-      const source = link.querySelector("img");
+    function openLightbox(src, alt) {
       image.onload = function () { updateZoom(1); };
-      image.src = link.href;
-      image.alt = source ? source.alt : "Expanded CORS lab image";
+      image.src = src;
+      image.alt = alt || "Expanded image";
       zoom = 1;
       image.style.width = "";
       image.classList.remove("is-zoomed");
@@ -139,25 +159,42 @@
       overlay.querySelector(".cors-image-lightbox__toolbar [data-lightbox-close]").focus();
     }
 
+    function pointFrom(event) {
+      const rect = image.getBoundingClientRect();
+      return [
+        Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width)),
+        Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height))
+      ];
+    }
+
     if (!overlay.dataset.lightboxBound) {
       overlay.dataset.lightboxBound = "true";
       overlay.querySelectorAll("[data-lightbox-close]").forEach(function (closeTarget) {
         closeTarget.addEventListener("click", closeLightbox);
       });
-      overlay.querySelector("[data-lightbox-zoom-in]").addEventListener("click", function () {
-        updateZoom(zoom + 0.25);
-      });
-      overlay.querySelector("[data-lightbox-zoom-out]").addEventListener("click", function () {
-        updateZoom(zoom - 0.25);
-      });
+      overlay.querySelector("[data-lightbox-zoom-in]").addEventListener("click", function () { updateZoom(zoom + 0.25); });
+      overlay.querySelector("[data-lightbox-zoom-out]").addEventListener("click", function () { updateZoom(zoom - 0.25); });
       overlay.querySelector("[data-lightbox-reset]").addEventListener("click", function () {
         updateZoom(1);
         stage.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
+      // Click a part of the image to zoom into that point; click again to reset.
+      image.addEventListener("click", function (event) {
+        if (image.classList.contains("is-zoomed")) {
+          updateZoom(1);
+        } else {
+          const p = pointFrom(event);
+          zoomToPoint(2.5, p[0], p[1]);
+        }
+      });
+      // Wheel zooms toward the cursor; plain scroll still pans when zoomed.
       stage.addEventListener("wheel", function (event) {
-        if (!event.ctrlKey) return;
+        if (!event.ctrlKey && !event.metaKey && !image.classList.contains("is-zoomed")) {
+          // at 1x, a plain wheel starts a zoom so it feels responsive
+        }
         event.preventDefault();
-        updateZoom(zoom + (event.deltaY < 0 ? 0.1 : -0.1));
+        const p = pointFrom(event);
+        zoomToPoint(zoom + (event.deltaY < 0 ? 0.25 : -0.25), p[0], p[1]);
       }, { passive: false });
       window.addEventListener("keydown", function (event) {
         if (overlay.hidden) return;
@@ -168,12 +205,23 @@
       });
     }
 
-    links.forEach(function (link) {
+    corsLinks.forEach(function (link) {
       if (link.dataset.lightboxBound) return;
       link.dataset.lightboxBound = "true";
+      link.style.cursor = "zoom-in";
       link.addEventListener("click", function (event) {
         event.preventDefault();
-        openLightbox(link);
+        const img = link.querySelector("img");
+        openLightbox(link.href, img ? img.alt : "");
+      });
+    });
+
+    contentImages.forEach(function (img) {
+      if (img.dataset.lightboxBound) return;
+      img.dataset.lightboxBound = "true";
+      img.style.cursor = "zoom-in";
+      img.addEventListener("click", function () {
+        openLightbox(img.currentSrc || img.src, img.alt);
       });
     });
   }
@@ -182,7 +230,7 @@
 
   function init() {
     initChecklists();
-    initCorsImageLightbox();
+    initImageLightbox();
   }
 
   if (typeof document$ !== "undefined") {
