@@ -285,15 +285,44 @@ nav:
       - Oh My WebServer: tryhackme/oh-my-webserver.md
   - Android:
       - android/index.md
-      - Setup and ADB: android/setup-adb.md
-      - Intercepting traffic: android/proxy-certificates.md
-      - Static analysis: android/static-analysis.md
-      - Dynamic analysis: android/dynamic-analysis.md
-      - Testing checklist: android/checklist.md
-      - Frida: android/frida.md
-      - Glossary: android/glossary.md
-      - Tools and references: android/tools.md
-      - iOS and cross-platform: android/ios-cross-platform.md
+      - Android fundamentals:
+          - What is Android?: android/what-is-android.md
+          - APK structure and signing: android/apk-structure.md
+          - App components: android/components.md
+      - Android pentesting:
+          - What is Android pentesting?: android/pentesting-intro.md
+          - Lab setup and ADB: android/setup-adb.md
+          - Intercepting traffic: android/proxy-certificates.md
+          - Static analysis: android/static-analysis.md
+          - Dynamic analysis: android/dynamic-analysis.md
+      - Exploiting components:
+          - Exported activities: android/exploit-activities.md
+          - Services and broadcast receivers: android/exploit-services-receivers.md
+          - Content providers: android/exploit-content-providers.md
+          - Deep links and intents: android/exploit-deeplinks.md
+          - WebViews: android/exploit-webviews.md
+      - Android vulnerabilities:
+          - android/vulnerabilities/index.md
+          - Insecure data storage: android/vulnerabilities/insecure-data-storage.md
+          - Sensitive data leakage: android/vulnerabilities/sensitive-data-leakage.md
+          - Insecure configuration: android/vulnerabilities/insecure-configuration.md
+          - Insufficient cryptography: android/vulnerabilities/insufficient-cryptography.md
+          - Hardcoded secrets and credentials: android/vulnerabilities/hardcoded-secrets.md
+          - Insecure authentication and authorization: android/vulnerabilities/insecure-authentication.md
+          - Biometric and local-auth bypass: android/vulnerabilities/biometric-bypass.md
+          - Insecure communication: android/vulnerabilities/insecure-communication.md
+          - Insecure deserialization: android/vulnerabilities/insecure-deserialization.md
+          - Insufficient binary protection: android/vulnerabilities/insufficient-binary-protection.md
+          - "Task hijacking (StrandHogg)": android/vulnerabilities/task-hijacking.md
+          - Insecure IPC and exported components: android/vulnerabilities/insecure-ipc.md
+          - WebView vulnerabilities: android/vulnerabilities/webview-vulnerabilities.md
+          - Insecure deep links and intents: android/vulnerabilities/insecure-deeplinks.md
+      - Going further:
+          - Frida: android/frida.md
+          - Testing checklist: android/checklist.md
+          - Tools and references: android/tools.md
+          - Glossary: android/glossary.md
+          - iOS and cross-platform: android/ios-cross-platform.md
   - Privilege Escalation:
       - privesc/index.md
       - Linux: privesc/linux-privesc.md
