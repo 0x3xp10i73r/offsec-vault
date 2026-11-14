@@ -57,6 +57,9 @@ A `blog/` folder sits buried under `assets/fonts/` — an unusual, deliberately-
 
 ![The WordPress site living at /assets/fonts/blog/](images/blogger/image-2.png)
 
+!!! info "Why directory listing matters here"
+    Apache's `Options +Indexes` turns every directory without an `index.*` file into a browsable file listing. A WordPress install hidden under an unrelated path (`/assets/fonts/blog/`) is "security through obscurity" — it requires no authentication, so once the obscuring path is found, nothing else protects it. The misconfigured `Indexes` directive is precisely what breaks that obscurity: fuzzing the webroot alone found only top-level folders like `assets`, but browsing that already-discovered directory by hand revealed the nested, otherwise-unlinked `blog/` application underneath it.
+
 ### Fingerprinting the CMS
 
 `cmseek` and `wpscan` both confirm the stack and surface a version old enough to matter:
@@ -86,6 +89,9 @@ sudo wpscan --url http://192.168.138.217/assets/fonts/blog --plugins-detection a
 
 ![GitHub PoC for the wpDiscuz 7.0.4 unauthenticated RCE](images/blogger/image-5.png)
 
+!!! info "Why the plugin, not the core, was the real target"
+    WordPress core fingerprinting (version, theme) tells you where to *stop* looking: a 2018 core release with no known pre-auth RCE is not, by itself, an entry point. Plugins are where most real-world WordPress compromises happen, because they are written by third parties with far less security scrutiny than core, are rarely updated once installed, and run with the exact same filesystem/PHP privileges as the rest of the site. An "aggressive" `wpscan` plugin scan brute-forces plugin slugs/version strings against the site instead of relying on passive page signatures — it is slow (30+ minutes here) precisely because it is checking far more candidates, but it is what surfaced `wpdiscuz`, a comment/discussion plugin that had no business accepting unauthenticated file uploads the way it turned out to.
+
 ## 3. Foothold — wpDiscuz unauthenticated RCE (CVE-2020-24186)
 
 The public PoC abuses wpDiscuz's comment-image upload: it swaps the MIME type validation so a PHP payload is accepted as an "image" and dropped into `wp-content/uploads/`, where Apache will still execute it.
@@ -102,6 +108,14 @@ python3 wpdiscuz_rce.py -u http://blogger.pg/assets/fonts/blog/ -p "/?p=1" --cmd
 [+] Shell uploaded: http://blogger.pg/assets/fonts/blog/wp-content/uploads/2026/06/jcqwshhdew-1782113024.8162.php
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 ```
+
+### How the wpDiscuz upload RCE works
+
+wpDiscuz lets visitors attach an image to a comment without logging in — a deliberate feature, since comment forms are meant to be usable by anonymous visitors. That upload handler is where CVE-2020-24186 lives.
+
+- **The vulnerability class.** This is an **unauthenticated arbitrary file upload**, directly reachable by anyone who can load the page with the comment form — no WordPress account, no admin session, no CSRF bypass required. Arbitrary file upload turns into remote code execution the moment two conditions hold: (a) the uploaded file lands somewhere the web server will treat as executable code, and (b) the file itself can contain code the server understands (here, PHP).
+- **The root cause.** The plugin's handler is only supposed to accept image MIME types (`image/jpeg`, `image/png`, etc.). The PoC works by manipulating how the upload's content type is reported to the server-side check, so the validation inspects an attacker-controlled value — a declared MIME type or crafted multipart field — instead of verifying the actual decoded file content. A request can therefore claim to be an image while the file written to disk has a `.php` extension and PHP source as its body. This is a textbook **insufficient MIME/type validation** flaw — trusting client-supplied metadata for a security decision — the same root cause behind most file-upload bypass bugs, regardless of the framework involved.
+- **Why it gives `www-data`.** WordPress's `wp-content/uploads/` directory is served directly by Apache and, on a default or unhardened install, has no `.htaccess` rule disabling PHP execution inside it. Once the malicious `.php` file is written there, simply requesting its URL causes Apache (via `mod_php`) to execute it with the privileges of the web server process — `www-data` — exactly as it would execute any legitimate WordPress file. The PoC automates two steps: (1) a crafted multipart upload that gets the payload onto disk, parsing the JSON response for the generated filename, then (2) a request to that uploaded file's URL with a `cmd`-style parameter, which the uploaded PHP stub uses to shell out and execute attacker-supplied commands.
 
 Confirmed command execution as `www-data`, so the same script delivers a full reverse shell:
 
@@ -145,6 +159,10 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', 'sup3r_s3cr3t');
 ```
 
+### Why credentials in `wp-config.php` matter
+
+`wp-config.php` is the one file every WordPress install needs in plaintext at runtime — PHP has no built-in secure secret store, so the database username, password, host, and WordPress's internal secret keys all sit in a file readable by whatever user the webserver runs as. That is an accepted risk *as long as* only the webserver process can read the file. The danger appears the moment another foothold — here, the `www-data` shell gained from the RCE — can also read arbitrary files on disk: the "runtime secret" instantly becomes an "attacker-readable secret." Database credentials are also frequently **reused** across local accounts, which is exactly the pivot attempted next; even when a leaked DB password is not directly reusable for shell access, it still hands over the application's entire dataset — user table, password hashes, private content — for free.
+
 That password is reused for the local MySQL/MariaDB `root` account, which confirms database access but doesn't directly hand over a shell as the application only stores a hashed WordPress login. Since local `su` attempts against `james`, `ubuntu`, and `root` all fail with guessed/known values, the home directories are checked for any other account:
 
 ```bash
@@ -168,6 +186,16 @@ sudo -l
 User vagrant may run the following commands on ubuntu-xenial:
     (ALL) NOPASSWD: ALL
 ```
+
+### How `NOPASSWD: ALL` sudo becomes root
+
+`sudo -l` lists what the current user is permitted to run under `sudo`, and `(ALL) NOPASSWD: ALL` is the least restrictive entry the sudoers syntax supports:
+
+- `(ALL)` — the rule applies when running as *any* target user, including `root`.
+- `ALL` (the command field) — *any* command, with no path and no argument restriction.
+- `NOPASSWD:` — sudo does not re-prompt for the invoking user's own password before honoring the rule.
+
+Put together, this is not a restricted privilege at all — it is unconditional root access gated by nothing but already being logged in as `vagrant`. This configuration exists on Vagrant boxes by design, so provisioning scripts can run privileged setup commands without an interactive password prompt; it is meant to be stripped before a box goes anywhere near production, and on this target it was not. Any command run through `sudo` here — `sudo su`, `sudo bash`, `sudo id` — executes as `root` with no further checks.
 
 ## 5. Root / proof.txt
 
