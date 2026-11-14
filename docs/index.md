@@ -63,7 +63,7 @@ This site is my **practical security notebook** - testing notes, lab writeups an
 
     Identity, enumeration, Kerberos, ACLs, lateral movement and privilege escalation — built from CPTS labs and repeatable checklists.
 
-    [:octicons-arrow-right-24: Active Directory](active-directory/index.md)
+    [:octicons-arrow-right-24: Internal & AD checklist](checklists-arsenal/internal-ad-checklist.md)
 
 -   :material-flag-checkered:{ .lg .middle } __Labs &amp; CTFs__
 

