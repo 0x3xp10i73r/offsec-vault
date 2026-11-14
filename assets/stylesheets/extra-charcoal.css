@@ -1005,3 +1005,48 @@ body.cors-lightbox-open {
   border-radius: 6px;
   object-fit: cover;
 }
+
+/* --------------------------------------------------- hover depth on cards */
+/* Resting state stays flat (per the theme); hover adds a subtle lift + shadow. */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  transition: border-color 0.15s ease, transform 0.15s ease,
+              background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid > .card:hover {
+  border-color: var(--d-purple);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+/* Tighter link lists inside hub cards. */
+.md-typeset .grid.cards > ul > li > ul {
+  margin: 0.2rem 0 0;
+  padding-left: 1.1rem;
+}
+.md-typeset .grid.cards > ul > li > ul > li {
+  margin: 0.15rem 0;
+}
+
+/* ------------------------------------------- bordered, zoomable images */
+/* Every content image gets a hairline border and a zoom cursor; clicking it
+   opens the zoom/pan lightbox. The page cover banner is excluded. */
+.md-typeset img:not(.page-cover-img) {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: zoom-in;
+}
+.md-typeset img:not(.page-cover-img):hover {
+  border-color: var(--line-strong);
+}
+.md-typeset .page-cover img {
+  border: none;
+  cursor: default;
+}
+.md-typeset a.cors-lab-image-link,
+.md-typeset a.cors-lab-image-link img {
+  cursor: zoom-in;
+}
+/* While zoomed, the lightbox image itself invites a click to reset. */
+.cors-image-lightbox__image { cursor: zoom-in; }
+.cors-image-lightbox__image.is-zoomed { cursor: zoom-out; }

@@ -13,11 +13,39 @@
          <lastmod>2026-11-14</lastmod>
     </url>
     <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/apk-structure/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/checklist/</loc>
          <lastmod>2026-11-14</lastmod>
     </url>
     <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/components/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/dynamic-analysis/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/exploit-activities/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/exploit-content-providers/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/exploit-deeplinks/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/exploit-services-receivers/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/exploit-webviews/</loc>
          <lastmod>2026-11-14</lastmod>
     </url>
     <url>
@@ -30,6 +58,10 @@
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/ios-cross-platform/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/pentesting-intro/</loc>
          <lastmod>2026-11-14</lastmod>
     </url>
     <url>
@@ -46,6 +78,70 @@
     </url>
     <url>
          <loc>https://0x3xp10i73r.github.io/offsec-vault/android/tools/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/what-is-android/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/biometric-bypass/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/hardcoded-secrets/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insecure-authentication/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insecure-communication/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insecure-configuration/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insecure-data-storage/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insecure-deeplinks/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insecure-deserialization/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insecure-ipc/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insufficient-binary-protection/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/insufficient-cryptography/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/sensitive-data-leakage/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/task-hijacking/</loc>
+         <lastmod>2026-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://0x3xp10i73r.github.io/offsec-vault/android/vulnerabilities/webview-vulnerabilities/</loc>
          <lastmod>2026-11-14</lastmod>
     </url>
     <url>
